@@ -1,4 +1,4 @@
-You should use Markdown for your document. You can embed images using the tips here.
+---
 ## 1.	Introduction 
 ### 1.1 Purpose
 The purpose of this document is to describe the implementation details and objectives of our Youtube Comment Sentiment Analysis application
@@ -20,8 +20,8 @@ o	NLTK - Natural Language Toolkit (https://www.nltk.org/), Library being used fo
 The following words are defined as such:
 o	‘User’ refers to a person that accesses the YCSA application or the general Youtube website.
 o	‘Comment’ refers to a text post attached to a Youtube video made by Users.
-
-## 2.	Overall Description-
+---
+## 2.	Overall Description
 
 ### 2.1 User Needs
 
@@ -36,13 +36,14 @@ The YCSA has the potential to give Users the ability to screen out negative comm
 2)	Comment sentiment analysis is an effective metric to qualify the quality of a video in the first place. 
 3)	Youtube will continue to allow comment scraping and video embedding for their videos in the future
 
-Major dependencies:
+	Major dependencies:
 1)	This app relies on third party libraries and APIs such as Google’s Youtube API 
 2)	NLTK is used for textual analysis.
 Currently these APIs are offered free of charge for use but availability and development activity could change at any time. 
-3. 	System Features and Requirements
+---
+## 3. 	System Features and Requirements
 
-### 5.1 Functional Requirements – hafsa (+ Jaz will help bc she’s not sure what else to do)
+### 3.1 Functional Requirements – hafsa 
 
 
 
