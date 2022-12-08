@@ -36,3 +36,14 @@ For a user, any computer with specifications sufficient for web browsing will be
 A server hosting the application backend must have enough power to process NLTK sentiment analysis. Research on the exact requirements is ongoing. 
 3.4 Nonfunctional Requirements
 
+Test:
+| Task        | Owner       | Priority | Level of Effort Estimate (Days) | Additional Notes                    |
+| ----------- | ----------- | -------- | ------------------------------- | ----------------------------------- |
+| Implement Google Books search API call | John Martin| P1 | 3 | Some uncertainty here because google API is changing versions | 
+| Style the search results page  | Mark Zuckerberg| P2 | 3  | Time-boxed task -- I'll do as much as I can in the 3 days |
+| Add animations to "add" and "delete" buttons  | Elon Musk | P3 | 10 | Do you think we can charge people $8 for this too? | 
+| Set up basic Flask server with favorite books | John Martin| P1 | 2 | | 
+| Add and wire up search bar on main page | Bill Gates | P1 | 5 | Depends on John's API call work |
+| Set up database and data models | Steve Jobs | P1 | 3 | |
+| Add ability to add/delete books from favorites | John Martin | P1 |  | Depends on Steve's database work |
+| Add ability to recommend further books based on existing favorites | Grace Hopper | P3 | 15 | Requires additional API research |
