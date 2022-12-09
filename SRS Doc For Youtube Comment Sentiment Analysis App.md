@@ -121,7 +121,12 @@ Description: User can view and upload videos to their own personal YouTube chann
 
 
 ### 3.2 External Interface Requirements
-
+#### After logging in User will be at an empty home page with no displayed search results
+![home_page](images/home_page.png)
+#### User enters keywords into the seach bar and selects the search button which will refresh the page to display results in a grid. 
+![search_results](images/search_results.png)
+#### User clicks on a video to view which will take them to the viewing page where they can watch content and browse content
+![video_view](images/video_view.png)
 
 
 ### 3.3 System Requirements*
