@@ -13,13 +13,14 @@ This document is intended primarily for our developers and the instructor of the
 
 ### 1.5 Definitions and Acronyms
 
-This document will use the following naming conventions:
+1.5.1 This document will use the following acronym conventions:
 o	YCSA - Youtube Comment Sentiment Analysis. The application being discussed in this document
 o	NLTK - Natural Language Toolkit (https://www.nltk.org/), Library being used for the base textual sentiment analysis.
 
-The following words are defined as such:
+1.5.2 This document defines the following words as such:
 o	‘User’ refers to a person that accesses the YCSA application or the general Youtube website.
-o	‘Comment’ refers to a text post attached to a Youtube video made by Users.
+o	‘comment’ refers to a text post attached to a Youtube video made by Users.
+o	'video' refers to a video returned by the Youtube API based on User search parameters
 ---
 ## 2.	Overall Description
 
@@ -31,12 +32,12 @@ YCSA is an attempt to address two things at once:
 The YCSA has the potential to give Users the ability to screen out negative comments and additionally the same functionality can be used to scan comment feeds and give an opinion-based score to a video. This will improve the user experience of Youtube without interfering with the already existing interface. 
 
 ### 2.2 Assumptions and Dependencies
-	The following assumptions are made:
+	2.2.1 The following assumptions are made:
 1)	A sustainable number of Users both read video comments and are interested in filtering based on comment sentiment.
 2)	Comment sentiment analysis is an effective metric to qualify the quality of a video in the first place. 
 3)	Youtube will continue to allow comment scraping and video embedding for their videos in the future
 
-	Major dependencies:
+	2.2.3 Major dependencies:
 1)	This app relies on third party libraries and APIs such as Google’s Youtube API 
 2)	NLTK is used for textual analysis.
 Currently these APIs are offered free of charge for use but availability and development activity could change at any time. 
@@ -123,11 +124,11 @@ Description: User can view and upload videos to their own personal YouTube chann
 ### 3.2 External Interface Requirements
 The images below represent our visual specifications for the primary pages of the application. 
 Each includes text describing how the user will end up on that page for clarity. 
-#### After logging in User will be at an empty home page with no displayed search results:
+#### 3.2.1 After logging in User will be at an empty home page with no displayed search results:
 ![home_page](images/home_page.png)
-#### User enters keywords into the seach bar and selects the search button which will refresh the page to display results in a grid:
+#### 3.2.2 User enters keywords into the seach bar and selects the search button which will refresh the page to display results in a grid:
 ![search_results](images/seacrh_results.png)
-#### User clicks on a video to view which will take them to the viewing page where they can watch content and browse content:
+#### 3.2.3 User clicks on a video to view which will take them to the viewing page where they can watch content and browse content:
 ![video_view](images/video_view.png)
 
 
