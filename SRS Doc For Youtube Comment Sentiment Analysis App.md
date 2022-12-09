@@ -137,4 +137,8 @@ For a user, any computer with specifications sufficient for web browsing will be
 A server hosting the application backend must have enough power to process NLTK sentiment analysis. Research on the exact requirements is ongoing. 
 
 ### 3.4 Nonfunctional Requirements – Jaz
-
+1.      Web app layout should resemble the Youtube site in order to appear simplistic in its familiarity as well as intuitive to new users.
+2.      Pages and searches should always load with a mere click and should do so in an adequate time frame (maybe under 3 seconds?)
+3.      Search terms should always yield users results similar to those found when using the Youtube web app.
+4.      In the case of an unplanned period of system downtime, web app should be up and running again the following day.
+5.      Web app should recall a signed-in user’s searches and reiterate them in order to make a repeat-user’s experience more comfortable and familiar each time they use the app.
