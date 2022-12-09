@@ -14,13 +14,13 @@ This document is intended primarily for our developers and the instructor of the
 ### 1.5 Definitions and Acronyms
 
 1.5.1 This document will use the following acronym conventions:
-o	YCSA - Youtube Comment Sentiment Analysis. The application being discussed in this document
-o	NLTK - Natural Language Toolkit (https://www.nltk.org/), Library being used for the base textual sentiment analysis.
+-	YCSA - Youtube Comment Sentiment Analysis. The application being discussed in this document
+-	NLTK - Natural Language Toolkit (https://www.nltk.org/), Library being used for the base textual sentiment analysis.
 
-1.5.2 This document defines the following words as such:
-o	‘User’ refers to a person that accesses the YCSA application or the general Youtube website.
-o	‘comment’ refers to a text post attached to a Youtube video made by Users.
-o	'video' refers to a video returned by the Youtube API based on User search parameters
+1.5.2 This document defines the following frequently used words as such:
+-	‘User’ refers to a person that accesses the YCSA application or the general Youtube website.
+-	‘Comment’ refers to a text post attached to a Youtube video made by Users.
+-	'Video' refers to a video returned by the Youtube API based on User search parameters
 ---
 ## 2.	Overall Description
 
