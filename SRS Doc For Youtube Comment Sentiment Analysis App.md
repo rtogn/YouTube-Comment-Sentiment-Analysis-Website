@@ -6,10 +6,12 @@ The purpose of this document is to describe the implementation details and objec
 This document is intended primarily for our developers and the instructor of the Software Engineering 4351 course. 
 
 ### 1.3 Intended Use -- Sam
-
+This document is intended to inform our audience about the technical aspects of our project
 
 ### 1.4 Scope  -- Sam
+The youtube sentiment analyser is meant for people who would like to filter out negative youtube comments before reading them. the app will first, have a search bar like google. it will use youtube's api to display video's when searched for. then once a video is selected it will allow the user to filter out negative comments or keywords based on widgets. 
 
+There are a couple services offered that filter things based on sentiment, most of them cost money. this service will be free. 
 
 ### 1.5 Definitions and Acronyms
 
