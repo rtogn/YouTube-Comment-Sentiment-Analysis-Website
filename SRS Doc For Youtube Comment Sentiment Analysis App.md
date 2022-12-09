@@ -43,7 +43,7 @@ Currently these APIs are offered free of charge for use but availability and dev
 ---
 ## 3. 	System Features and Requirements
 
-### 3.1 Functional Requirements – hafsa $ Rob
+### 3.1 Functional Requirements
 
 #### 3.1.1 Functional Requirement 1: Login and Signup
 
@@ -93,7 +93,7 @@ Description: A User can access the saved videos that they saved from their previ
 4.	In the more icon you will find an option “unsave” and by clicking on it the video will be unsaved.
 5.	When the page reloads the video will be unsaved.
 
-#### 3.1.6 Functional Requirement 6: View Recommended Videos- rob
+#### 3.1.6 Functional Requirement 6: View Recommended Videos
 
 Description: User will be able to view a list of videos recommended by the YouTube algorithm for their account (based on previous search history, demographics etc.)
 1.	User, if logged in, will be able to select the “Recommended Videos” page
@@ -101,7 +101,7 @@ Description: User will be able to view a list of videos recommended by the YouTu
 3.	From here the user will be able to select a video to watch in addition to viewing sentiment analysis information based on the comments in 	each video (like any video list on the app)
 4.	The User will be directed to the player view upon selecting any given video.
 
-#### 3.1.7 Functional Requirement 7: View User Subscriptions Page- rob
+#### 3.1.7 Functional Requirement 7: View User Subscriptions Page
 
 Description: User will be able to view a list of videos released by accounts they have subscribed to previously
 1.	User, if logged in, will be able to select the “Subscriptions” page
@@ -111,7 +111,7 @@ Description: User will be able to view a list of videos released by accounts the
 5.	From here the user will be able to select a video to watch in addition to viewing sentiment analysis information based on the comments in each video (like any video list on the app)
 6.	The User will be directed to the player view upon selecting any given video
 
-#### 3.1.8 Functional Requirement 8: Manage Personal Channel Uploads- rob
+#### 3.1.8 Functional Requirement 8: Manage Personal Channel Uploads
 
 Description: User can view and upload videos to their own personal YouTube channel from within the YCSA interface
 1.	From any page the User can click on their account icon, if logged in, to navigate to the Channel page
