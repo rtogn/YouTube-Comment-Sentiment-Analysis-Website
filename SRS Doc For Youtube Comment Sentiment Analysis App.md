@@ -121,11 +121,13 @@ Description: User can view and upload videos to their own personal YouTube chann
 
 
 ### 3.2 External Interface Requirements
-#### After logging in User will be at an empty home page with no displayed search results
+The images below represent our visual specifications for the primary pages of the application. 
+Each includes text describing how the user will end up on that page for clarity. 
+#### After logging in User will be at an empty home page with no displayed search results:
 ![home_page](images/home_page.png)
-#### User enters keywords into the seach bar and selects the search button which will refresh the page to display results in a grid. 
+#### User enters keywords into the seach bar and selects the search button which will refresh the page to display results in a grid:
 ![search_results](images/seacrh_results.png)
-#### User clicks on a video to view which will take them to the viewing page where they can watch content and browse content
+#### User clicks on a video to view which will take them to the viewing page where they can watch content and browse content:
 ![video_view](images/video_view.png)
 
 
