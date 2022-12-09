@@ -14,6 +14,6 @@
 |CSS for  search result screen|Jazz|P2|||
 |CSS for video view screen|Sam|P2|10|includes comments section. Use dummy text if import not setup yet|
 |Code for widgets and menus to toggle sentiment filtering|Sam|P3|2||
-|Setup of user channel page via API (upload video etc)||P3||Not sure API allows for uploading videos at all. Metrics should be doable|
+|Setup of user channel page via API (upload video etc)|Any|P3||Not sure API allows for uploading videos at all. Metrics should be doable|
 |Testing, debugging overall site|Any|P3|5|Once main work is done|
 
