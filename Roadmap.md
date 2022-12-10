@@ -9,11 +9,11 @@
 |Basic HTML structure for all main pages, link CSS files |Sam|P1|1| (homepage, login, search result list, video view)|
 |Code for searchbar functionality|Jazz|P2|3|Should return list of videos that can be used to build array of search results|
 |CSS for homepage|Hafsa |P2|4|Design overall color scheme and layout for entire project|
-|CSS for sidebars and widgits|Jazz|P2|||
-|CSS for login screen|Jazz|P2||
-|CSS for  search result screen|Jazz|P2|||
+|CSS for sidebars and widgits|Jazz|P2|1||
+|CSS for login screen|Jazz|P2|1|
+|CSS for  search result screen|Jazz|P2|1||
 |CSS for video view screen|Sam|P2|10|includes comments section. Use dummy text if import not setup yet|
 |Code for widgets and menus to toggle sentiment filtering|Sam|P3|2||
-|Setup of user channel page via API (upload video etc)|Any|P3||Not sure API allows for uploading videos at all. Metrics should be doable|
+|Setup of user channel page via API (upload video etc)|Any|P3|3|Not sure API allows for uploading videos at all. Metrics should be doable|
 |Testing, debugging overall site|Any|P3|5|Once main work is done|
 
