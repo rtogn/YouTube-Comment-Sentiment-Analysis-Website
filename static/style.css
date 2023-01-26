@@ -1,0 +1,30 @@
+/*vvvv Feel free to delete everything below, all dummy markup vvvv*/
+
+body {
+    background-color: #ba68c8;
+    font-family: arial;
+}
+
+img {
+    width: 15%;
+    height: auto;
+}
+
+li {
+    font-size: 24;
+}
+
+#fave_2 {
+    color: green;
+    font-weight: bold;
+
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}
+/*^^^^ Feel free to delete everything above , all dummy markup ^^^^*/
