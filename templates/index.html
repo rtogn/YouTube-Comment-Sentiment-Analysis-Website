@@ -1,4 +1,4 @@
-<!DoCTYPE html>
+<!doctype html>
 <html>
 
 	<head>
@@ -6,8 +6,32 @@
 	</head>
 
 	<body>
-        <h1>Youtube Sentiment Analysis App</h1>
 
+		<aside class="left_sidebar">
+			<span class="all-text">Sidebar #1</span>
+		</aside>
+
+		<main class="main_bar">
+			<span class="all-text">
+			        <h1>Youtube Sentiment Analysis App</h1>
+			</span>
+		</main>
+
+		<aside class="right_sidebar">
+			<span class="all-text">Sidebar #2</span>
+		</aside>
+
+		<!-- search bar-->
+
+		<div class="topnav">
+			<input type="text" placeholder="Search..">
+			<button type="submit">
+				<a href="{{ url_for('search_results') }}">Submit</a></button>
+			
+		  </div>
+			<!-- link to the next page-->
+			
+		<!-- User Login stuff-->
 	</body>
 
 </html>

@@ -12,11 +12,21 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-
     return flask.render_template(
         "index.html"
     )
+@app.route('/search_results')
+def search_results():
+    return flask.render_template(
+        "search_results.html"
+    )
 
+
+@app.route('/video_view')
+def video_view():
+    return flask.render_template(
+        "video_view.html"
+    )
 
 app.run(
     use_reloader=True,
