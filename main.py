@@ -1,6 +1,14 @@
-import flask, os, requests
+import flask
+import os
+import requests
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())
+
+APIKEY = os.getenv("APIKEY")
 
 app = flask.Flask(__name__)
+
 
 @app.route('/')
 def index():
@@ -13,14 +21,16 @@ def search_results():
         "search_results.html"
     )
 
+
 @app.route('/video_view')
 def video_view():
     return flask.render_template(
         "video_view.html"
     )
+
 app.run(
-        use_reloader = True,
-        debug=True
+    use_reloader=True,
+    debug=True
 )
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
