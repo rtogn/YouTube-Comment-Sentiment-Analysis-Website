@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    background: rgb(231, 227, 227);
+    background: radial-gradient(circle, rgba(231, 227, 227, 1) 0%, rgba(245, 241, 241, 1) 30%, rgba(255, 252, 252, 1) 47%, rgba(245, 241, 241, 1) 65%, rgba(231, 227, 227, 1) 100%);
+}
+
+.left_sidebar {
+    display: flex;
+    min-width: 300px;
+    background-color: #D9D9D9;
+}
+
+.main_bar {
+    display: flex;
+    flex-grow: 1;
+}
+
+.right_sidebar {
+    display: flex;
+    min-width: 300px;
+    background-color: #D9D9D9;
+}
+
+.all-text {
+    font-family: arial;
+    margin: auto;
+}
+
+@media only screen and (max-width: 992px) {
+    .left_sidebar {
+        display: none;
+
+    }
+
+    .right_sidebar {
+        display: none;
+    }
+}
