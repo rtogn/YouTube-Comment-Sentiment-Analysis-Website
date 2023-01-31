@@ -2,18 +2,15 @@ import flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 import requests
-#from dotenv import find_dotenv, load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
 # Local Imports
 import sql_models # Required to get SQL model access.
 import sql_admin_functions
 
-#load_dotenv(find_dotenv())
-
+load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
-
 app = flask.Flask(__name__)
-
 db = SQLAlchemy()
 db_name = "YT_Sentiment_App"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name + ".db"
