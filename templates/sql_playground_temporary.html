@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+	<head>
+		<link href="/static/style.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<form method="POST" action="/sql">
+			<label for="video_id">Video ID Here:</label>
+            <input type="text" name="video_id" id="video_id"/>
+            <label for="new_score">New score (b/w 0.0 and 1.0 plz) Here:</label>
+			<input type="text" name="new_score" id="new_score"/>
+            <input type="submit" value="Update Score"/>
+        </form>
+		<br>
+		<br>
+		<table>
+			<tr>
+				<td>ID</td>
+				<td>video_id</td>
+				<td>video_tite</td>
+				<td>channel name</td>
+				<td>sentiment_score_average</td>
+				<td>entry_count</td>
+
+			</tr>
+		{% for i in range(num_vids) %}
+
+			<tr>
+				<td>{{vids[i].id}}</td>
+				<td>{{vids[i].video_id}}</td>
+				<td>{{vids[i].video_tite}}</td>
+				<td>{{vids[i].channel}}</td>
+				<td>{{vids[i].sentiment_score_average}}</td>
+				<td>{{vids[i].entry_count}}</td>
+			</tr>
+
+		{% endfor %}
+		</table>
+	</body>
+</html>

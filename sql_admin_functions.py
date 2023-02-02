@@ -24,15 +24,16 @@ def sql_add_demo_data_random(db, num_entries):
         video = sql_models.Video_Info(video_id=vid_id,
                                       channel= channel_name,
                                       video_tite = video_name,
-                                      sentiment_score=score,
-                                      comments_analyzed_count=rand.randint(1,5500),
+                                      sentiment_score_average=score,
+                                      entry_count=rand.randint(1,5500),
                                       date_updated= date_today
                                       )
 
         # Add the first 5 as top 5 just for consistency.
         if v < 5:
             topVids = sql_models.Top_Videos(video_id=vid_id,
-                                            sentiment_score=score,
+                                            sentiment_score_average=score,
+                                            entry_count=rand.randint(1, 550),
                                             date_updated=date_today
                                     )
             db.session.add(topVids)
@@ -53,6 +54,8 @@ def sql_add_demo_data_testing(db):
 
     db.session.add(video)
     db.session.commit()
+
+
 
 if __name__ == '__main__':
     generateRandomVidID()
