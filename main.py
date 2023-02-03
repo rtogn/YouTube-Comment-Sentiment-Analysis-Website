@@ -5,7 +5,9 @@ import requests
 #from dotenv import find_dotenv, load_dotenv
 
 # Local Imports
-import sql_models # Required to get SQL model access.
+import sql_models 
+
+# Required to get SQL model access.
 import sql_admin_functions
 import sql_models
 
@@ -22,15 +24,71 @@ db.init_app(app)
 
 @app.route('/')
 def index():
+
     # Set up DB with random entries (not for final code)
     #sql_admin_functions.sql_add_demo_data_random(db, 20)
     return flask.render_template(
-        "index.html"
+        "index.html",
+
     )
-@app.route('/search_results')
+
+
+@app.route('/search_results', methods=["GET", "POST"])
 def search_results():
+
+    channelId = []
+    videoId = []
+    vid_title = []
+    vid_thumbnail = []
+    vid_description = []
+
+    form_data = flask.request.args
+
+    print("\n\n\n")
+    print(form_data)
+    print("\n\n\n")
+
+    query = form_data.get("term", "")
+
+    response = requests.get(
+        "https://www.googleapis.com/youtube/v3/search?",
+        params={"q": query, type: "video", "part": "snippet", "key": APIKEY},
+
+
+    )
+
+    response = response.json()
+    for i in range(10):
+        try:
+            channelId.append(response["items"][i]['snippet']['channelId'])
+        except:
+            print("")
+        try:
+            videoId.append(response["items"][i]['id']['videoId'])
+        except:
+            print("no video")
+        try:
+            vid_title.append(response["items"][i]['snippet']['title'])
+        except:
+            print("no title")
+        try:
+            vid_description.append(
+                response["items"][i]['snippet']['description'])
+        except:
+            print("no description")
+        try:
+            vid_thumbnail.append(response["items"][i]
+                                 ['snippet']['thumbnail']['high']['url'])
+        except:
+            print("no thumbnail")
+
     return flask.render_template(
-        "search_results.html"
+        "search_results.html",
+        channelId=channelId,
+        videoId=videoId,
+        vid_title=vid_title,
+        vid_thumbnail=vid_thumbnail,
+        vid_description=vid_description
     )
 
 
@@ -39,6 +97,7 @@ def video_view():
     return flask.render_template(
         "video_view.html"
     )
+
 
 class Video_Info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,6 +127,7 @@ def sql_playground_temporary():
         num_vids=num_vids,
         vids=vids
     )
+
 
 app.run(
     use_reloader=True,
