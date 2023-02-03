@@ -38,7 +38,7 @@ def search_results():
 
     response = requests.get(
         "https://www.googleapis.com/youtube/v3/search?",
-        params={"q": query, type: "video", "key": APIKEY},
+        params={"q": query, type: "video", "part": "snippet", "key": APIKEY},
 
 
     )
