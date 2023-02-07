@@ -13,37 +13,18 @@
 		<span class="all-text">Sidebar #1</span>
 	</aside>
 
-	<main class="main_bar">
-		<span class="all-text">
-			<h1>Youtube Sentiment Analysis App</h1>
-		</span>
-	</main>
-
-	<aside class="right_sidebar">
-		<span class="all-text">Sidebar #2</span>
-	</aside>
-
-	<!-- search bar-->
-
-	<form class="search-form" action="/" method="POST">
-		<div class="topnav">
-			<div class="row">
-				<div class="col-8">
-					<input type="text" placeholder="Search.." class="form-control">
-				</div>
-				<div class="col-2">
-					<button type="submit">
-						<a href="{{ url_for('search_results') }}"
-							class="form-control btn btn-secondary">Submit</a></button>
-
-				</div>
+		<main class="main_bar">
+			<div class="top_header">
+				<span class="all-text">
+				<!-- search bar-->
+				<input type="text" class="search_text" placeholder="Search Youtube for Videos..">
+				<button type="submit" class="search">
+					<a href="{{ url_for('search_results') }}">Submit</a></button>
+				</span>
 			</div>
-		</div>
-	</form>
-	<!-- link to the next page-->
-
-	<!-- User Login stuff-->
-
+		</main>
+		<!-- User Login stuff-->
 </body>
+
 
 </html>
