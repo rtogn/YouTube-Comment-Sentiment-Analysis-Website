@@ -2,7 +2,7 @@ import flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 import requests
-#from dotenv import find_dotenv, load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
 # Local Imports
 import sql_models 
