@@ -12,7 +12,7 @@ import sql_models
 import sql_admin_functions
 import sql_models
 
-# load_dotenv(find_dotenv())
+load_dotenv(find_dotenv())
 
 APIKEY = os.getenv("APIKEY")
 
