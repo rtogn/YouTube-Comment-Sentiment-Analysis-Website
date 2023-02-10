@@ -38,8 +38,8 @@ def index():
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
 
-    channel_id = []
-    video_id = []
+    channelId = []
+    videoId = []
     vid_title = []
     vid_thumbnail = []
     vid_description = []
@@ -61,11 +61,11 @@ def search_results():
     response = response.json()
     for i in range(12):
         try:
-            channel_id.append(response["items"][i]['snippet']['channelId'])
+            channelId.append(response["items"][i]['snippet']['channelId'])
         except:
             print("")
         try:
-            video_id.append(response["items"][i]['id']['videoId'])
+            videoId.append(response["items"][i]['id']['videoId'])
         except:
             print("no video")
         try:
@@ -85,8 +85,8 @@ def search_results():
 
     return flask.render_template(
         "search_results.html",
-        channel_id=channel_id,
-        video_id=video_id,
+        channelId=channelId,
+        videoId=videoId,
         vid_title=vid_title,
         vid_description=vid_description,
         vid_thumbnail=vid_thumbnail,
