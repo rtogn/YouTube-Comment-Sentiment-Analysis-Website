@@ -8,47 +8,36 @@
 </head>
 
 <body>
-	<h1>Welcome to the Search Results Page! :)</h1>
+	<main class="main_bar">
+		<div class="top_header">
+			<span class="all-text">
+				<form action="/search_results" method="GET">
+					<!-- search bar-->
+					<input type="text" name="term" class="search_text" placeholder="Search Youtube for Videos..">
+					<input type="submit" value="search" />
 
-	<form class="search-form" action="/" method="POST">
-		<div class="topnav">
-			<div class="row">
-				<div class="col-9">
-					<input type="text" placeholder="Search.." class="form-control">
-				</div>
-				<div class="col-2">
-					<button type="submit">
-						<a href="{{ url_for('search_results') }}"
-							class="form-control btn btn-secondary">Submit</a></button>
-
-				</div>
-			</div>
+				</form>
+			</span>
 		</div>
-	</form>
+	</main>
 	<br />
 	<div class="container">
-
 		<div class="row">
-			{%for i in range(10)%}
-			<div class="col-10">
-				<div class="card" style="width: 19rem;">
-					<h1>{{channelId[i]}}</h1>
+			{%for i in range(12)%}
+			<div class="col-4">
+				<div class="card" style="width: 18rem;">
 					<div class="card-video">
-						<iframe src="https://www.youtube.com/embed/{{videoId[i]}}"></iframe>
+						<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+							<img width="285" height="250" src="{{vid_thumbnail[i]}}"></a>
 
 						<div class="card-content">
 							<span class="card-title">{{vid_title[i]}}</span>
-							<div>
-								<a href="{{ url_for('video_view') }}">view video for now</a>
-							</div>
 						</div>
 					</div>
-					<h2>{{vid_description[i]}}</h2>
 				</div>
 			</div>
 			{%endfor%}
 		</div>
-
 	</div>
 
 </body>
