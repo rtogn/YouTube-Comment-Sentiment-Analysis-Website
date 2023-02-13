@@ -42,15 +42,22 @@ def sentScore(comments):
     #        break
 
     #todo figure out average sent score for a whole video
-    aveSentScore = sum(score) / len(score)
+    
 
 
-    print(score)
+    #print(score)
     return score
+
+
 #example list of comments
 comments = ["Hello my name is Sam.", "i hate pizza", "I love cookies"]
 sentScore(comments)
 
 
+def aveSentScore(s):
+    #print(sum(s)/len(s))
+    return(sum(s)/len(s))
+
+aveSentScore(sentScore(comments))
 
     
