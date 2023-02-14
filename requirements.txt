@@ -1,6 +1,6 @@
-flask
-flask_sqlalchemy
+flask==2.2.2
+flask-sqlalchemy==3.0.3
 requests
-dotenv
-ssl
+python-dotenv
+numpy
 nltk 
