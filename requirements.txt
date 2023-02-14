@@ -1,0 +1,7 @@
+sql_requests
+flask
+flask_sqlalchemy
+requests
+dotenv
+ssl
+nltk 
