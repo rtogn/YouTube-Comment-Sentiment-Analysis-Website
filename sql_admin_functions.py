@@ -46,16 +46,35 @@ def sql_add_demo_data_testing(db):
     # Adds a few non-random entries for specific testing
     video = sql_models.Video_Info(video_id="lfKfPfyJRdk",
                                   channel="Belogus",
-                                  sentiment_score = 0.93,
-                                  comments_analyzed_count = 120,
+                                  sentiment_score_average = 0.93,
+                                  entry_count = 120,
                                   date_updated = str(datetime.now)
                                   )
 
-
+    video = sql_models.Users(user_name="Admin",
+                             password="Admin",
+                             email="admin@ytsa_gsu.com"
+                            )
     db.session.add(video)
     db.session.commit()
 
 
+def hash_password(password):
+    # Not implemented
+    return password
+
+def decrypt_password(password):
+    # Not implemented
+    return password
+
+def validate_login(db_user, password_entered):
+    # If selection was empty return False
+    if db_user is None:
+        return False
+    db_password = decrypt_password(db_user.password)
+    if password_entered == db_password:
+        return True
+    return False
 
 if __name__ == '__main__':
     generateRandomVidID()

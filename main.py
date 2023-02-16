@@ -1,5 +1,6 @@
 import sql_requests
 import flask
+from flask import redirect, session
 import os
 from flask_sqlalchemy import SQLAlchemy
 import requests
@@ -19,23 +20,66 @@ load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
 
 app = flask.Flask(__name__)
-
+app.config.update(SECRET_KEY='12345')
 db = SQLAlchemy()
 db_name = "YT_Sentiment_App"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name + ".db"
 db.init_app(app)
 
-
 @app.route('/')
 def index():
+    # Set default username if has not logged in yet to guest for display.
+    if not session:
+        session['user'] = 'Guest'
 
-    # Set up DB with random entries (not for final code)
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     return flask.render_template(
         "index.html",
-
     )
 
+# Users DB class. Will move to sql_models.py ASAP
+class Users(db.Model):
+    # Easy reference for top videos by sentiment
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True)
+
+# Login page with basic functions (there is a link on the sidebar from index)
+@app.route('/login', methods=["GET", "POST"])
+def login_page():
+    message = "Welcome to the YTSA!"
+
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+        # Get pass string entered into form
+        db_user = None
+        password_entered = form_data["password"]
+        try:
+            # Attempt to get user name from table, if not result in failure and display message
+            db_user = db.session.execute(db.select(Users).filter_by(
+                user_name=form_data["user_name"])).scalar_one()
+            # If user is found in DB compare entered password to what is stored to validate (after decrypting)
+            success = sql_admin_functions.validate_login(db_user, password_entered)
+            # Add retreived username to sessoin
+            session['user'] = db_user.user_name
+            # Manually set modified to true https://flask.palletsprojects.com/en/2.2.x/api/?highlight=session#flask.session
+            session.modified = True
+        except:
+            print("User not found in table")
+            success = False
+
+        # Send update with username for message or redirect back to main page
+        # Else update message to reflect bad login.
+        if success:
+            return redirect("/", code=302)
+        else:
+            message = "Invalid login credentials"
+
+    return flask.render_template(
+        "login.html",
+        login_message=message
+    )
 
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
