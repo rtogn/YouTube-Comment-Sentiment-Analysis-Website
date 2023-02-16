@@ -1,4 +1,5 @@
 import sql_models
+from sql_models import db
 import random as rand
 from string import ascii_letters
 from datetime import datetime
@@ -11,7 +12,7 @@ def generateRandomVidID():
     return videoID
 
 
-def sql_add_demo_data_random(db, num_entries):
+def sql_add_demo_data_random(num_entries):
     # Must pass db object to use function
     # adds num_entries amount of randomly generated videos/etc to the database
     top_Vids = []
@@ -41,7 +42,7 @@ def sql_add_demo_data_random(db, num_entries):
 
     db.session.commit()
 
-def sql_add_demo_data_testing(db):
+def sql_add_demo_data_testing():
     # Incomplete
     # Adds a few non-random entries for specific testing
     video = sql_models.Video_Info(video_id="lfKfPfyJRdk",
