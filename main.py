@@ -2,13 +2,10 @@ import os
 import requests
 import flask
 from flask import redirect, session
-from flask_sqlalchemy import SQLAlchemy
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
-import sql_admin_functions
-import sql_requests
-import sql_models
-from sql_models import db
+from YTSA_Core_Files import sql_admin_functions, sql_requests, sql_models
+from YTSA_Core_Files.sql_models import db
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
