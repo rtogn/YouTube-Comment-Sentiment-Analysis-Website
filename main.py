@@ -1,29 +1,21 @@
-import sql_requests
+import os
+import requests
 import flask
 from flask import redirect, session
-import os
 from flask_sqlalchemy import SQLAlchemy
-import requests
 from dotenv import find_dotenv, load_dotenv
-
-
 # Local Imports
-import sql_models
-
-
-# Required to get SQL model access.
 import sql_admin_functions
+import sql_requests
 import sql_models
 
 load_dotenv(find_dotenv())
-
 APIKEY = os.getenv("APIKEY")
 
 app = flask.Flask(__name__)
-app.config.update(SECRET_KEY='12345')
+app.config.update(SECRET_KEY='12345') # Key required for flask.session
 db = SQLAlchemy()
-db_name = "YT_Sentiment_App"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name + ".db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_Ap.db"
 db.init_app(app)
 
 @app.route('/')
