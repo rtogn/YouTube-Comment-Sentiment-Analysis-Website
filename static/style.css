@@ -19,11 +19,17 @@ body {
     flex-grow: 1;
     flex-shrink: 0;
     padding: 23px;
+    position: fixed;
+    top: 0;
 }
 
 .left_all {
     margin: auto;
     padding: 45px;
+}
+
+.container {
+    margin-top: 100px;
 }
 
 .user_bubble {
@@ -105,9 +111,17 @@ body {
 }
 
 .main_bar {
-    overflow-y: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
     display: flex;
-    width: 100%;
+    width: 50%;
+    height: 705px;
+}
+
+.right_sidebar {
+    width: 25%;
+    background-color: #ffffff;
+    border-right: 1px solid #f2f2f2;
 }
 
 .all-text {

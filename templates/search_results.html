@@ -1,55 +1,56 @@
-<!DoCTYPE html>
+<!doctype html>
 <html>
 
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
-	<link href="/static/search_results.css" rel="stylesheet" />
+	<link href="/static/style.css" rel="stylesheet" />
 </head>
 
 <body>
-	<h1>Welcome to the Search Results Page! :)</h1>
-
-	<form class="search-form" action="/" method="POST">
-		<div class="topnav">
-			<div class="row">
-				<div class="col-9">
-					<input type="text" placeholder="Search.." class="form-control">
-				</div>
-				<div class="col-2">
-					<button type="submit">
-						<a href="{{ url_for('search_results') }}"
-							class="form-control btn btn-secondary">Submit</a></button>
-
-				</div>
-			</div>
+	<aside class="left_sidebar">
+		<div class="left_all">
+			<div class="user_bubble">GG</div>
+			<div class="welcome_text">Welcome, guest!</div>
+			<div class="buttons">button#1</div>
+			<div class="buttons">button#2</div>
+			<div class="buttons">button#3</div>
+			<div class="buttons">button#3</div>
 		</div>
-	</form>
-	<br />
+	</aside>
+
+	<main class="main_bar">
+		<div class="top_header">
+			<form action="/search_results" method="GET">
+				<!-- search bar-->
+				<input type="text" name="term" class="search_text" placeholder="Search Youtube for Videos..">
+				<input type="submit" value="search" />
+			</form>
+		</div>
+    
 	<div class="container">
-
 		<div class="row">
-			{%for i in range(10)%}
-			<div class="col-10">
-				<div class="card" style="width: 19rem;">
-					<h1>{{channelId[i]}}</h1>
+			{%for i in range(12)%}
+			<div class="col-4">
+				<div class="card" style="width: 18rem;">
 					<div class="card-video">
-						<iframe src="https://www.youtube.com/embed/{{videoId[i]}}"></iframe>
-
-						<div class="card-content">
-							<span class="card-title">{{vid_title[i]}}</span>
-							<div>
-								<a href="{{ url_for('video_view') }}">view video for now</a>
+						<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+							<img width="285" height="250" src="{{vid_thumbnail[i]}}"></a>
+							<div class="card-content">
+								<span class="card-title">{{vid_title[i]}}</span>
 							</div>
 						</div>
 					</div>
-					<h2>{{vid_description[i]}}</h2>
 				</div>
+				{%endfor%}
 			</div>
-			{%endfor%}
 		</div>
-
 	</div>
+	</main>
+
+	<aside class="right_sidebar">
+
+	</aside>
 
 </body>
 
