@@ -1,41 +1,66 @@
-import sql_requests
-import flask
 import os
-from flask_sqlalchemy import SQLAlchemy
 import requests
+import flask
+from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
-
-
 # Local Imports
-import sql_models
-
-
-# Required to get SQL model access.
-import sql_admin_functions
-import sql_models
+from YTSA_Core_Files import sql_admin_functions, sql_requests, sql_models
+from YTSA_Core_Files.sql_models import db
 
 load_dotenv(find_dotenv())
-
 APIKEY = os.getenv("APIKEY")
 
 app = flask.Flask(__name__)
-
-db = SQLAlchemy()
-db_name = "YT_Sentiment_App"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name + ".db"
+app.config.update(SECRET_KEY='12345') # Key required for flask.session
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_App.db"
 db.init_app(app)
-
 
 @app.route('/')
 def index():
+    # Set default username if has not logged in yet to guest for display.
+    if not session:
+        session['user'] = 'Guest'
 
-    # Set up DB with random entries (not for final code)
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     return flask.render_template(
         "index.html",
-
     )
 
+# Login page with basic functions (there is a link on the sidebar from index)
+@app.route('/login', methods=["GET", "POST"])
+def login_page():
+    message = "Welcome to the YTSA!"
+
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+        # Get pass string entered into form
+        db_user = None
+        password_entered = form_data["password"]
+        try:
+            # Attempt to get user name from table, if not result in failure and display message
+            db_user = db.session.execute(db.select(sql_models.Users).filter_by(
+                user_name=form_data["user_name"])).scalar_one()
+            # If user is found in DB compare entered password to what is stored to validate (after decrypting)
+            success = sql_admin_functions.validate_login(db_user, password_entered)
+            # Add retreived username to sessoin
+            session['user'] = db_user.user_name
+            # Manually set modified to true https://flask.palletsprojects.com/en/2.2.x/api/?highlight=session#flask.session
+            session.modified = True
+        except:
+            print("User not found in table")
+            success = False
+
+        # Send update with username for message or redirect back to main page
+        # Else update message to reflect bad login.
+        if success:
+            return redirect("/", code=302)
+        else:
+            message = "Invalid login credentials"
+
+    return flask.render_template(
+        "login.html",
+        login_message=message
+    )
 
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
@@ -103,30 +128,18 @@ def video_view():
     )
 
 
-class Video_Info(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    # Video ID string, comes after "watch?v=". So for https://www.youtube.com/watch?v=jfKfPfyJRdk the ID is 'jfKfPfyJRdk'
-    video_id = db.Column(db.String, nullable=False, unique=True)
-    video_tite = db.Column(db.String, nullable=False)
-    channel = db.Column(db.String)
-    # Raw sentiment score as floating pt value
-    sentiment_score_average = db.Column(db.Float)
-    entry_count = db.Column(db.Integer, nullable=False)
-    date_updated = db.Column(db.String, nullable=False)
-
-
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     if flask.request.method == "POST":
         form_data = flask.request.form
-        target_row = db.session.execute(db.select(Video_Info).filter_by(
+        target_row = db.session.execute(db.select(sql_models.Video_Info).filter_by(
             id=form_data["video_id"])).scalar_one()
         # target_row.sentiment_score_average=form_data["new_score"]
         sql_requests.update_sentiment_average(
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = Video_Info.query.all()
+    vids = sql_models.Video_Info.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",

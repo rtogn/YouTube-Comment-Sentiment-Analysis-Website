@@ -1,4 +1,4 @@
-import sql_models
+import YTSA_Core_Files.sql_models as sql_models
 
 def update_sentiment_average(target_entry, new_score):
     # Generic function to update any runnign sentiment score average
