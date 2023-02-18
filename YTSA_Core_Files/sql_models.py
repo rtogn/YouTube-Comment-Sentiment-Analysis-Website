@@ -6,13 +6,17 @@ from datetime import datetime
 # still trying to figure out how to keep these methods out of main
 # for now have to re-declare all of this boilerplate.
 db = SQLAlchemy()
-app = flask.Flask(__name__)
-db_name = "YT_Sentiment_App"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name + ".db"
-db.init_app(app)
+
 
 # Todo create class hierarchy instead of redundant lines if possible with sql alchemy
 # ToDo I dont like the name 'entry_count' but it is sometimes videos, comments etc. think of something better.
+class Users(db.Model):
+    # Easy reference for top videos by sentiment
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True)
+
 class Video_Info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # Video ID string, comes after "watch?v=". So for https://www.youtube.com/watch?v=jfKfPfyJRdk the ID is 'jfKfPfyJRdk'
@@ -57,12 +61,3 @@ class Channel_Log(db.Model):
 # Update with new tables (will not overwrite existing)
 # "Create tables that do not exist in the database by calling metadata.create_all() for all or some bind keys.
 # This does not update existing tables, use a migration library for that."
-with app.app_context():
-    db.create_all()
-
-
-if __name__ == '__main__':
-    print("Creating new database...")
-    with app.app_context():
-        db.create_all()
-    print("Database created...")
