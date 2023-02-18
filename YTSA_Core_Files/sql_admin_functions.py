@@ -1,5 +1,5 @@
-import sql_models
-from sql_models import db
+import YTSA_Core_Files.sql_models as sql_models
+from YTSA_Core_Files.sql_models import db
 import random as rand
 from string import ascii_letters
 from datetime import datetime
