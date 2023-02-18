@@ -21,6 +21,11 @@ body {
     padding: 23px;
     position: fixed;
     top: 0;
+    width: 75%;
+}
+
+.wrap {
+    display: flex;
 }
 
 .left_all {
@@ -73,7 +78,7 @@ body {
 }
 
 .search_text {
-    background-color: #FFFF;
+    background-color: #fff;
     border-radius: 35px;
     border: 1px solid gray;
     border-top-right-radius: 0px;
@@ -111,17 +116,11 @@ body {
 }
 
 .main_bar {
-    overflow-y: hidden;
     overflow-x: auto;
     display: flex;
-    width: 50%;
+    flex: 1;
     height: 705px;
-}
-
-.right_sidebar {
-    width: 25%;
-    background-color: #ffffff;
-    border-right: 1px solid #f2f2f2;
+    justify-content: center;
 }
 
 .all-text {
@@ -134,9 +133,13 @@ body {
 @media only screen and (max-width: 992px) {
     .left_sidebar {
         display: none;
-
     }
-    .right_sidebar {
-        display: none;
+    
+    .top_header {
+        width: 100%;
+    }
+    
+    .search_text {
+        width: 500px;
     }
 }
