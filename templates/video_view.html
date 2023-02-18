@@ -26,18 +26,36 @@
         <input type="range" min="-100" max="100" value = "0"  id="myRange">
         <p>Value: <span id="demo"></span></p>
     </div>
-    
+
     <form action="/action_page.php" id="search_filter">
         <label for="keyword"></label>
         <input type="keyword" id="keyword" name="keyword"><br><br>
         <input type="button" onclick="filet_out()" value="Filter out">
         <input type="button" onclick="search_for()" value="Search for">
+        
     </span>
   
   
     </aside>
- 
-       
+        <!-- will move this later -->
+       <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+        output.innerHTML = this.value/100;
+        }
+
+        function filter_out() {
+            var x = document.getElementById("keyword").form.id;
+            document.getElementById("filter").innerHTML = x;
+        }
+        function search_for() {
+            var x = document.getElementById("keyword").form.id;
+            document.getElementById("filter").innerHTML = x;
+        }
+       </script>
        
 
 </body>
