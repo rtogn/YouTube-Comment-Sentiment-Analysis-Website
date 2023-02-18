@@ -3,6 +3,7 @@
 
 <head>
     <link href="/static/video_view.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/widgets.js" ></script>
 </head>
 
 <body>
@@ -18,8 +19,26 @@
     </main>
 
     <aside class="right_sidebar">
-        <span class="all-text">Sidebar #2</span>
+        <span class="all-text">
+
+    <div class="slidecontainer">
+        <p>Sentiment filter:</p>
+        <input type="range" min="-100" max="100" value = "0"  id="myRange">
+        <p>Value: <span id="demo"></span></p>
+    </div>
+    
+    <form action="/action_page.php" id="search_filter">
+        <label for="keyword"></label>
+        <input type="keyword" id="keyword" name="keyword"><br><br>
+        <input type="button" onclick="filet_out()" value="Filter out">
+        <input type="button" onclick="search_for()" value="Search for">
+    </span>
+  
+  
     </aside>
+ 
+       
+       
 
 </body>
 
