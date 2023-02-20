@@ -13,9 +13,23 @@
     </aside>
 
     <main class="main_bar">
-        <span class="all-text">
-            <h1>This is the video view Page</h1>
-        </span>
+        <div class="col-1">
+
+            <div class="card" style="width: 68rem;height: 50rem;">
+                <div class="card-video">
+                    <form method="POST" action="/video_view" name="watch?v">
+                        <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
+                            allowfullscreen></iframe>
+                    </form>
+                    <div class="card-content">
+                        <span class="card-title">{{vid_title}}</span>
+                        <br />
+                        <span class="card-channel-Title">{{channelTitle}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <aside class="right_sidebar">
