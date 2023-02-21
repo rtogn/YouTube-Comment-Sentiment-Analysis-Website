@@ -143,3 +143,31 @@ body {
         width: 500px;
     }
 }
+
+/* login content */
+
+#loginPopup {
+    background-color: #fff;
+    border: 1px solid #000;
+    display: none;
+    position: fixed;
+    overflow: auto;
+    padding: 20px;
+}
+
+#loginPopup form [
+    display: flex;
+    align-items: center;
+]
+
+#loginBtn {
+    background-color: #000;
+    color: #fff;
+    padding: 5px 10px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.show {
+    display: block;
+  }
