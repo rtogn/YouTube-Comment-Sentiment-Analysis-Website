@@ -85,7 +85,7 @@ def search_results():
 
     response = requests.get(
         "https://www.googleapis.com/youtube/v3/search?",
-        params={"q": query, "part": "snippet", type: "video",
+        params={"q": query, "part": "snippet", "type": "video",
                 "maxResults": 12, "key": APIKEY},
     )
 
@@ -128,31 +128,76 @@ def video_view():
 
     vid_title = []
     channelTitle = []
+    channelId = []
+    authorDisplayname = []
+    authorProfileImageUrl = []
+    textDisplay = []
 
     form_data = flask.request.args
 
-    query = form_data.get("watch?v", "")
+    videoId = form_data.get("watch?v", "")
 
     video_url = "https://www.googleapis.com/youtube/v3/videos?"
     video_params = {
-        "id": query,
+        "id": videoId,
         "part": 'snippet',
+        "type": "video",
         "key": APIKEY,
 
     }
     response = requests.get(video_url, video_params)
-
     response = response.json()
 
     vid_title = response["items"][0]['snippet']['title']
     channelTitle = response["items"][0]['snippet']['channelTitle']
+    channelId = response["items"][0]['snippet']['channelId']
+
+    comments_url = "https://www.googleapis.com/youtube/v3/commentThreads?"
+    comments_params = {
+        "videoId": videoId,
+        "part": "snippet",
+        "key": APIKEY,
+        "maxResults": 100,
+        "textFormat": 'plainText',
+        "order": 'relevance'
+
+
+    }
+    r_comments = requests.get(comments_url, comments_params)
+    r_comments = r_comments.json()
+
+    for i in range(100):
+
+        try:
+            authorProfileImageUrl.append(
+                r_comments["items"][i][
+                    'snippet']['topLevelComment']['snippet']['authorProfileImageUrl'])
+        except:
+            print("no profile")
+
+        try:
+            authorDisplayname.append(
+                r_comments["items"][i]['snippet']['topLevelComment'][
+                    'snippet']['authorDisplayName'])
+        except:
+            print("no author")
+
+        try:
+            textDisplay.append(
+                r_comments["items"][i]['snippet']['topLevelComment'][
+                    'snippet']['textDisplay'])
+        except:
+            print("")
 
     return flask.render_template(
         "video_view.html",
-        videoId=query,
+        videoId=videoId,
         vid_title=vid_title,
+        channelId=channelId,
         channelTitle=channelTitle,
-
+        authorDisplayname=authorDisplayname,
+        authorProfileImageUrl=authorProfileImageUrl,
+        textDisplay=textDisplay,
 
     )
 

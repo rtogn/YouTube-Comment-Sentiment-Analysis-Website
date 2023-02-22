@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
     <link href="/static/video_view.css" rel="stylesheet" />
     <script type="text/javascript" src="/static/widgets.js" ></script>
 </head>
@@ -14,22 +16,36 @@
 
     <main class="main_bar">
         <div class="col-1">
-
-            <div class="card" style="width: 68rem;height: 50rem;">
+            <div class="card" style="width: 68rem;height: 35rem;">
                 <div class="card-video">
-                    <form method="POST" action="/video_view" name="watch?v">
-                        <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
-                            allowfullscreen></iframe>
-                    </form>
+                    <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen></iframe>
+                    
                     <div class="card-content">
                         <span class="card-title">{{vid_title}}</span>
                         <br />
                         <span class="card-channel-Title">{{channelTitle}}</span>
                     </div>
+
+                    <br />
+                    <h4>Comments</h4>
+                    <br />
+                    {%for i in range(100)%}
+                    <div class="comments">
+                    
+                        <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                        <span><strong>{{authorDisplayname[i]}}</strong></span>
+                        <br />
+                        <span>{{textDisplay[i]}}</span>
+                        <br />
+                    
+                    </div>
+                    {%endfor%}
+
                 </div>
             </div>
         </div>
-
     </main>
 
     <aside class="right_sidebar">
