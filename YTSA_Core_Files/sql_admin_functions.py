@@ -2,7 +2,7 @@ import YTSA_Core_Files.sql_models as sql_models
 from YTSA_Core_Files.sql_models import db
 import random as rand
 from string import ascii_letters
-from datetime import datetime
+from time import gmtime, strftime
 
 def generateRandomVidID():
     videoID = ""
@@ -15,29 +15,22 @@ def generateRandomVidID():
 def sql_add_demo_data_random(num_entries):
     # Must pass db object to use function
     # adds num_entries amount of randomly generated videos/etc to the database
-    top_Vids = []
+    test_channels = ["channel_00", "channel_01", "channel_02", "channel_04", "channel_05"]
     for v in range(0, num_entries):
         vid_id = generateRandomVidID()
         score = rand.random()
         video_name = "Test_Video_" + str(v)
-        channel_name = "Test_Channel_" + str(v)
-        date_today = str(datetime.now)
+        channel_name = rand.choice(test_channels)
+        date_today = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
         video = sql_models.Video_Info(video_id=vid_id,
-                                      channel= channel_name,
-                                      video_tite = video_name,
+                                      channel=channel_name,
+                                      video_title=video_name,
                                       sentiment_score_average=score,
-                                      entry_count=rand.randint(1,5500),
-                                      date_updated= date_today
+                                      negative_entries=rand.randint(1,1000),
+                                      positive_entries=rand.randint(1,1000),
+                                      neutral_entries=rand.randint(1,1000),
+                                      date_updated=date_today
                                       )
-
-        # Add the first 5 as top 5 just for consistency.
-        if v < 5:
-            topVids = sql_models.Top_Videos(video_id=vid_id,
-                                            sentiment_score_average=score,
-                                            entry_count=rand.randint(1, 550),
-                                            date_updated=date_today
-                                            )
-            db.session.add(topVids)
         db.session.add(video)
 
     db.session.commit()
@@ -45,11 +38,15 @@ def sql_add_demo_data_random(num_entries):
 def sql_add_demo_data_testing():
     # Incomplete
     # Adds a few non-random entries for specific testing
+    print(str(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
     video = sql_models.Video_Info(video_id="lfKfPfyJRdk",
                                   channel="Belogus",
+                                  video_title="A video",
                                   sentiment_score_average = 0.93,
-                                  entry_count = 120,
-                                  date_updated = str(datetime.now)
+                                  negative_entries=5,
+                                  positive_entries=93,
+                                  neutral_entries=2,
+                                  date_updated = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
                                   )
 
     video = sql_models.Users(user_name="Admin",
