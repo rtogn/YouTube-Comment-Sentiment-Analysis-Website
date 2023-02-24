@@ -15,6 +15,9 @@ app.config.update(SECRET_KEY='12345')  # Key required for flask.session
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_App.db"
 db.init_app(app)
 
+# Create tabels if empty
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
@@ -125,6 +128,7 @@ def search_results():
 
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
+    max_comments = 100
 
     vid_title = []
     channelTitle = []
@@ -157,7 +161,7 @@ def video_view():
         "videoId": videoId,
         "part": "snippet",
         "key": APIKEY,
-        "maxResults": 100,
+        "maxResults": max_comments,
         "textFormat": 'plainText',
         "order": 'relevance'
 
@@ -166,7 +170,7 @@ def video_view():
     r_comments = requests.get(comments_url, comments_params)
     r_comments = r_comments.json()
 
-    for i in range(100):
+    for i in range(max_comments):
 
         try:
             authorProfileImageUrl.append(
@@ -209,7 +213,7 @@ def sql_playground_temporary():
         target_row = db.session.execute(db.select(sql_models.Video_Info).filter_by(
             id=form_data["video_id"])).scalar_one()
         # target_row.sentiment_score_average=form_data["new_score"]
-        sql_requests.update_sentiment_average(
+        sql_requests.update_sentiment_average_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
 

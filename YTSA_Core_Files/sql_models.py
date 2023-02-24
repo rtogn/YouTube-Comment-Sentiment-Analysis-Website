@@ -21,40 +21,33 @@ class Video_Info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # Video ID string, comes after "watch?v=". So for https://www.youtube.com/watch?v=jfKfPfyJRdk the ID is 'jfKfPfyJRdk'
     video_id = db.Column(db.String, nullable=False, unique=True)
-    video_tite = db.Column(db.String, nullable=False)
+    video_title = db.Column(db.String, nullable=False)
     channel = db.Column(db.String)
     # Raw sentiment score as floating pt value
     sentiment_score_average = db.Column(db.Float)
-    entry_count = db.Column(db.Integer, nullable=False)
+    negative_entries = db.Column(db.Integer, default=0)
+    positive_entries = db.Column(db.Integer, default=0)
+    neutral_entries = db.Column(db.Integer, default=0)
     date_updated = db.Column(db.String, nullable=False)
 
 class Top_Videos(db.Model):
     # Easy reference for top videos by sentiment
     id = db.Column(db.Integer, primary_key=True)
     video_id = db.Column(db.String, nullable=False, unique=True)
-    sentiment_score_average = db.Column(db.Float)
-    entry_count = db.Column(db.Integer, nullable=False)
     date_updated = db.Column(db.String, nullable=False)
 
-class Video_Categories_Log(db.Model):
+class Video_Categories(db.Model):
     # Video Cateogries updated on video classificaton. Categories are added and keep a running average of sentiment score
     # To update: current_sum = current_avrg * current_count. current_sum += new_score. average = current_sum/updated_count
     id = db.Column(db.Integer, primary_key=True)
-    video_id = db.Column(db.String, nullable=False, unique=True)
-    # Number of videos contributing to the average
-    entry_count = db.Column(db.Integer, nullable=False)
-    # Sentiment score average =
     sentiment_score_average = db.Column(db.Float)
     date_updated = db.Column(db.String, nullable=False)
 
-class Channel_Log(db.Model):
+class Channels(db.Model):
     # Channel updated on video classificaton. Categories are added and keep a running average of sentiment score (same as by category)
     # To update: current_sum = current_avrg * current_count. current_sum += new_score. average = current_sum/updated_count
     id = db.Column(db.Integer, primary_key=True)
     channel = db.Column(db.String, unique=True)
-    # Number of videos contributing to the average
-    entry_count = db.Column(db.Integer, nullable=False)
-    # Sentiment score average =
     sentiment_score_average = db.Column(db.Float)
     date_updated = db.Column(db.String, nullable=False)
 
