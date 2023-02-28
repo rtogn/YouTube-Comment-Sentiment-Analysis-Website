@@ -7,14 +7,20 @@
 	<link href="/static/home.css" rel="stylesheet" />
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
+	/* document.addEventListener('DOMContentLoaded', () => {
 		const loginBtn = document.getElementById('loginBtn');
 		const loginPopup = document.getElementById('loginPopup');
 		
 		loginBtn.addEventListener('click', () => {
 			loginPopup.classList.toggle('show');
 		});
-		});
+		});*/
+
+		function displayLogin (id) {
+			var x = document.getElementById(id);
+				x.style.display = 
+				((x.style.display != 'none') ? 'none' : 'block');
+		}
 </script>
 
 </head>
@@ -25,8 +31,8 @@
 			<div class="user_bubble">GG</div>
 			<div class="welcome_text">Welcome, guest!</div>
 
-			<!-- Reference to login button-->
-			<button id="loginBtn">login</div>
+			<!-- Reference to login button -->
+			<button id="loginBtn" onclick="displayLogin('loginPopup')">login</div>
 
 			<div class="buttons">button#2</div>
 			<div class="buttons">button#3</div>
@@ -47,14 +53,16 @@
 	<!-- login area -->
 	<div id="loginPopup">
 		<form>
-			<h2>Login</h2>
-				<label for="username"><b>Username</b></label>
+			<div id="loginTitle">Login</div>
+				<label for="username" id="formtxt"><b>Username</b></label>
 				<input type="text" id="username" placeholder="Username" name="username" required>
 				
-				<label for="password"><b>Password</b></label>
+				<label for="password" id="formtxt"><b>Password</b></label>
 				<input type="password" id="password" placeholder="Password" name="password" required>
 
-				<button type="submit">Submit</button>
+				<input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
+
+				<button type="submit" id="submitBar">Submit</button>
 		</form>
 	</div>
 
