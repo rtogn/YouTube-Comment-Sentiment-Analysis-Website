@@ -1,7 +1,7 @@
 # YTSA - A Youtube comment section analysis website
 <i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>
 
-# Table Of Contents:
+# Table Of Contents
 1. [Project Summary](#project-summary)   
 2. [Timeline](#timeline)  
 3. [Technologies Used](#technologies-used)  
@@ -11,27 +11,43 @@
 7. [Citations](#citations)  
 
 # Project Summary  
+How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
+
+The YTSA is an experimental project that attempts to add a new metric to comment sections: sentiment score. The website Youtube has been chosen for its popularity, ease of API access and orginizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also konwn as 'sentiment'. This means the direct input from a user can be incorporated in an overal opinion score for a video, channel or content category. 
+
+
 
 # Timeline
+This project is being done over 5 two week sprints. The due dates for each are as follows:
+
+-Sprint 1:
+-Sprint 2:
+-Sprint 3 (MVP):
+-Sprint 4:
+-Sprint 5 (final):
 
 # Technologies Used  
-### [Python](https://www.python.org/)  
+### [Python](https://www.python.org/) <img src="https://user-images.githubusercontent.com/60898339/222571123-81f8e8e4-b183-4f92-a4bc-95d9d3e9f007.png" width=25 height=25>
+
 Primary programming language used besides web technologies  
-### [Flask](https://flask.palletsprojects.com/en/2.2.x/)  
-For running the application and server functions  
-### [SQL-Lite](https://www.sqlite.org/index.html)  
+### [Flask](https://flask.palletsprojects.com/en/2.2.x/) <img src="https://user-images.githubusercontent.com/60898339/222574843-b9c32f58-7b44-4d1f-a44a-d1a53a1a4496.png" width=45 height=45>  
+For running the application and server functions 
+
+### [SQL-Lite](https://www.sqlite.org/index.html)  <img src="https://user-images.githubusercontent.com/60898339/222572307-a5bdbe50-a20d-4ac9-af3a-4309e3fa0bfb.png" width=50 height=40>  
+  
 Database model  
-### [HTML/CSS]  
+### [HTML/CSS] <img src="https://user-images.githubusercontent.com/60898339/222574007-28bee166-7f24-405b-a047-ccc2bd4dcebf.png" width=40 height=30>    
+  
 Markup and styling  
-### [Java Script](https://www.javascript.com/)
+### [Java Script](https://www.javascript.com/)  <img src="https://user-images.githubusercontent.com/60898339/222573321-d3cf30f6-b451-4bf7-aa0e-b2952cd582bc.png" width=25 height=25>    
 Website interactivity etc  
 ### [NTLK & Sentiment Analysis Model](https://www.nltk.org/)  
-	From NLTK.org:  
-		><i>"NLTK is a leading platform for building Python programs to work with human language data. 
+	
+		"NLTK is a leading platform for building Python programs to work with human language data. 
 		It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, 
 		along with a suite of text processing libraries for classification, tokenization, stemming, 
 		tagging, parsing, and semantic reasoning,wrappers for industrial-strength NLP libraries, 
-		and an active discussion forum."</i>
+		and an active discussion forum." -NLTK.org
 
 The sentiment analysis performed on comments is done using [VADER](https://www.nltk.org/api/nltk.sentiment.vader.html) (Hutto, C.J. & Gilbert, E.E. 2014) that is built into the NLTK library.
 
@@ -92,7 +108,7 @@ d. [Local Hosting](#local-hosting)
 # Special Thanks  
 
 # Contributors  
-[Sam Repasky](https://github.com/samrepasky)    
-[Jazmine B](https://github.com/hafsa-hassan)    
-[Hafsa Hassan](https://github.com/jazbar07)    
-[Robert Tognoni](https://github.com/rtogn)  
+Sam Repasky [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/samrepasky)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)  
+Jazmine B [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/jazbar07)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)    
+Hafsa Hassan  [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/hafsa-hassan)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)     
+Robert Tognoni [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/rtogn)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/in/robert-tognoni-9a4795b0)    
