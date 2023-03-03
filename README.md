@@ -13,7 +13,7 @@
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
 
-The YTSA is an experimental project that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel or content category. 
+The YTSA is an experimental site that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel or content category. 
 
 
 
@@ -80,10 +80,12 @@ d. [Local Hosting](#local-hosting)
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222607858-0d541aac-352e-429a-9751-e48df3144a3c.png" width=50% height=50%>
 </div>
-4. Select API Key from the dropdown menu and wait for it to create. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.
-5. On the same page select 'Enabled APIs & services' on the side bara, then select '+ ENABLE APIS AND SERVICES' at the top of the page
-6. After being redirected, type 'YouTube' in the search bar and hit enter
-7. A few options will come up, select 'YouTube Data API v3'
+
+4. Select API Key from the dropdown menu and wait for it to create. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.  
+5. On the same page select 'Enabled APIs & services' on the side bara, then select '+ ENABLE APIS AND SERVICES' at the top of the page  
+6. After being redirected, type 'YouTube' in the search bar and hit enter  
+7. A few options will come up, select 'YouTube Data API v3'  
+
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222608508-ef2b6974-c49c-4419-8aca-a22cb2fd47a7.png" width=50% height=50%>
 </div>
