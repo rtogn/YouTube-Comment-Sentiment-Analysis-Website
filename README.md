@@ -6,9 +6,9 @@
 2. [Timeline](#timeline)  
 3. [Technologies Used](#technologies-used)  
 4. [Setup](#setup)   
-5. [Contributors](#contributors)    
-6. [Special Thanks](#special-thanks)  
-7. [Citations](#citations)  
+5. [Citations](#citations)  
+6. [Special Thanks](#special-thanks)    
+7. [Contributors](#contributors)  
 
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
