@@ -1,1 +1,4 @@
 .env
+.DS_Store
+Thumbs.db
+__pycache__/

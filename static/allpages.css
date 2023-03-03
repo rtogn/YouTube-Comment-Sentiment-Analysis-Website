@@ -1,6 +1,10 @@
+/* import lines for Google Font Library */
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
 body { 
     overflow: hidden;
-    display: flex;
+    font-family: 'Arimo', sans-serif; 
     row-gap: 25px;
     width: 100%;
     min-height: 100vh;
