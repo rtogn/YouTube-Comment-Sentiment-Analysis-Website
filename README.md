@@ -1,4 +1,4 @@
-# YTSA - A Youtube comment section analysis website
+# YTSA - YouTube Comment Sentiment Analysis Site
 <i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>
 
 # Table Of Contents
@@ -13,18 +13,18 @@
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
 
-The YTSA is an experimental project that attempts to add a new metric to comment sections: sentiment score. The website Youtube has been chosen for its popularity, ease of API access and orginizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also konwn as 'sentiment'. This means the direct input from a user can be incorporated in an overal opinion score for a video, channel or content category. 
+The YTSA is an experimental project that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel or content category. 
 
 
 
 # Timeline
-This project is being done over 5 two week sprints. The due dates for each are as follows:
+This project is being done over 5 two-week sprints. The due dates for each are as follows:
 
--Sprint 1:
--Sprint 2:
--Sprint 3 (MVP):
--Sprint 4:
--Sprint 5 (final):
+-Sprint 1: 02/03/2023  
+-Sprint 2: 02/17/2023  
+-Sprint 3 (MVP): 03/03/2023   
+-Sprint 4: 03/24/2023   
+-Sprint 5 (final): 05/7/2023  
 
 # Technologies Used  
 ### [Python](https://www.python.org/) <img src="https://user-images.githubusercontent.com/60898339/222571123-81f8e8e4-b183-4f92-a4bc-95d9d3e9f007.png" width=25 height=25>
@@ -46,7 +46,7 @@ Website interactivity etc
 		"NLTK is a leading platform for building Python programs to work with human language data. 
 		It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, 
 		along with a suite of text processing libraries for classification, tokenization, stemming, 
-		tagging, parsing, and semantic reasoning,wrappers for industrial-strength NLP libraries, 
+		tagging, parsing, and semantic reasoning, wrappers for industrial-strength NLP libraries, 
 		and an active discussion forum." -NLTK.org
 
 The sentiment analysis performed on comments is done using [VADER](https://www.nltk.org/api/nltk.sentiment.vader.html) (Hutto, C.J. & Gilbert, E.E. 2014) that is built into the NLTK library.
@@ -54,13 +54,13 @@ The sentiment analysis performed on comments is done using [VADER](https://www.n
 # Setup 
 Index:  
 a. [Installing Requirements](#installing-requirements)  
-b. [Setting Up Your API Key](#getting-your-api-key)  
+b. [Setting Up Your API Key](#setting-up-your-api-key)  
 c. [Setting Up Your env File](#setting-up-your-env-file)  
 d. [Local Hosting](#local-hosting)  
  
 ### [Installing Requirements](https://www.geeksforgeeks.org/how-to-install-python-packages-with-requirements-txt/)
 <i>Steps may vary slightly depending on operating system, though the final pip command is the same</i>  
-1. Open a command line (seraching for 'terminal' in your programs should pull one up on a given OS)  
+1. Open a command line (searching for 'terminal' in your programs should pull one up on a given OS)  
 2. Navigate to the root project folder (where requirements.txt is located)  
 3. Type the following command: pip install -r requirements.txt  
 	It should look like the following:    
@@ -73,7 +73,7 @@ d. [Local Hosting](#local-hosting)
 
 
 ### [Setting Up Your API Key](https://developers.google.com/youtube/v3/getting-started)
-<i>Even locally hosting a YTSA instance requires a Youtube API key. You will need to first [create/log into a Google accout](https://support.google.com/accounts/answer/27441?hl=en) to proceed</i>
+<i>Even locally hosting a YTSA instance requires a YouTube API key. You will need to first [create/log into a Google account](https://support.google.com/accounts/answer/27441?hl=en) to proceed</i>
 1. Navigate to (https://console.cloud.google.com/apis/dashboard)
 2. Click on Credentials on the sidebar (see below)
 3. Click on + CREATE CREDENTIALS on the top of the window
@@ -82,12 +82,12 @@ d. [Local Hosting](#local-hosting)
 </div>
 4. Select API Key from the dropdown menu and wait for it to create. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.
 5. On the same page select 'Enabled APIs & services' on the side bara, then select '+ ENABLE APIS AND SERVICES' at the top of the page
-6. After being redirected, type 'youtube' in the search bar and hit enter
+6. After being redirected, type 'YouTube' in the search bar and hit enter
 7. A few options will come up, select 'YouTube Data API v3'
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222608508-ef2b6974-c49c-4419-8aca-a22cb2fd47a7.png" width=50% height=50%>
 </div>
-8. On the next page click the blue ENABLE button to activate the youtube data API
+8. On the next page click the blue ENABLE button to activate the YouTube data API
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222608627-18347a2b-abce-431f-b0bc-1ec4a0c55084.png" width=50% height=50%>
 </div>
@@ -118,7 +118,7 @@ d. [Local Hosting](#local-hosting)
 <i>Hosting a local instance is easy! If all of the above requirements (python reqs, api key, .env file etc) you should only have to click main.py and you are running.</i>
 1. Navigate the main YTSA folder
 2. Run main.py (command: py main.py)
-3. Hilight and copy the displayed IP address hpyerlink (See image below for example)
+3. Highlight and copy the displayed IP address hyperlink (See image below for example)
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222568081-26f66f9a-54f6-494b-92df-5eaa479a8df5.png">
 </div>
