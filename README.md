@@ -54,7 +54,7 @@ The sentiment analysis performed on comments is done using [VADER](https://www.n
 # Setup 
 Index:  
 a. [Installing Requirements](#installing-requirements)  
-b. [Getting Your API Key](#getting-your-api-key)  
+b. [Setting Up Your API Key](#getting-your-api-key)  
 c. [Setting Up Your env File](#setting-up-your-env-file)  
 d. [Local Hosting](#local-hosting)  
  
@@ -66,12 +66,33 @@ d. [Local Hosting](#local-hosting)
 	It should look like the following:    
 	
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/60898339/222560998-33a6e556-66b3-4354-a8e2-8a6fecac2c1b.png" width=50% height=50%>
+	<img src="https://user-images.githubusercontent.com/60898339/222609251-fcd33540-6c5a-4ad6-a89c-c803303b6acc.png" width=50% height=50%>
 </div>
 
 4. Wait for process to complete. If any errors occur reference the given error code.  
-### [Getting Your API Key](https://blog.hubspot.com/website/how-to-get-youtube-api-key)
-<i>Even locally hosting a YTSA instance requires a Youtube API key. You will need to first [create/log into a Google accout to proceed](https://support.google.com/accounts/answer/27441?hl=en)</i>
+
+
+### [Setting Up Your API Key](https://developers.google.com/youtube/v3/getting-started)
+<i>Even locally hosting a YTSA instance requires a Youtube API key. You will need to first [create/log into a Google accout](https://support.google.com/accounts/answer/27441?hl=en) to proceed</i>
+1. Navigate to (https://console.cloud.google.com/apis/dashboard)
+2. Click on Credentials on the sidebar (see below)
+3. Click on + CREATE CREDENTIALS on the top of the window
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222607858-0d541aac-352e-429a-9751-e48df3144a3c.png" width=50% height=50%>
+</div>
+4. Select API Key from the dropdown menu and wait for it to create. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.
+5. On the same page select 'Enabled APIs & services' on the side bara, then select '+ ENABLE APIS AND SERVICES' at the top of the page
+6. After being redirected, type 'youtube' in the search bar and hit enter
+7. A few options will come up, select 'YouTube Data API v3'
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222608508-ef2b6974-c49c-4419-8aca-a22cb2fd47a7.png" width=50% height=50%>
+</div>
+8. On the next page click the blue ENABLE button to activate the youtube data API
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222608627-18347a2b-abce-431f-b0bc-1ec4a0c55084.png" width=50% height=50%>
+</div>
+
+
 ### Setting Up Your env File  
 1. Navigate to the root folder of the YTSA project (where main.py is located)  
 2. Create a text file titled .env (there should be no file name, just the extension)  
@@ -81,7 +102,7 @@ d. [Local Hosting](#local-hosting)
 	<img src="https://user-images.githubusercontent.com/60898339/222562706-52bb9830-d476-48ca-bc31-5627d09f347b.png" width=25% height=25%>
 </div>  
 
-3. Open the .env file and type 'APIKEY=' and then paste your API key you made before right after the = symbol
+3. Open the .env file and type 'APIKEY=' and then paste your API key ([get it here](https://console.cloud.google.com/apis/credentials)) you made before right after the = symbol
 	It should be the only thing in the file and be placed on the first line with no spaces.  
 	And it will look something like this (the key listed here is random keyboard mashing):  
 	
@@ -91,6 +112,8 @@ d. [Local Hosting](#local-hosting)
 	
 4. Save your .env document
 5. You are now ready to locally host the YTSA site!
+
+
 ### Local Hosting  
 <i>Hosting a local instance is easy! If all of the above requirements (python reqs, api key, .env file etc) you should only have to click main.py and you are running.</i>
 1. Navigate the main YTSA folder
@@ -106,9 +129,32 @@ d. [Local Hosting](#local-hosting)
 >Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Eighth International Conference on Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
 
 # Special Thanks  
+Team 10 would like to thank our Capstone guides: John Martin & Batya Zamansky from Meta!
 
 # Contributors  
-Sam Repasky [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/samrepasky)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)  
-Jazmine B [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/jazbar07)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)    
-Hafsa Hassan  [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/hafsa-hassan)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/)     
-Robert Tognoni [<img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40>](https://github.com/rtogn)[<img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40>](https://www.linkedin.com/in/robert-tognoni-9a4795b0)    
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222605336-a48fb95a-0920-4272-bb12-c356879eabf0.png">
+</div>    
+
+<div align="center">
+	<tr>
+		<td>
+		Jazmine Barnett <a href="https://github.com/jazbar07"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
+		<a href="https://www.linkedin.com/"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
+		</td>  
+		<td>
+		Hafsa Hassan <a href="https://github.com/hafsa-hassan"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
+		<a href="https://www.linkedin.com/"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
+		</td>  
+		<td>
+		Sam Repasky <a href="https://github.com/samrepasky"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
+		<a href="https://www.linkedin.com/"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
+		</td>  
+		<td>
+		Robert Tognoni <a href="https://github.com/rtogn"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
+		<a href="https://www.linkedin.com/in/robert-tognoni-9a4795b0"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
+		</td>  
+	</tr>
+</div>
+
+
