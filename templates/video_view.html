@@ -26,21 +26,27 @@
                         <span class="card-title">{{vid_title}}</span>
                         <br />
                         <span class="card-channel-Title">{{channelTitle}}</span>
+                     
+                        <p> Average Sentiment Score: {{ave_sent_score}}</p>
                     </div>
 
                     <br />
                     <h4>Comments</h4>
                     <br />
                     {%for i in range(100)%}
-                    <div class="comments">
+        
+                        <div class="comments">
                     
                         <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
                         <span><strong>{{authorDisplayname[i]}}</strong></span>
                         <br />
                         <span>{{textDisplay[i]}}</span>
                         <br />
+                        <p>Sentiment Score: {{sent_score[i]}}</p>
+                        </div>
+                       
+                        
                     
-                    </div>
                     {%endfor%}
 
                 </div>
@@ -51,10 +57,15 @@
     <aside class="right_sidebar">
         <span class="all-text">
 
+    <form action="/video_view/" method="POST">
+        <label> Sentiment filter:</label>
+        <input type="range" min="-1" max="1" value = "0"  name="sent_value">
+        <input type="submit">
+    </form>
+    
+    
     <div class="slidecontainer">
-        <p>Sentiment filter:</p>
-        <input type="range" min="-100" max="100" value = "0"  id="myRange">
-        <p>Value: <span id="demo"></span></p>
+        
     </div>
 
     <form action="/action_page.php" id="search_filter">
@@ -70,11 +81,11 @@
         <!-- will move this later -->
        <script>
         var slider = document.getElementById("myRange");
-        var output = document.getElementById("demo");
+        var output = document.getElementById("sent_value");
         output.innerHTML = slider.value;
 
         slider.oninput = function() {
-        output.innerHTML = this.value/100;
+            output.innerHTML = this.value/100;
         }
 
         function filter_out() {
@@ -85,6 +96,13 @@
             var x = document.getElementById("keyword").form.id;
             document.getElementById("filter").innerHTML = x;
         }
+        function update(){
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("sent_va");
+            output.innerHTML = slider.value/100;
+        }
+
+        
        </script>
        
 

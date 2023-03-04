@@ -1,11 +1,12 @@
 import os
 import requests
 import flask
-from flask import redirect, session
+from flask import redirect, request, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 from YTSA_Core_Files import sql_admin_functions, sql_requests, sql_models
 from YTSA_Core_Files.sql_models import db
+from vader import sentScore, aveSentScore
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -136,7 +137,8 @@ def video_view():
     authorDisplayname = []
     authorProfileImageUrl = []
     textDisplay = []
-
+    sent_score = []
+    
     form_data = flask.request.args
 
     videoId = form_data.get("watch?v", "")
@@ -190,9 +192,13 @@ def video_view():
             textDisplay.append(
                 r_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['textDisplay'])
+            sent_score.append(sentScore(r_comments["items"][i]['snippet']['topLevelComment'][
+                    'snippet']['textDisplay']))
         except:
             print("")
 
+    ave_sent_score = aveSentScore(textDisplay)
+    
     return flask.render_template(
         "video_view.html",
         videoId=videoId,
@@ -202,6 +208,9 @@ def video_view():
         authorDisplayname=authorDisplayname,
         authorProfileImageUrl=authorProfileImageUrl,
         textDisplay=textDisplay,
+        sent_score = sent_score,
+        ave_sent_score = ave_sent_score
+        
 
     )
 

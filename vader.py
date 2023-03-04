@@ -14,22 +14,22 @@ nltk.download('vader_lexicon')
 
 
 #this function takes in a list of comments and outputs a corresponding list of sentiment scores ranging from -1 to 1
-def sentScore(comments):
+def sentScore(comment):
 
     #initalize an empty array for the scores
-    score = []
+    score = 0
 
     #initalize the model
     sid = SentimentIntensityAnalyzer()
 
-    #stores the score for each comment in the score list
-    for comment in comments:
+    
+   
         #a dictionary 
-        s =  sid.polarity_scores(comment)
+    s =  sid.polarity_scores(comment)
         
-        for key, value in s.items():
-            if(key == 'compound'):
-                score.append(value)
+    for key, value in s.items():
+        if(key == 'compound'):
+            score = value
         
         
 
@@ -51,13 +51,15 @@ def sentScore(comments):
 
 #example list of comments
 comments = ["Hello my name is Sam.", "i hate pizza", "I love cookies"]
-sentScore(comments)
+
 
 
 def aveSentScore(s):
-    #print(sum(s)/len(s))
-    return(sum(s)/len(s))
+    total = 0
+    for comment in comments:
+        total = total + sentScore(comment)
+    return(total/len(s))
 
-aveSentScore(sentScore(comments))
+
 
     
