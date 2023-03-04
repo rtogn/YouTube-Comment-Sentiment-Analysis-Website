@@ -21,8 +21,9 @@ The YTSA is an experimental site that attempts to add a new metric to comment se
 1.Type any search term you want into the bar at the top.   
 
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/60898339/222878654-77bade10-66cf-4605-9802-c548346b0a44.gif" width=75% height=75%>  
+	<img src="https://user-images.githubusercontent.com/60898339/222918148-ce5a5c89-b4e8-4d64-8118-eeabc76dbdf6.gif" width=75% height=75%>  
 </div>
+
 
 
 2. Click on a video thumbnail on the search results page that will load. (If you do not see video thumbnails you likely set up your API key incorrectly, please revist the instructions for setup later in this document).  
