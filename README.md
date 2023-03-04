@@ -31,7 +31,7 @@ The YTSA is an experimental site that attempts to add a new metric to comment se
 	<img src="https://user-images.githubusercontent.com/60898339/222877932-6bed19fc-48b6-4db9-9755-081d145f7108.png" width=50% height=50%>  
 </div>
 
-3. You will see a page displaying an embedded video. The sentiment score will be under the video and next to each individual comment. This score is between -1 and 1 where 1 is 'maximally positive' and -1 is 'maximally negative.  
+3. You will see a page displaying an embedded video. The sentiment score will be under the video and next to each individual comment. This score is between -1 and 1 where 1 is 'maximally positive' and -1 is 'maximally negative'.  
 
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/222877851-84297020-bb5a-4e69-a1fb-2231e3dacf2c.png" width=50% height=50%>  
