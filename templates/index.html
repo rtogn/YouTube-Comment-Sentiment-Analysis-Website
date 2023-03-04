@@ -29,10 +29,16 @@
 	<aside class="left_sidebar">
 		<div class="left_all">
 			<div class="user_bubble">GG</div>
+
 			<div class="welcome_text">Welcome, guest!</div>
 
 			<!-- Reference to login button -->
 			<button id="loginBtn" onclick="displayLogin('loginPopup')">login</div>
+
+
+			<!-- Put user name under welcome message from session var. -->
+			<div class="welcome_text">Welcome, {{session['user']}}!</div>
+			<div class="buttons" onclick="route_to('login')">Login</div>
 
 			<div class="buttons">button#2</div>
 			<div class="buttons">button#3</div>
@@ -40,6 +46,11 @@
 		</div>
 	</aside>
 
+	<script>
+			function route_to(page) {
+				window.location.href = page
+			}
+	</script>
 	<main class="main_bar">
 		<div class="top_header">
 				<form action="/search_results" method="GET" class="wrap">

@@ -71,15 +71,25 @@
 			<div class="col-4">
 				<div class="card" style="width: 18rem;">
 					<div class="card-video">
-						<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
-							<img width="285" height="250" src="{{vid_thumbnail[i]}}"></a>
+						<form method="GET" action="/video_view">
+							<button type="submit" name="watch?v" value="{{videoId[i]}}">
+								<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+									<img width="285" height="250" src="{{vid_thumbnail[i]}}">
+								</a>
+							</button>
+						
 							<div class="card-content">
 								<span class="card-title">{{vid_title[i]}}</span>
 							</div>
-						</div>
+							<div class="channel-Title">
+								<span class="card-channel-Title">{{channelTitle[i]}}</span>
+					
+							</div>
+						</form>
 					</div>
 				</div>
-				{%endfor%}
+			</div>
+			{%endfor%}
 			</div>
 		</div>
 	</div>
