@@ -20,6 +20,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 @app.route('/')
 def index():
     # Set default username if has not logged in yet to guest for display.
@@ -71,58 +72,113 @@ def login_page():
     )
 
 
+# this function is for converting large number of likes, comments and subscribers to 1.4K or 2.5M
+def numbersuffix(number):
+    # suffixes i.e million = m or thousand = K
+    suffixes = ['', 'K', 'M', 'B', 'T']
+    index = 0
+    while number >= 1000 and index < len(suffixes) - 1:
+        number /= 1000.0
+        index += 1
+    return f"{number:,.1f}{suffixes[index]}"
+
+
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
 
-    channelTitle = []
+    max_result = 6
     videoId = []
-    vid_title = []
-    vid_thumbnail = []
+    videoTitle = []
+    videoThumbnail = []
+    channelId = []
+    channelTitle = []
+    channelThumbnail = []
+    channelsubscriberCount = []
 
     form_data = flask.request.args
 
-    print("\n\n\n")
-    print(form_data)
-    print("\n\n\n")
-
     query = form_data.get("term", "")
 
-    response = requests.get(
-        "https://www.googleapis.com/youtube/v3/search?",
-        params={"q": query, "part": "snippet", "type": "video",
-                "maxResults": 12, "key": APIKEY},
-    )
+    search_url = "https://www.googleapis.com/youtube/v3/search?"
+    search_params = {
+        "q": query,
+        "part": "snippet",
+        "type": "video",
+        "maxResults": max_result,
+        "key": APIKEY
 
-    response = response.json()
-    for i in range(12):
+    }
+    responseSearch = requests.get(search_url, search_params)
+    # print(responseSearch.text)
+
+    responseSearch = responseSearch.json()
+
+    for i in range(max_result):
+
+        try:
+            channelId.append(
+                responseSearch["items"][i]['snippet']['channelId'])
+        except:
+            print("no channelid")
+
+        try:
+            videoId.append(responseSearch["items"][i]['id']['videoId'])
+        except:
+            print("no videoid")
+        try:
+            videoTitle.append(responseSearch["items"][i]['snippet']['title'])
+        except:
+            print("no videotitle")
+        try:
+            videoThumbnail.append(responseSearch["items"][i]
+                                  ['snippet']['thumbnails']['high']['url'])
+        except:
+            print("no video thumbnail")
+
+    print(channelId)
+
+    channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+    channel_params = {
+        "id": ','.join(channelId),
+        "part": "snippet, statistics",
+        "key": APIKEY,
+
+    }
+    responseChannel = requests.get(channel_url, channel_params)
+    print(responseChannel.text)
+
+    responseChannel = responseChannel.json()
+
+    for x in range(len(channelId)):
 
         try:
             channelTitle.append(
-                response["items"][i]['snippet']['channelTitle'])
+                responseChannel["items"][x]['snippet']['title'])
         except:
-            print("")
+            channelTitle.append("no title")
 
         try:
-            videoId.append(response["items"][i]['id']['videoId'])
+            channelThumbnail.append(responseChannel["items"][x]
+                                    ['snippet']['thumbnails']['default']['url'])
         except:
-            print("no video")
+            channelThumbnail.append("no thumbnail")
+
         try:
-            vid_title.append(response["items"][i]['snippet']['title'])
+            channelsubscriberCount.append(numbersuffix(float(
+                responseChannel["items"][x]['statistics']['subscriberCount'])))
         except:
-            print("no title")
-        try:
-            vid_thumbnail.append(response["items"][i]
-                                 ['snippet']['thumbnails']['high']['url'])
-        except:
-            print("no thumbnail")
+            channelsubscriberCount.append("no subscriber")
 
     return flask.render_template(
         "search_results.html",
 
-        channelTitle=channelTitle,
         videoId=videoId,
-        vid_title=vid_title,
-        vid_thumbnail=vid_thumbnail,
+        videoTitle=videoTitle,
+        channelId=channelId,
+        videoThumbnail=videoThumbnail,
+        channelTitle=channelTitle,
+        channelThumbnail=channelThumbnail,
+        channelsubscriberCount=channelsubscriberCount,
 
     )
 
@@ -131,86 +187,150 @@ def search_results():
 def video_view():
     max_comments = 100
 
-    vid_title = []
+    videoTitle = []
     channelTitle = []
+    subscriberCount = []
+    commentCount = []
+    likeCount = []
+    channelThumbnail = []
+    channelsubscriberCount = []
     channelId = []
     authorDisplayname = []
     authorProfileImageUrl = []
     textDisplay = []
     sent_score = []
-    
-    form_data = flask.request.args
+    ave_sent_score = []
 
-    videoId = form_data.get("watch?v", "")
+    form_data = flask.request.args
+    # print("\n\n\n")
+    # print(form_data)
+    # print("\n\n\n")
+    query = form_data.get("watch?v", "")
+    # print(query)
 
     video_url = "https://www.googleapis.com/youtube/v3/videos?"
     video_params = {
-        "id": videoId,
-        "part": 'snippet',
+        "id": query,
+        "part": 'snippet, statistics',
         "type": "video",
         "key": APIKEY,
 
     }
-    response = requests.get(video_url, video_params)
-    response = response.json()
+    responseVideo = requests.get(video_url, video_params)
+    # print(responseVideo.text)
+    responseVideo = responseVideo.json()
 
-    vid_title = response["items"][0]['snippet']['title']
-    channelTitle = response["items"][0]['snippet']['channelTitle']
-    channelId = response["items"][0]['snippet']['channelId']
+    try:
+        videoTitle = responseVideo["items"][0]['snippet']['title']
+    except:
+        print("no title")
+
+    try:
+        channelId = responseVideo["items"][0]['snippet']['channelId']
+    except:
+        print("no channelid")
+
+    try:
+        commentCount = numbersuffix(float(
+            responseVideo["items"][0]['statistics']['commentCount']))
+    except:
+        print("")
+
+    try:
+        likeCount = numbersuffix(float(
+            responseVideo["items"][0]['statistics']['likeCount']))
+    except:
+        print("")
+
+    channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+    channel_params = {
+        "id": channelId,
+        "part": "snippet, statistics",
+        "key": APIKEY,
+
+    }
+    responseChannelVid = requests.get(channel_url, channel_params)
+    print(responseChannelVid.text)
+
+    responseChannelVid = responseChannelVid.json()
+
+    try:
+        channelTitle = responseChannelVid["items"][0]['snippet']['title']
+    except:
+        print("no title")
+
+    try:
+        channelThumbnail = responseChannelVid["items"][0]['snippet']['thumbnails']['default']['url']
+    except:
+        print("no thumbnail")
+
+    try:
+        channelsubscriberCount = numbersuffix(float(
+            responseChannelVid["items"][0]['statistics']['subscriberCount']))
+    except:
+        print("no subscriber")
 
     comments_url = "https://www.googleapis.com/youtube/v3/commentThreads?"
     comments_params = {
-        "videoId": videoId,
+        "videoId": query,
         "part": "snippet",
         "key": APIKEY,
         "maxResults": max_comments,
         "textFormat": 'plainText',
         "order": 'relevance'
 
-
     }
-    r_comments = requests.get(comments_url, comments_params)
-    r_comments = r_comments.json()
+    responseComments = requests.get(comments_url, comments_params)
+    # print(responseComments.text)
+
+    responseComments = responseComments.json()
 
     for i in range(max_comments):
 
         try:
             authorProfileImageUrl.append(
-                r_comments["items"][i][
+                responseComments["items"][i][
                     'snippet']['topLevelComment']['snippet']['authorProfileImageUrl'])
         except:
             print("no profile")
 
         try:
             authorDisplayname.append(
-                r_comments["items"][i]['snippet']['topLevelComment'][
+                responseComments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['authorDisplayName'])
         except:
             print("no author")
 
         try:
             textDisplay.append(
-                r_comments["items"][i]['snippet']['topLevelComment'][
+                responseComments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['textDisplay'])
-            sent_score.append(sentScore(r_comments["items"][i]['snippet']['topLevelComment'][
-                    'snippet']['textDisplay']))
+            sent_score.append(sentScore(responseComments["items"][i]['snippet']['topLevelComment'][
+                'snippet']['textDisplay']))
         except:
             print("")
 
     ave_sent_score = aveSentScore(textDisplay)
-    
+
+    # print(textDisplay)
+    # print(authorDisplayname)
+
     return flask.render_template(
         "video_view.html",
-        videoId=videoId,
-        vid_title=vid_title,
+        videoId=query,
+        videoTitle=videoTitle,
+        subscriberCount=subscriberCount,
+        commentCount=commentCount,
+        likeCount=likeCount,
+        channelThumbnail=channelThumbnail,
+        channelsubscriberCount=channelsubscriberCount,
         channelId=channelId,
         channelTitle=channelTitle,
         authorDisplayname=authorDisplayname,
         authorProfileImageUrl=authorProfileImageUrl,
         textDisplay=textDisplay,
-        sent_score = sent_score,
-        ave_sent_score = ave_sent_score
-        
+        sent_score=sent_score,
+        ave_sent_score=ave_sent_score
 
     )
 

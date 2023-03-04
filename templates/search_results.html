@@ -50,51 +50,43 @@
 				<button type="submit" class="search">Submit</button>
 			</form>
 		</div>
-	
-		<!-- login area -->
-	<div id="loginPopup">
-		<form>
-			<div id="loginTitle">Login</div>
-				<label for="username" id="formtxt"><b>Username</b></label>
-				<input type="text" id="username" placeholder="Username" name="username" required>
-				
-				<label for="password" id="formtxt"><b>Password</b></label>
-				<input type="password" id="password" placeholder="Password" name="password" required>
 
-				<input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
+		<div class="container">
+			<div class="row">
+				{%for i in range(6)%}
+				<div class="col-4">
+					<div class="card" style="width: 19rem;">
+						<div class="card-video">
+							<form method="GET" action="/video_view">
+								<button type="submit" name="watch?v" value="{{videoId[i]}}">
+									<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+										<img width="285" height="250" src="{{videoThumbnail[i]}}">
+									</a>
+								</button>
 
-				<button type="submit" id="submitBar">Submit</button>
-		</form>
-	</div>
-    
-	<div class="container">
-		<div class="row">
-			{%for i in range(12)%}
-			<div class="col-4">
-				<div class="card" style="width: 18rem;">
-					<div class="card-video">
-						<form method="GET" action="/video_view">
-							<button type="submit" name="watch?v" value="{{videoId[i]}}">
-								<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
-									<img width="285" height="250" src="{{vid_thumbnail[i]}}">
-								</a>
-							</button>
-						
-							<div class="card-content">
-								<span class="card-title">{{vid_title[i]}}</span>
-							</div>
-							<div class="channel-Title">
-								<span class="card-channel-Title">{{channelTitle[i]}}</span>
-					
-							</div>
-						</form>
+								<div class="card-content">
+									<span class="card-title">{{videoTitle[i]}}</span>
+								</div>
+
+								<div class="channel-profile">
+									<a href="https://www.youtube.com/channel/{{channelId[i]}}"></a>
+									<img class="rounded-circle" src="{{channelThumbnail[i]}}" height="50">
+									<small>
+										<span class="channel-Title">{{channelTitle[i]}} </span>
+										<br />
+										<span class="subscriberCount">
+											{{channelsubscriberCount[i]}}
+											subscribers
+										</span>
+									</small>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			{%endfor%}
+				{%endfor%}
 			</div>
 		</div>
-	</div>
 	</main>
 
 	<aside class="right_sidebar">

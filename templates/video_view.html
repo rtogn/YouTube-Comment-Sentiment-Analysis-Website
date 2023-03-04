@@ -33,40 +33,66 @@
 
     <main class="main_bar">
         <div class="col-1">
-            <div class="card" style="width: 68rem;height: 35rem;">
+            <div class="card" style="width: 68rem;height: 43rem;">
                 <div class="card-video">
-                    <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen></iframe>
-                    
-                    <div class="card-content">
-                        <span class="card-title">{{vid_title}}</span>
-                        <br />
-                        <span class="card-channel-Title">{{channelTitle}}</span>
-                     
-                        <p> Average Sentiment Score: {{ave_sent_score}}</p>
+                    <form method="POST" action="/video_view" name="watch?v">
+                        <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </form>
+                    <span class="card-title">{{videoTitle}}</span>
+                    <br />
+                    <div class="channel-profile">
+                        <img class="rounded-circle" src="{{channelThumbnail}}" height="50">
+                        <span class="channel-Title">{{channelTitle}} </span>
                     </div>
-
-                    <br />
-                    <h4>Comments</h4>
-                    <br />
-                    {%for i in range(100)%}
-        
-                        <div class="comments">
-                    
-                        <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-                        <span><strong>{{authorDisplayname[i]}}</strong></span>
-                        <br />
-                        <span>{{textDisplay[i]}}</span>
-                        <br />
-                        <p>Sentiment Score: {{sent_score[i]}}</p>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card-content">
+    
+                                <span class="subscriberCount">
+                                    {{channelsubscriberCount}}
+                                    subscribers
+                                </span>
+                            </div>
                         </div>
-                       
-                        
-                    
-                    {%endfor%}
-
+    
+                        <div class="col-4">
+                            <span class="like">
+                                Likes
+                                {{likeCount}}
+                            </span>
+                        </div>
+    
+                        <div class="col-4">
+                            <div class="card-content">
+    
+                                <span class="ave_sent_score">
+                                    Average Sentiment Score: {{ave_sent_score}}
+    
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <span>
+                        {{commentCount}}
+                        Comments
+                    </span>
                 </div>
+                <br />
+                {%for i in range(100)%}
+    
+                <div class="comments">
+    
+                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                    <span><strong>{{authorDisplayname[i]}}</strong></span>
+                    <br />
+                    <div>{{textDisplay[i]}}</div>
+                    <br />
+                    <p>Sentiment Score: {{sent_score[i]}}</p>
+                </div>
+                {%endfor%}
             </div>
         </div>
     </main>
