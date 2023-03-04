@@ -1,23 +1,23 @@
 /* import lines for Google Font Library */
-@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 body { 
     overflow: hidden;
     font-family: 'Arimo', sans-serif; 
     display: flex;
-    row-gap: 25px;
     width: 100%;
+    flex-direction: column;
     min-height: 100vh;
-    background: rgb(231,227,227);
-    background: radial-gradient(circle, rgba(231,227,227,1) 0%, 
-        rgba(245,241,241,1) 30%, rgba(255,252,252,1) 47%, rgba(245,241,241,1) 65%, rgba(231,227,227,1) 100%);
+    background: radial-gradient(circle, rgb(247, 247, 247) 0%, 
+        rgb(255, 251, 251) 30%, rgba(255,252,252,1) 47%, rgba(245,241,241,1) 65%, rgba(231,227,227,1) 100%);
 }
 
 .top_header {
     background-color: #fff;
-    border-bottom: 1px solid #f2f2f2;
+    /** border-bottom: 1px solid #f2f2f2; **/
     display: flex;
+    top: 0;
+    right: 0;
     flex-direction: row;
     justify-content: center;
     height: 100px;
@@ -25,8 +25,20 @@ body {
     flex-shrink: 0;
     padding: 23px;
     position: fixed;
-    top: 0;
     width: 75%;
+}
+
+.bot_bar {
+    background-color: #ffff;
+    border-top: #d3d3d3;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    height: 100px;
+    width: 75%;
+    text-align: center;
+    padding: 23px;
 }
 
 .wrap {
@@ -116,8 +128,9 @@ body {
 
 .left_sidebar {
     width: 25%;
+    height: 720px;
     background-color: #ffffff;
-    border-right: 1px solid #f2f2f2;
+    /**border-right: 1px solid #f2f2f2; **/
 }
 
 .main_bar {
@@ -143,13 +156,17 @@ body {
     .top_header {
         width: 100%;
     }
+    .bot_bar {
+        width: 100%;
+    }
     
     .search_text {
         width: 500px;
     }
 }
 
-/* login content */
+/* ---  Area for All
+        Login Content --- */
 
 #loginPopup {
     background-color: #fff;
