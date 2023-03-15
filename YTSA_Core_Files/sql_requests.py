@@ -1,15 +1,31 @@
-import YTSA_Core_Files.sql_models as sql_models
-from YTSA_Core_Files.sql_models import db
+"""_summary_
+SQL request functions
+Returns:
+    _type_: _description_
+"""
 from time import gmtime, strftime
-
+import YTSA_Core_Files.sql_models
+from YTSA_Core_Files.sql_models import db
 
 def count_comment_entries(target_entry):
+    """_summary_
     # Return sum of pos, neg and neutral counts of comments.
+    Args:
+        target_entry (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return target_entry.negative_entries + target_entry.positive_entries + target_entry.neutral_entries
 
 
 def update_sentiment_average_channel(channel_name):
+    """_summary_
     # add channel if it does not exist.
+
+    Args:
+        channel_name (_type_): _description_
+    """
 
     if db.session.query(sql_models.Channels.id).filter_by(channel=channel_name).first() is None:
         date_today = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
@@ -34,12 +50,18 @@ def update_sentiment_average_channel(channel_name):
     target_channel.sentiment_score_average = avrg_sum / contributors
 
 def update_sentiment_average_video(target_entry, new_score):
+    """_summary_
     # Generic function to update any runnign sentiment score average
     # Can work for channel or per video (in top vids) scores
+    Args:
+        target_entry (_type_): _description_
+        new_score (_type_): _description_
+    """
+
     assert new_score >= -1 and new_score <= 1.0
-    curAvrg = target_entry.sentiment_score_average
+    cur_avrg = target_entry.sentiment_score_average
     entry_count = count_comment_entries(target_entry)
-    sum = (curAvrg * entry_count)
+    sum = (cur_avrg * entry_count)
     sum += new_score
     entry_count += 1
 
@@ -51,5 +73,10 @@ def update_sentiment_average_video(target_entry, new_score):
 
 
 def update_top_five():
+    """_summary_
     # Not implemented
+    Returns:
+        _type_: _description_
+    """
+
     return 0

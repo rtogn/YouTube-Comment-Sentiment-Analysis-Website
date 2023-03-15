@@ -1,12 +1,16 @@
+"""_summary_
+Main file of YTSA flask app
+Routes for each page are defined as well as boilerplate setup. 
+"""
 import os
 import requests
 import flask
-from flask import redirect, request, session
+from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 from YTSA_Core_Files import sql_admin_functions, sql_requests, sql_models
 from YTSA_Core_Files.sql_models import db
-from vader import sentScore, aveSentScore
+from vader import sent_score, ave_sent_score
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -23,6 +27,9 @@ with app.app_context():
 
 @app.route('/')
 def index():
+    """_summary_
+    Route to base page of website
+    """
     # Set default username if has not logged in yet to guest for display.
     if not session:
         session['user'] = 'Guest'
@@ -37,6 +44,9 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
+    """_summary_
+    Route to bare login page for testing (will remove later in favor of popup)
+    """
     message = "Welcome to the YTSA!"
 
     if flask.request.method == "POST":
@@ -55,7 +65,7 @@ def login_page():
             session['user'] = db_user.user_name
             # Manually set modified to true https://flask.palletsprojects.com/en/2.2.x/api/?highlight=session#flask.session
             session.modified = True
-        except:
+        except AttributeError:
             print("User not found in table")
             success = False
 
@@ -73,27 +83,36 @@ def login_page():
 
 
 # this function is for converting large number of likes, comments and subscribers to 1.4K or 2.5M
-def numbersuffix(number):
+def number_suffix(number):
+    """_summary_
     # suffixes i.e million = m or thousand = K
+    Args:
+        number (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     suffixes = ['', 'K', 'M', 'B', 'T']
-    index = 0
-    while number >= 1000 and index < len(suffixes) - 1:
+    index_suffix = 0
+    while number >= 1000 and index_suffix < len(suffixes) - 1:
         number /= 1000.0
-        index += 1
-    return f"{number:,.1f}{suffixes[index]}"
+        index_suffix += 1
+    return f"{number:,.1f}{suffixes[index_suffix]}"
 
 
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
-
+    """_summary_
+    Route to search results page
+    """
     max_result = 6
-    videoId = []
-    videoTitle = []
-    videoThumbnail = []
-    channelId = []
-    channelTitle = []
-    channelThumbnail = []
-    channelsubscriberCount = []
+    video_id = []
+    video_title = []
+    video_thumbnail = []
+    channel_id = []
+    channel_title = []
+    channel_thumbnail = []
+    channel_subscriber_count = []
 
     form_data = flask.request.args
 
@@ -108,98 +127,101 @@ def search_results():
         "key": APIKEY
 
     }
-    responseSearch = requests.get(search_url, search_params)
+    response_search = requests.get(search_url, search_params, timeout=30)
     # print(responseSearch.text)
 
-    responseSearch = responseSearch.json()
+    response_search = response_search.json()
 
     for i in range(max_result):
 
         try:
-            channelId.append(
-                responseSearch["items"][i]['snippet']['channelId'])
-        except:
+            channel_id.append(
+                response_search["items"][i]['snippet']['channelId'])
+        except AttributeError:
             print("no channelid")
 
         try:
-            videoId.append(responseSearch["items"][i]['id']['videoId'])
-        except:
+            video_id.append(response_search["items"][i]['id']['videoId'])
+        except AttributeError:
             print("no videoid")
         try:
-            videoTitle.append(responseSearch["items"][i]['snippet']['title'])
-        except:
+            video_title.append(response_search["items"][i]['snippet']['title'])
+        except AttributeError:
             print("no videotitle")
         try:
-            videoThumbnail.append(responseSearch["items"][i]
+            video_thumbnail.append(response_search["items"][i]
                                   ['snippet']['thumbnails']['high']['url'])
-        except:
+        except AttributeError:
             print("no video thumbnail")
 
-    print(channelId)
+    print(channel_id)
 
     channel_url = "https://www.googleapis.com/youtube/v3/channels?"
     channel_params = {
-        "id": ','.join(channelId),
+        "id": ','.join(channel_id),
         "part": "snippet, statistics",
         "key": APIKEY,
 
     }
-    responseChannel = requests.get(channel_url, channel_params)
-    print(responseChannel.text)
+    response_channel = requests.get(channel_url, channel_params, timeout=30)
+    print(response_channel.text)
 
-    responseChannel = responseChannel.json()
+    response_channel = response_channel.json()
 
-    for x in range(len(channelId)):
-
-        try:
-            channelTitle.append(
-                responseChannel["items"][x]['snippet']['title'])
-        except:
-            channelTitle.append("no title")
+    for x in range(len(channel_id)):
 
         try:
-            channelThumbnail.append(responseChannel["items"][x]
+            channel_title.append(
+                response_channel["items"][x]['snippet']['title'])
+        except AttributeError:
+            channel_title.append("no title")
+
+        try:
+            channel_thumbnail.append(response_channel["items"][x]
                                     ['snippet']['thumbnails']['default']['url'])
-        except:
-            channelThumbnail.append("no thumbnail")
+        except AttributeError:
+            channel_thumbnail.append("no thumbnail")
 
         try:
-            channelsubscriberCount.append(numbersuffix(float(
-                responseChannel["items"][x]['statistics']['subscriberCount'])))
-        except:
-            channelsubscriberCount.append("no subscriber")
+            channel_subscriber_count.append(number_suffix(float(
+                response_channel["items"][x]['statistics']['subscriberCount'])))
+        except AttributeError:
+            channel_subscriber_count.append("no subscriber")
 
     return flask.render_template(
         "search_results.html",
 
-        videoId=videoId,
-        videoTitle=videoTitle,
-        channelId=channelId,
-        videoThumbnail=videoThumbnail,
-        channelTitle=channelTitle,
-        channelThumbnail=channelThumbnail,
-        channelsubscriberCount=channelsubscriberCount,
+        videoId=video_id,
+        videoTitle=video_title,
+        channelId=channel_id,
+        videoThumbnail=video_thumbnail,
+        channelTitle=channel_title,
+        channelThumbnail=channel_thumbnail,
+        channelsubscriberCount=channel_subscriber_count,
 
     )
 
 
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
+    """_summary_
+    Route to Video view page
+    """
     max_comments = 100
 
-    videoTitle = []
-    channelTitle = []
-    subscriberCount = []
-    commentCount = []
-    likeCount = []
-    channelThumbnail = []
-    channelsubscriberCount = []
-    channelId = []
-    authorDisplayname = []
-    authorProfileImageUrl = []
-    textDisplay = []
-    sent_score = []
-    ave_sent_score = []
+    video_title = []
+    channel_title = []
+    subscriber_count = []
+    comment_count = []
+    like_count = []
+    channel_thumbnail = []
+    channelsub_scriber_count = []
+    channel_id = []
+    author_display_name = []
+    author_profile_image_url = []
+    text_display = []
+    sent_scores = []
+    ave_sent_scores = []
 
     form_data = flask.request.args
     # print("\n\n\n")
@@ -216,58 +238,58 @@ def video_view():
         "key": APIKEY,
 
     }
-    responseVideo = requests.get(video_url, video_params)
+    response_video = requests.get(video_url, video_params, timeout=30)
     # print(responseVideo.text)
-    responseVideo = responseVideo.json()
+    response_video = response_video.json()
 
     try:
-        videoTitle = responseVideo["items"][0]['snippet']['title']
-    except:
+        video_title = response_video["items"][0]['snippet']['title']
+    except AttributeError:
         print("no title")
 
     try:
-        channelId = responseVideo["items"][0]['snippet']['channelId']
-    except:
+        channel_id = response_video["items"][0]['snippet']['channelId']
+    except AttributeError:
         print("no channelid")
 
     try:
-        commentCount = numbersuffix(float(
-            responseVideo["items"][0]['statistics']['commentCount']))
-    except:
+        comment_count = number_suffix(float(
+            response_video["items"][0]['statistics']['commentCount']))
+    except AttributeError:
         print("")
 
     try:
-        likeCount = numbersuffix(float(
-            responseVideo["items"][0]['statistics']['likeCount']))
-    except:
+        like_count = number_suffix(float(
+            response_video["items"][0]['statistics']['likeCount']))
+    except AttributeError:
         print("")
 
     channel_url = "https://www.googleapis.com/youtube/v3/channels?"
     channel_params = {
-        "id": channelId,
+        "id": channel_id,
         "part": "snippet, statistics",
         "key": APIKEY,
 
     }
-    responseChannelVid = requests.get(channel_url, channel_params)
-    print(responseChannelVid.text)
+    response_channel_vid = requests.get(channel_url, channel_params, timeout=30)
+    print(response_channel_vid.text)
 
-    responseChannelVid = responseChannelVid.json()
+    response_channel_vid = response_channel_vid.json()
 
     try:
-        channelTitle = responseChannelVid["items"][0]['snippet']['title']
-    except:
+        channel_title = response_channel_vid["items"][0]['snippet']['title']
+    except AttributeError:
         print("no title")
 
     try:
-        channelThumbnail = responseChannelVid["items"][0]['snippet']['thumbnails']['default']['url']
-    except:
+        channel_thumbnail = response_channel_vid["items"][0]['snippet']['thumbnails']['default']['url']
+    except AttributeError:
         print("no thumbnail")
 
     try:
-        channelsubscriberCount = numbersuffix(float(
-            responseChannelVid["items"][0]['statistics']['subscriberCount']))
-    except:
+        channelsub_scriber_count = number_suffix(float(
+            response_channel_vid["items"][0]['statistics']['subscriberCount']))
+    except AttributeError:
         print("no subscriber")
 
     comments_url = "https://www.googleapis.com/youtube/v3/commentThreads?"
@@ -280,37 +302,37 @@ def video_view():
         "order": 'relevance'
 
     }
-    responseComments = requests.get(comments_url, comments_params)
+    response_comments = requests.get(comments_url, comments_params, timeout=30)
     # print(responseComments.text)
 
-    responseComments = responseComments.json()
+    response_comments = response_comments.json()
 
     for i in range(max_comments):
 
         try:
-            authorProfileImageUrl.append(
-                responseComments["items"][i][
+            author_profile_image_url.append(
+                response_comments["items"][i][
                     'snippet']['topLevelComment']['snippet']['authorProfileImageUrl'])
-        except:
+        except AttributeError:
             print("no profile")
 
         try:
-            authorDisplayname.append(
-                responseComments["items"][i]['snippet']['topLevelComment'][
+            author_display_name.append(
+                response_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['authorDisplayName'])
-        except:
+        except AttributeError:
             print("no author")
 
         try:
-            textDisplay.append(
-                responseComments["items"][i]['snippet']['topLevelComment'][
+            text_display.append(
+                response_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['textDisplay'])
-            sent_score.append(sentScore(responseComments["items"][i]['snippet']['topLevelComment'][
+            sent_scores.append(sent_score(response_comments["items"][i]['snippet']['topLevelComment'][
                 'snippet']['textDisplay']))
-        except:
+        except AttributeError:
             print("")
 
-    ave_sent_score = aveSentScore(textDisplay)
+    ave_sent_scores = ave_sent_score(text_display)
 
     # print(textDisplay)
     # print(authorDisplayname)
@@ -318,25 +340,28 @@ def video_view():
     return flask.render_template(
         "video_view.html",
         videoId=query,
-        videoTitle=videoTitle,
-        subscriberCount=subscriberCount,
-        commentCount=commentCount,
-        likeCount=likeCount,
-        channelThumbnail=channelThumbnail,
-        channelsubscriberCount=channelsubscriberCount,
-        channelId=channelId,
-        channelTitle=channelTitle,
-        authorDisplayname=authorDisplayname,
-        authorProfileImageUrl=authorProfileImageUrl,
-        textDisplay=textDisplay,
-        sent_score=sent_score,
-        ave_sent_score=ave_sent_score
+        videoTitle=video_title,
+        subscriberCount=subscriber_count,
+        commentCount=comment_count,
+        likeCount=like_count,
+        channelThumbnail=channel_thumbnail,
+        channelsubscriberCount=channelsub_scriber_count,
+        channelId=channel_id,
+        channelTitle=channel_title,
+        authorDisplayname=author_display_name,
+        authorProfileImageUrl=author_profile_image_url,
+        textDisplay=text_display,
+        sent_score=sent_scores,
+        ave_sent_score=ave_sent_scores
 
     )
 
 
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
+    """_summary_
+    Route to SQL Demo Page
+    """
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sql_models.Video_Info).filter_by(
