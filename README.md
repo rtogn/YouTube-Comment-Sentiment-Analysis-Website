@@ -80,6 +80,9 @@ The following linting exceptions are applied:
 2. vader.py: protected-access  
 	This section includes ssl calls for setup that are unncessiarily flagging under pylint
 
+3. main.py->function video_view(): disable=too-many-statements
+	This is a very long routing function that involves a lot of API information. The current plan is to attempt a refactor but it has been placed on disable for now for linting. 
+
 
 # Setup 
 Index:  
