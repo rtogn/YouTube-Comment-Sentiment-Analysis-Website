@@ -331,7 +331,8 @@ def video_view():
 
         try:
             vid_dict["text_display"].append(
-               response_comments["items"][i]['snippet']['topLevelComment']['snippet']['textDisplay'])
+               response_comments["items"][i]['snippet']['topLevelComment']\
+                   ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
                 sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']\
