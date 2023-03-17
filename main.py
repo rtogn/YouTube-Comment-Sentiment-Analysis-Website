@@ -219,7 +219,7 @@ def video_view():
         "channel_title": [],
         "subscriber_count": [],
         "comment_count": [],
-        "like_count": [],
+        "like_count": "",
         "channel_thumbnail": [],
         "channelsub_scriber_count": [],
         "channel_id": [],
@@ -330,7 +330,7 @@ def video_view():
             print("no author")
 
         try:
-            vid_dict["text_display"].append(
+            vid_dict["text_display"].append(\
                response_comments["items"][i]['snippet']['topLevelComment']\
                    ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
@@ -341,7 +341,6 @@ def video_view():
             print("")
 
     ave_sent_scores = ave_sent_score(vid_dict["text_display"])
-    print(ave_sent_scores) # Cheating
     # print(textDisplay)
     # print(authorDisplayname)
 
@@ -360,7 +359,7 @@ def video_view():
         authorProfileImageUrl=vid_dict["author_profile_image_url"],
         textDisplay=vid_dict["text_display"],
         sent_score=vid_dict["sent_scores"],
-        ave_sent_score=vid_dict["ave_sent_scores"]
+        ave_sent_score=ave_sent_scores
     )
 
 
