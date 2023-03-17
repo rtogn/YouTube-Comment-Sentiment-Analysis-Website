@@ -1,5 +1,5 @@
 """_summary_
-Administartive functions for managing the database 
+Administartive functions for managing the database
 such as adding random data for testing.
 """
 import random as rand

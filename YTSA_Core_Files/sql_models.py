@@ -64,7 +64,7 @@ class VideoCategories(db.Model):
 class Channels(db.Model):
     # pylint: disable=too-few-public-methods
     """_summary_
-    # Channel updated on video classificaton. Categories are added and keep a running average 
+    # Channel updated on video classificaton. Categories are added and keep a running average
     # of sentiment score (same as by category)
     Args:
         db (_type_): _description_

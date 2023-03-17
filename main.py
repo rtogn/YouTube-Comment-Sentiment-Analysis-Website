@@ -1,6 +1,6 @@
 """_summary_
 Main file of YTSA flask app
-Routes for each page are defined as well as boilerplate setup. 
+Routes for each page are defined as well as boilerplate setup.
 """
 import os
 import requests
@@ -71,10 +71,10 @@ def login_page():
             success = False
 
         # Send update with username for message or redirect back to main page
-        # Else update message to reflect bad login.
+        # Else update message to reflect bad lgin.
         if success:
             return redirect("/", code=302)
-               
+
         message = "Invalid login credentials"
 
     return flask.render_template(
@@ -115,7 +115,7 @@ def search_results():
         "channel_id": [],
         "channel_title": [],
         "channel_thumbnail": [],
-        "channel_subscriber_count": [] 
+        "channel_subscriber_count": []
     }
 
     form_data = flask.request.args
@@ -129,7 +129,7 @@ def search_results():
         "type": "video",
         "maxResults": max_result,
         "key": APIKEY
-       
+
     }
     response_search = requests.get(search_url, search_params, timeout=30)
     response_search = response_search.json()
@@ -143,7 +143,7 @@ def search_results():
             print("no channelid")
 
         try:
-            vid_dict["video_id"].append(      
+            vid_dict["video_id"].append(
                 response_search["items"][i]['id']['videoId'])
         except IndexError:
             print("no videoid")
@@ -165,7 +165,7 @@ def search_results():
         "id": ','.join(vid_dict["channel_id"]),
         "part": "snippet, statistics",
         "key": APIKEY,
-       
+
     }
     response_channel = requests.get(channel_url, channel_params, timeout=30)
     print(response_channel.text)
@@ -208,12 +208,12 @@ def search_results():
 
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
-    # pylint: disable too-many-statements
+    # pylint: disable=too-many-statements
     """_summary_
     Route to Video view page
     """
     max_comments = 100
-  
+
     vid_dict = {
         "video_title": [],
         "channel_title": [],
@@ -244,7 +244,7 @@ def video_view():
         "part": 'snippet, statistics',
         "type": "video",
         "key": APIKEY,
-       
+
     }
     response_video = requests.get(video_url, video_params, timeout=30)
     response_video = response_video.json()
@@ -361,8 +361,8 @@ def video_view():
         sent_score=vid_dict["sent_scores"],
         ave_sent_score=vid_dict["ave_sent_scores"]
     )
-  
-   
+
+
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     """_summary_
