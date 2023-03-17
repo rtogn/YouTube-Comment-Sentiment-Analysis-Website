@@ -5,7 +5,7 @@ such as adding random data for testing.
 import random as rand
 from string import ascii_letters
 from time import gmtime, strftime
-import YTSA_Core_Files.sql_models as sql_models
+import YTSA_Core_Files.sql_models as sqm
 from YTSA_Core_Files.sql_models import db
 
 def generate_random_vid_id():
@@ -15,11 +15,10 @@ def generate_random_vid_id():
         _type_: _description_
     """
     video_id = ""
-    for i in range(0,11):
+    for _ in range(0,11):
         character = rand.choice(ascii_letters)
         video_id += character
     return video_id
-
 
 def sql_add_demo_data_random(num_entries):
     """_summary_
@@ -30,13 +29,13 @@ def sql_add_demo_data_random(num_entries):
     """
 
     test_channels = ["channel_00", "channel_01", "channel_02", "channel_04", "channel_05"]
-    for v in range(0, num_entries):
+    for entry in range(0, num_entries):
         vid_id = generate_random_vid_id()
         score = rand.random()
-        video_name = "Test_Video_" + str(v)
+        video_name = "Test_Video_" + str(entry)
         channel_name = rand.choice(test_channels)
         date_today = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
-        video = sql_models.Video_Info(video_id=vid_id,
+        video = sqm.Video_Info(video_id=vid_id,
                                       channel=channel_name,
                                       video_title=video_name,
                                       sentiment_score_average=score,
@@ -55,7 +54,7 @@ def sql_add_demo_data_testing():
     # Adds a few non-random entries for specific testing
     """
     print(str(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
-    video = sql_models.Video_Info(video_id="lfKfPfyJRdk",
+    video = sqm.Video_Info(video_id="lfKfPfyJRdk",
                                   channel="Belogus",
                                   video_title="A video",
                                   sentiment_score_average = 0.93,
@@ -65,7 +64,7 @@ def sql_add_demo_data_testing():
                                   date_updated = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
                                   )
 
-    video = sql_models.Users(user_name="Admin",
+    video = sqm.Users(user_name="Admin",
                              password="Admin",
                              email="admin@ytsa_gsu.com"
                              )

@@ -9,6 +9,7 @@ import nltk
 
 
 def setup_vader():
+    #pylint: disable=protected-access
     """_summary_
     Trying to get linter to behave with protected member issue with ssl calls.
     """
@@ -22,7 +23,7 @@ def setup_vader():
 
 setup_vader()
 
-# this function takes in a list of comments and outputs a corresponding 
+# this function takes in a list of comments and outputs a corresponding
 # list of sentiment scores ranging from -1 to 1
 def sent_score(comment):
     """_summary_
@@ -39,13 +40,13 @@ def sent_score(comment):
     # initalize the model
     sid = SentimentIntensityAnalyzer()
     # a dictionary s
-    s = sid.polarity_scores(comment)
+    polar_scores = sid.polarity_scores(comment)
 
-    for key, value in s.items():
+    for key, value in polar_scores.items():
         if key == "compound":
             score = value
 
-    # OPTIONAL could use to return a tuple of the comments 
+    # OPTIONAL could use to return a tuple of the comments
     # and the sentiment score to be put
     # into a database
     # comsAndScores = {}
