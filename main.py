@@ -39,8 +39,8 @@ def index():
     return flask.render_template(
         "index.html",
     )
-    
-    
+
+
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
     """_summary_
@@ -55,7 +55,7 @@ def login_page():
         db_user = None
         password_entered = form_data["password"]
         try:
-            # Attempt to get user name from table, 
+            # Attempt to get user name from table,
             # if not result in failure and display message
             db_user = db.session.execute(db.select(sqm.Users).filter_by(
                 user_name=form_data["user_name"])).scalar_one()
@@ -64,7 +64,7 @@ def login_page():
             success = sql_admin_functions.validate_login(db_user, password_entered)
             # Add retreived username to sessoin
             session['user'] = db_user.user_name
-            # Manually set modified to true 
+            # Manually set modified to true
             session.modified = True
         except AttributeError:
             print("User not found in table")
@@ -74,7 +74,7 @@ def login_page():
         # Else update message to reflect bad login.
         if success:
             return redirect("/", code=302)
-        
+               
         message = "Invalid login credentials"
 
     return flask.render_template(
@@ -83,7 +83,7 @@ def login_page():
     )
 
 
-# this function is for converting large number of likes, 
+# this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
 def number_suffix(number):
     """_summary_
@@ -129,7 +129,7 @@ def search_results():
         "type": "video",
         "maxResults": max_result,
         "key": APIKEY
-        
+       
     }
     response_search = requests.get(search_url, search_params, timeout=30)
     response_search = response_search.json()
@@ -143,7 +143,7 @@ def search_results():
             print("no channelid")
 
         try:
-            vid_dict["video_id"].append(         
+            vid_dict["video_id"].append(      
                 response_search["items"][i]['id']['videoId'])
         except IndexError:
             print("no videoid")
@@ -165,7 +165,7 @@ def search_results():
         "id": ','.join(vid_dict["channel_id"]),
         "part": "snippet, statistics",
         "key": APIKEY,
-        
+       
     }
     response_channel = requests.get(channel_url, channel_params, timeout=30)
     print(response_channel.text)
@@ -208,11 +208,12 @@ def search_results():
 
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
+    # pylint: disable too-many-statements
     """_summary_
     Route to Video view page
     """
     max_comments = 100
-    
+  
     vid_dict = {
         "video_title": [],
         "channel_title": [],
@@ -243,7 +244,7 @@ def video_view():
         "part": 'snippet, statistics',
         "type": "video",
         "key": APIKEY,
-        
+       
     }
     response_video = requests.get(video_url, video_params, timeout=30)
     response_video = response_video.json()
@@ -330,7 +331,7 @@ def video_view():
 
         try:
             vid_dict["text_display"].append(
-                response_comments["items"][i]['snippet']['topLevelComment']['snippet']['textDisplay'])
+               response_comments["items"][i]['snippet']['topLevelComment']['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
                 sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']\
@@ -360,8 +361,8 @@ def video_view():
         sent_score=vid_dict["sent_scores"],
         ave_sent_score=vid_dict["ave_sent_scores"]
     )
-    
-    
+  
+   
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     """_summary_

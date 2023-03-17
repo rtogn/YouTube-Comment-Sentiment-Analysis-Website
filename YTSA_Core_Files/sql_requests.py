@@ -44,7 +44,7 @@ def update_sentiment_average_channel(channel_name):
         channel=channel_name)).scalar_one()
 
     # Get list of videos with that channel, then calculate average score based of those scores
-    vids = sqm.Video_Info.query.filter_by(channel=channel_name)
+    vids = sqm.VideoInfo.query.filter_by(channel=channel_name)
     contributors = vids.count()
     avrg_sum = 0
     for vid in vids:
@@ -60,7 +60,8 @@ def update_sentiment_average_video(target_entry, new_score):
         new_score (_type_): _description_
     """
 
-    assert new_score >= -1 and new_score <= 1.0
+    assert new_score >= -1
+    assert new_score <= 1.0
     cur_avrg = target_entry.sentiment_score_average
     entry_count = count_comment_entries(target_entry)
     sum_score = cur_avrg * entry_count

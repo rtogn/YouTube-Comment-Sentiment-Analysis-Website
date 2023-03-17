@@ -55,7 +55,7 @@ class VideoCategories(db.Model):
     Args:
         db (_type_): _description_
     """
-    # To update: current_sum = current_avrg * current_count. 
+    # To update: current_sum = current_avrg * current_count.
     # current_sum += new_score. average = current_sum/updated_count
     id = db.Column(db.Integer, primary_key=True)
     sentiment_score_average = db.Column(db.Float)
@@ -77,6 +77,6 @@ class Channels(db.Model):
     date_updated = db.Column(db.String, nullable=False)
 
 # Update with new tables (will not overwrite existing)
-# "Create tables that do not exist in the database 
+# "Create tables that do not exist in the database
 # by calling metadata.create_all() for all or some bind keys.
 # This does not update existing tables, use a migration library for that."

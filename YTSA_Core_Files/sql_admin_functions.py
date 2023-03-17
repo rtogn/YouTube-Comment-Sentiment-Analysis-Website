@@ -35,7 +35,7 @@ def sql_add_demo_data_random(num_entries):
         video_name = "Test_Video_" + str(entry)
         channel_name = rand.choice(test_channels)
         date_today = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
-        video = sqm.Video_Info(video_id=vid_id,
+        video = sqm.VideoInfo(video_id=vid_id,
                                       channel=channel_name,
                                       video_title=video_name,
                                       sentiment_score_average=score,
@@ -54,7 +54,7 @@ def sql_add_demo_data_testing():
     # Adds a few non-random entries for specific testing
     """
     print(str(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
-    video = sqm.Video_Info(video_id="lfKfPfyJRdk",
+    video = sqm.VideoInfo(video_id="lfKfPfyJRdk",
                                   channel="Belogus",
                                   video_title="A video",
                                   sentiment_score_average = 0.93,
