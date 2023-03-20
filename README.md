@@ -6,10 +6,11 @@
 2. [How To Use](#how-to-use)  
 3. [Timeline](#timeline)  
 4. [Technologies Used](#technologies-used)  
-5. [Setup](#setup)   
-6. [Citations](#citations)  
-7. [Special Thanks](#special-thanks)    
-8. [Contributors](#contributors)  
+5. [Linting Exceptions](#linting-exceptions)
+6. [Setup](#setup)   
+7. [Citations](#citations)  
+8. [Special Thanks](#special-thanks)    
+9. [Contributors](#contributors)  
 
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
@@ -71,6 +72,17 @@ Website interactivity etc
 		and an active discussion forum." -NLTK.org
 
 The sentiment analysis performed on comments is done using [VADER](https://www.nltk.org/api/nltk.sentiment.vader.html) (Hutto, C.J. & Gilbert, E.E. 2014) that is built into the NLTK library.
+
+# Linting Exceptions  
+The following linting exceptions are applied:
+1. sql_models.py: too-few-public-methods.   
+	This section includes SQL classes, not standard data classes so they do not need to follow all normal conventions of class structure
+2. vader.py: protected-access  
+	This section includes ssl calls for setup that are unncessiarily flagging under pylint
+
+3. main.py->function video_view(): disable=too-many-statements
+	This is a very long routing function that involves a lot of API information. The current plan is to attempt a refactor but it has been placed on disable for now for linting. 
+
 
 # Setup 
 Index:  
