@@ -1,3 +1,6 @@
+"""_summary_
+    mocked data for Api tests
+"""
 mocked_api_data = {
     "items": [
         {

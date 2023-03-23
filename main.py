@@ -297,7 +297,8 @@ def video_view():
         print("no title")
 
     try:
-        vid_dict["channel_thumbnail"] = response_channel_vid["items"][0]['snippet']['thumbnails']['default']['url']
+        vid_dict["channel_thumbnail"] = (response_channel_vid["items"][0]
+                                         ['snippet']['thumbnails']['default']['url'])
     except KeyError:
         print("no thumbnail")
 
