@@ -61,7 +61,8 @@ def login_page():
                 user_name=form_data["user_name"])).scalar_one()
             # If user is found in DB compare entered password to
             # what is stored to validate (after decrypting)
-            success = sql_admin_functions.validate_login(db_user, password_entered)
+            success = sql_admin_functions.validate_login(
+                db_user, password_entered)
             # Add retreived username to sessoin
             session['user'] = db_user.user_name
             # Manually set modified to true
@@ -120,6 +121,7 @@ def search_results():
 
     form_data = flask.request.args
 
+    # search for the query term
     query = form_data.get("term", "")
 
     search_url = "https://www.googleapis.com/youtube/v3/search?"
@@ -131,6 +133,7 @@ def search_results():
         "key": APIKEY
 
     }
+    # json response of the data
     response_search = requests.get(search_url, search_params, timeout=30)
     response_search = response_search.json()
 
@@ -141,6 +144,12 @@ def search_results():
                 response_search["items"][i]['snippet']['channelId'])
         except IndexError:
             print("no channelid")
+
+        try:
+            vid_dict["channel_title"].append(
+                response_search["items"][i]['snippet']['channelTitle'])
+        except IndexError:
+            print("no channelTitle")
 
         try:
             vid_dict["video_id"].append(
@@ -158,40 +167,40 @@ def search_results():
         except IndexError:
             print("no video thumbnail")
 
-    print(vid_dict["channel_id"])
+    # print(vid_dict["channel_id"])
 
-    channel_url = "https://www.googleapis.com/youtube/v3/channels?"
-    channel_params = {
-        "id": ','.join(vid_dict["channel_id"]),
-        "part": "snippet, statistics",
-        "key": APIKEY,
+    # channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+    # channel_params = {
+    #     "id": ','.join(vid_dict["channel_id"]),
+    #     "part": "snippet, statistics",
+    #     "key": APIKEY,
 
-    }
-    response_channel = requests.get(channel_url, channel_params, timeout=30)
-    print(response_channel.text)
+    # }
+    # response_channel = requests.get(channel_url, channel_params, timeout=30)
+    # # print(response_channel.text)
 
-    response_channel = response_channel.json()
+    # response_channel = response_channel.json()
 
-    for i in range(len(vid_dict["channel_id"])):
-        try:
-            vid_dict["channel_title"].append(
-                response_channel["items"][i]['snippet']['title'])
-        except IndexError:
-            vid_dict["channel_title"].append("no title")
+    # for i in range(len(vid_dict["channel_id"])):
+    #     try:
+    #         vid_dict["channel_title"].append(
+    #             response_channel["items"][i]['snippet']['title'])
+    #     except IndexError:
+    #         vid_dict["channel_title"].append("no title")
 
-        try:
-            vid_dict["channel_thumbnail"].append(
-                response_channel["items"][i]['snippet']['thumbnails']['default']['url'])
-        except IndexError:
-            vid_dict["channel_thumbnail"].append("no thumbnail")
+    #     try:
+    #         vid_dict["channel_thumbnail"].append(
+    #             response_channel["items"][i]['snippet']['thumbnails']['default']['url'])
+    #     except IndexError:
+    #         vid_dict["channel_thumbnail"].append("no thumbnail")
 
-        try:
-            vid_dict["channel_subscriber_count"].append(
-                number_suffix(
-                    float(
-                        response_channel["items"][i]['statistics']['subscriberCount'])))
-        except IndexError:
-            vid_dict["channel_subscriber_count"].append("no subscriber")
+    #     try:
+    #         vid_dict["channel_subscriber_count"].append(
+    #             number_suffix(
+    #                 float(
+    #                     response_channel["items"][i]['statistics']['subscriberCount'])))
+    #     except IndexError:
+    #         vid_dict["channel_subscriber_count"].append("no subscriber")
 
     return flask.render_template(
         "search_results.html",
@@ -200,8 +209,8 @@ def search_results():
         channelId=vid_dict["channel_id"],
         videoThumbnail=vid_dict["video_thumbnail"],
         channelTitle=vid_dict["channel_title"],
-        channelThumbnail=vid_dict["channel_thumbnail"],
-        channelsubscriberCount=vid_dict["channel_subscriber_count"],
+        # channelThumbnail=vid_dict["channel_thumbnail"],
+        # channelsubscriberCount=vid_dict["channel_subscriber_count"],
 
     )
 
@@ -229,7 +238,6 @@ def video_view():
         "sent_scores": [],
         "ave_sent_scores": []
     }
-
 
     form_data = flask.request.args
     # print("\n\n\n")
@@ -278,7 +286,8 @@ def video_view():
         "key": APIKEY,
 
     }
-    response_channel_vid = requests.get(channel_url, channel_params, timeout=30)
+    response_channel_vid = requests.get(
+        channel_url, channel_params, timeout=30)
     print(response_channel_vid.text)
     response_channel_vid = response_channel_vid.json()
 
@@ -288,8 +297,8 @@ def video_view():
         print("no title")
 
     try:
-        vid_dict["channel_thumbnail"] = response_channel_vid["items"][0]\
-            ['snippet']['thumbnails']['default']['url']
+        vid_dict["channel_thumbnail"] = (response_channel_vid["items"][0]
+                                         ['snippet']['thumbnails']['default']['url'])
     except KeyError:
         print("no thumbnail")
 
@@ -317,7 +326,7 @@ def video_view():
 
         try:
             vid_dict["author_profile_image_url"].append(
-                response_comments["items"][i]['snippet']['topLevelComment']\
+                response_comments["items"][i]['snippet']['topLevelComment']
                     ['snippet']['authorProfileImageUrl'])
         except IndexError:
             print("no profile")
@@ -330,13 +339,13 @@ def video_view():
             print("no author")
 
         try:
-            vid_dict["text_display"].append(\
-               response_comments["items"][i]['snippet']['topLevelComment']\
-                   ['snippet']['textDisplay'])
+            vid_dict["text_display"].append(
+                response_comments["items"][i]['snippet']['topLevelComment']
+                ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
                 sent_score(
-                    response_comments["items"][i]['snippet']['topLevelComment']\
-                        ['snippet']['textDisplay']))
+                    response_comments["items"][i]['snippet']['topLevelComment']
+                    ['snippet']['textDisplay']))
         except IndexError:
             print("")
 
@@ -386,12 +395,12 @@ def sql_playground_temporary():
     )
 
 
-app.run(
-    use_reloader=True,
-    debug=True
-)
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    app.run(
+        use_reloader=True,
+        debug=True
+    )
     print('Runing Main.py')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
