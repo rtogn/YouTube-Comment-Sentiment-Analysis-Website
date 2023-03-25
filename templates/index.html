@@ -12,21 +12,8 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-<script>
-		// Function to Display login area on click
-		function displayLogin (id) {
-			var x = document.getElementById(id);
-				x.style.display = 
-				((x.style.display != 'none') ? 'none' : 'block');
-		}
 
-		// Function to close/shorten Left Side Bar on-click
-		function trimSideBar (id) {
-			var x = document.getElementById(id);
-			x.style.di
-		}
-</script>
-
+	<script type="text/javascript" src="/functions.js"></script>
 </head>
 
 <body>
@@ -56,7 +43,7 @@
 			<hr class="divider">
 
 			<div class="buttons" id="buttons_text"  onclick="displayLogin('loginPopup')"><span class="bi bi-people-fill"></span> Login</div>
-			<div class="buttons" id="buttons_text" ><span class="bi bi-person-bounding-box"></span> Register</div>
+			<div class="buttons" id="buttons_text" onclick="displayReg('regPopup')"><span class="bi bi-person-bounding-box"></span> Register</div>
 			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> SavedVideos</div>
 
 			<hr class="divider">
@@ -88,7 +75,8 @@
 
 		<!-- login area -->
 		<div id="loginPopup">
-			<form>
+			<form action="/login.php" method="POST" id="user">
+				<button type="button" class="btn-close" aria-label="Close" onclick="closeLogin('loginPopup')"></button>
 				<div id="loginTitle">Login</div>
 					<label for="username" id="formtxt"><b>Username</b></label>
 					<input type="text" id="username" placeholder="Username" name="username" required>
@@ -99,6 +87,29 @@
 					<input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
 	
 					<button type="submit" id="submitBar">Submit</button>
+			</form>
+		</div>
+
+		<!-- login area -->
+		<div id="regPopup">
+			<form>
+				<button type="button" class="btn-close" aria-label="Close" onclick="closeReg('regPopup')"></button>
+				<div id="loginTitle">Register</div>
+				<div id="form-floating">
+					<input type="email" class="form-control" id="floatEmail" placeholder="email">
+					<label for="floatEmail"><b>Email Address</b></label>
+				</div>
+				<div id="form-floating">
+					<input type="username" class="form-control" id="floatEmail" placeholder="username">
+					<label for="floatEmail" id="formtxt"><b>Username</b></label>
+				</div>
+				<div id="form-floating">
+					<input type="password" class="form-control" id="floatPass" placeholder="password">
+					<label for="floatPass"><b>Password</b></label>
+				</div>
+				<input type="checkbox"><label for="checkbox" id="formtxt">I agree to donate my kidney's to the Sapce Cat's Team.</label>
+			
+				<button type="submit" id="submitBar">Submit</button>
 			</form>
 		</div>
 
