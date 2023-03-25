@@ -93,3 +93,27 @@
 .show {
     display: block;
   }
+
+
+/* register content */
+
+#regPopup {
+    background-color: #fff;
+    border: 1px solid #f2f2f2;
+    border-radius: 8%;
+    position: fixed;
+    display: none;
+    width: 500px;
+    height: 400px;
+    overflow: none;
+    padding: 20px;
+    top: 20%;
+    left: 50%;
+}
+
+
+#regPopup form {
+    display: block;
+    font-size: 15px;
+    font-weight: 200;
+}

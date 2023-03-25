@@ -1,0 +1,23 @@
+{
+  "name": "team-10-project-repo",
+  "version": "1.0.0",
+  "description": "<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>",
+  "main": "functions.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csc4351-f22/Team-10-Project-Repo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csc4351-f22/Team-10-Project-Repo/issues"
+  },
+  "homepage": "https://github.com/csc4351-f22/Team-10-Project-Repo#readme",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
