@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-	<script type="text/javascript" src="/functions.js"></script>
+	<script type="text/javascript" src="/static/functions.js"></script>
 </head>
 
 <body>
@@ -42,8 +42,8 @@
 
 			<hr class="divider">
 
-			<div class="buttons" id="buttons_text"  onclick="displayLogin('loginPopup')"><span class="bi bi-people-fill"></span> Login</div>
-			<div class="buttons" id="buttons_text" onclick="displayReg('regPopup')"><span class="bi bi-person-bounding-box"></span> Register</div>
+			<div class="buttons" id="buttons_text"  onclick="LoginFunctions.openLog('loginPopup')"><span class="bi bi-people-fill"></span> Login</div>
+			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')"><span class="bi bi-person-bounding-box"></span> Register</div>
 			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> SavedVideos</div>
 
 			<hr class="divider">
@@ -76,7 +76,7 @@
 		<!-- login area -->
 		<div id="loginPopup">
 			<form action="/login.php" method="POST" id="user">
-				<button type="button" class="btn-close" aria-label="Close" onclick="closeLogin('loginPopup')"></button>
+				<button type="button" class="btn-close" aria-label="Close" onclick="LoginFunctions.closeLog('loginPopup')"></button>
 				<div id="loginTitle">Login</div>
 					<label for="username" id="formtxt"><b>Username</b></label>
 					<input type="text" id="username" placeholder="Username" name="username" required>
@@ -93,7 +93,7 @@
 		<!-- login area -->
 		<div id="regPopup">
 			<form>
-				<button type="button" class="btn-close" aria-label="Close" onclick="closeReg('regPopup')"></button>
+				<button type="button" class="btn-close" aria-label="Close" onclick="LoginFunctions.closeReg('regPopup')"></button>
 				<div id="loginTitle">Register</div>
 				<div id="form-floating">
 					<input type="email" class="form-control" id="floatEmail" placeholder="email">
