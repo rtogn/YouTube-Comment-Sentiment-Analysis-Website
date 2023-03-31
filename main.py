@@ -1,12 +1,17 @@
+"""_summary_
+Main file of YTSA flask app
+Routes for each page are defined as well as boilerplate setup.
+"""
 import os
 import requests
 import flask
-from flask import redirect, request, session
+from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
-from YTSA_Core_Files import sql_admin_functions, sql_requests, sql_models
+from YTSA_Core_Files import sql_admin_functions, sql_requests
+from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sentScore, aveSentScore
+from vader import sent_score, ave_sent_score
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -20,8 +25,12 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 @app.route('/')
 def index():
+    """_summary_
+    Route to base page of website
+    """
     # Set default username if has not logged in yet to guest for display.
     if not session:
         session['user'] = 'Guest'
@@ -31,11 +40,13 @@ def index():
         "index.html",
     )
 
-# Login page with basic functions (there is a link on the sidebar from index)
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
+    """_summary_
+    Route to bare login page for testing
+    (will remove later in favor of popup)
+    """
     message = "Welcome to the YTSA!"
 
     if flask.request.method == "POST":
@@ -44,26 +55,28 @@ def login_page():
         db_user = None
         password_entered = form_data["password"]
         try:
-            # Attempt to get user name from table, if not result in failure and display message
-            db_user = db.session.execute(db.select(sql_models.Users).filter_by(
+            # Attempt to get user name from table,
+            # if not result in failure and display message
+            db_user = db.session.execute(db.select(sqm.Users).filter_by(
                 user_name=form_data["user_name"])).scalar_one()
-            # If user is found in DB compare entered password to what is stored to validate (after decrypting)
+            # If user is found in DB compare entered password to
+            # what is stored to validate (after decrypting)
             success = sql_admin_functions.validate_login(
                 db_user, password_entered)
             # Add retreived username to sessoin
             session['user'] = db_user.user_name
-            # Manually set modified to true https://flask.palletsprojects.com/en/2.2.x/api/?highlight=session#flask.session
+            # Manually set modified to true
             session.modified = True
-        except:
+        except AttributeError:
             print("User not found in table")
             success = False
 
         # Send update with username for message or redirect back to main page
-        # Else update message to reflect bad login.
+        # Else update message to reflect bad lgin.
         if success:
             return redirect("/", code=302)
-        else:
-            message = "Invalid login credentials"
+
+        message = "Invalid login credentials"
 
     return flask.render_template(
         "login.html",
@@ -71,162 +84,309 @@ def login_page():
     )
 
 
+# this function is for converting large number of likes,
+# comments and subscribers to 1.4K or 2.5M
+def number_suffix(number):
+    """_summary_
+    # suffixes i.e million = m or thousand = K
+    Args:
+        number (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    suffixes = ['', 'K', 'M', 'B', 'T']
+    index_suffix = 0
+    while number >= 1000 and index_suffix < len(suffixes) - 1:
+        number /= 1000.0
+        index_suffix += 1
+    return f"{number:,.1f}{suffixes[index_suffix]}"
+
+
 @app.route('/search_results', methods=["GET", "POST"])
 def search_results():
-
-    channelTitle = []
-    videoId = []
-    vid_title = []
-    vid_thumbnail = []
+    """_summary_
+    Route to search results page
+    """
+    max_result = 6
+    vid_dict = {
+        "video_id": [],
+        "video_title": [],
+        "video_thumbnail": [],
+        "channel_id": [],
+        "channel_title": [],
+        "channel_thumbnail": [],
+        "channel_subscriber_count": []
+    }
 
     form_data = flask.request.args
 
-    print("\n\n\n")
-    print(form_data)
-    print("\n\n\n")
-
+    # search for the query term
     query = form_data.get("term", "")
 
-    response = requests.get(
-        "https://www.googleapis.com/youtube/v3/search?",
-        params={"q": query, "part": "snippet", "type": "video",
-                "maxResults": 12, "key": APIKEY},
-    )
+    search_url = "https://www.googleapis.com/youtube/v3/search?"
+    search_params = {
+        "q": query,
+        "part": "snippet",
+        "type": "video",
+        "maxResults": max_result,
+        "key": APIKEY
 
-    response = response.json()
-    for i in range(12):
+    }
+    # json response of the data
+    response_search = requests.get(search_url, search_params, timeout=30)
+    response_search = response_search.json()
+
+    for i in range(max_result):
 
         try:
-            channelTitle.append(
-                response["items"][i]['snippet']['channelTitle'])
-        except:
-            print("")
+            vid_dict["channel_id"].append(
+                response_search["items"][i]['snippet']['channelId'])
+        except IndexError:
+            print("no channelid")
 
         try:
-            videoId.append(response["items"][i]['id']['videoId'])
-        except:
-            print("no video")
+            vid_dict["channel_title"].append(
+                response_search["items"][i]['snippet']['channelTitle'])
+        except IndexError:
+            print("no channelTitle")
+
         try:
-            vid_title.append(response["items"][i]['snippet']['title'])
-        except:
-            print("no title")
+            vid_dict["video_id"].append(
+                response_search["items"][i]['id']['videoId'])
+        except IndexError:
+            print("no videoid")
         try:
-            vid_thumbnail.append(response["items"][i]
-                                 ['snippet']['thumbnails']['high']['url'])
-        except:
-            print("no thumbnail")
+            vid_dict["video_title"].append(
+                response_search["items"][i]['snippet']['title'])
+        except IndexError:
+            print("no videotitle")
+        try:
+            vid_dict["video_thumbnail"].append(
+                response_search["items"][i]['snippet']['thumbnails']['high']['url'])
+        except IndexError:
+            print("no video thumbnail")
+
+    # print(vid_dict["channel_id"])
+
+    # channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+    # channel_params = {
+    #     "id": ','.join(vid_dict["channel_id"]),
+    #     "part": "snippet, statistics",
+    #     "key": APIKEY,
+
+    # }
+    # response_channel = requests.get(channel_url, channel_params, timeout=30)
+    # # print(response_channel.text)
+
+    # response_channel = response_channel.json()
+
+    # for i in range(len(vid_dict["channel_id"])):
+    #     try:
+    #         vid_dict["channel_title"].append(
+    #             response_channel["items"][i]['snippet']['title'])
+    #     except IndexError:
+    #         vid_dict["channel_title"].append("no title")
+
+    #     try:
+    #         vid_dict["channel_thumbnail"].append(
+    #             response_channel["items"][i]['snippet']['thumbnails']['default']['url'])
+    #     except IndexError:
+    #         vid_dict["channel_thumbnail"].append("no thumbnail")
+
+    #     try:
+    #         vid_dict["channel_subscriber_count"].append(
+    #             number_suffix(
+    #                 float(
+    #                     response_channel["items"][i]['statistics']['subscriberCount'])))
+    #     except IndexError:
+    #         vid_dict["channel_subscriber_count"].append("no subscriber")
 
     return flask.render_template(
         "search_results.html",
-
-        channelTitle=channelTitle,
-        videoId=videoId,
-        vid_title=vid_title,
-        vid_thumbnail=vid_thumbnail,
+        videoId=vid_dict["video_id"],
+        videoTitle=vid_dict["video_title"],
+        channelId=vid_dict["channel_id"],
+        videoThumbnail=vid_dict["video_thumbnail"],
+        channelTitle=vid_dict["channel_title"],
+        # channelThumbnail=vid_dict["channel_thumbnail"],
+        # channelsubscriberCount=vid_dict["channel_subscriber_count"],
 
     )
 
 
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
+    # pylint: disable=too-many-statements
+    """_summary_
+    Route to Video view page
+    """
     max_comments = 100
 
-    vid_title = []
-    channelTitle = []
-    channelId = []
-    authorDisplayname = []
-    authorProfileImageUrl = []
-    textDisplay = []
-    sent_score = []
-    
-    form_data = flask.request.args
+    vid_dict = {
+        "video_title": [],
+        "channel_title": [],
+        "subscriber_count": [],
+        "comment_count": [],
+        "like_count": "",
+        "channel_thumbnail": [],
+        "channelsub_scriber_count": [],
+        "channel_id": [],
+        "author_display_name": [],
+        "author_profile_image_url": [],
+        "text_display": [],
+        "sent_scores": [],
+        "ave_sent_scores": []
+    }
 
-    videoId = form_data.get("watch?v", "")
+    form_data = flask.request.args
+    # print("\n\n\n")
+    # print(form_data)
+    # print("\n\n\n")
+    query = form_data.get("watch?v", "")
+    # print(query)
 
     video_url = "https://www.googleapis.com/youtube/v3/videos?"
     video_params = {
-        "id": videoId,
-        "part": 'snippet',
+        "id": query,
+        "part": 'snippet, statistics',
         "type": "video",
         "key": APIKEY,
 
     }
-    response = requests.get(video_url, video_params)
-    response = response.json()
+    response_video = requests.get(video_url, video_params, timeout=30)
+    response_video = response_video.json()
 
-    vid_title = response["items"][0]['snippet']['title']
-    channelTitle = response["items"][0]['snippet']['channelTitle']
-    channelId = response["items"][0]['snippet']['channelId']
+    try:
+        vid_dict["video_title"] = response_video["items"][0]['snippet']['title']
+    except KeyError:
+        print("no title")
+
+    try:
+        vid_dict["channel_id"] = response_video["items"][0]['snippet']['channelId']
+    except KeyError:
+        print("no channelid")
+
+    try:
+        vid_dict["comment_count"] = number_suffix(float(
+            response_video["items"][0]['statistics']['commentCount']))
+    except KeyError:
+        print("")
+
+    try:
+        vid_dict["like_count"] = number_suffix(float(
+            response_video["items"][0]['statistics']['likeCount']))
+    except KeyError:
+        print("")
+
+    channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+    channel_params = {
+        "id": vid_dict["channel_id"],
+        "part": "snippet, statistics",
+        "key": APIKEY,
+
+    }
+    response_channel_vid = requests.get(
+        channel_url, channel_params, timeout=30)
+    print(response_channel_vid.text)
+    response_channel_vid = response_channel_vid.json()
+
+    try:
+        vid_dict["channel_title"] = response_channel_vid["items"][0]['snippet']['title']
+    except KeyError:
+        print("no title")
+
+    try:
+        vid_dict["channel_thumbnail"] = (response_channel_vid["items"][0]
+                                         ['snippet']['thumbnails']['default']['url'])
+    except KeyError:
+        print("no thumbnail")
+
+    try:
+        vid_dict["channelsub_scriber_count"] = number_suffix(float(
+            response_channel_vid["items"][0]['statistics']['subscriberCount']))
+    except KeyError:
+        print("no subscriber")
 
     comments_url = "https://www.googleapis.com/youtube/v3/commentThreads?"
     comments_params = {
-        "videoId": videoId,
+        "videoId": query,
         "part": "snippet",
         "key": APIKEY,
         "maxResults": max_comments,
         "textFormat": 'plainText',
         "order": 'relevance'
 
-
     }
-    r_comments = requests.get(comments_url, comments_params)
-    r_comments = r_comments.json()
+    response_comments = requests.get(comments_url, comments_params, timeout=30)
+    # print(responseComments.text)
+    response_comments = response_comments.json()
 
     for i in range(max_comments):
 
         try:
-            authorProfileImageUrl.append(
-                r_comments["items"][i][
-                    'snippet']['topLevelComment']['snippet']['authorProfileImageUrl'])
-        except:
+            vid_dict["author_profile_image_url"].append(
+                response_comments["items"][i]['snippet']['topLevelComment']
+                    ['snippet']['authorProfileImageUrl'])
+        except IndexError:
             print("no profile")
 
         try:
-            authorDisplayname.append(
-                r_comments["items"][i]['snippet']['topLevelComment'][
+            vid_dict["author_display_name"].append(
+                response_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['authorDisplayName'])
-        except:
+        except IndexError:
             print("no author")
 
         try:
-            textDisplay.append(
-                r_comments["items"][i]['snippet']['topLevelComment'][
-                    'snippet']['textDisplay'])
-            sent_score.append(sentScore(r_comments["items"][i]['snippet']['topLevelComment'][
-                    'snippet']['textDisplay']))
-        except:
+            vid_dict["text_display"].append(
+                response_comments["items"][i]['snippet']['topLevelComment']
+                ['snippet']['textDisplay'])
+            vid_dict["sent_scores"].append(
+                sent_score(
+                    response_comments["items"][i]['snippet']['topLevelComment']
+                    ['snippet']['textDisplay']))
+        except IndexError:
             print("")
 
-    ave_sent_score = aveSentScore(textDisplay)
-    
+    ave_sent_scores = ave_sent_score(vid_dict["text_display"])
+    # print(textDisplay)
+    # print(authorDisplayname)
+
     return flask.render_template(
         "video_view.html",
-        videoId=videoId,
-        vid_title=vid_title,
-        channelId=channelId,
-        channelTitle=channelTitle,
-        authorDisplayname=authorDisplayname,
-        authorProfileImageUrl=authorProfileImageUrl,
-        textDisplay=textDisplay,
-        sent_score = sent_score,
-        ave_sent_score = ave_sent_score
-        
-
+        videoId=query,
+        videoTitle=vid_dict["video_title"],
+        subscriberCount=vid_dict["subscriber_count"],
+        commentCount=vid_dict["comment_count"],
+        likeCount=vid_dict["like_count"],
+        channelThumbnail=vid_dict["channel_thumbnail"],
+        channelsubscriberCount=vid_dict["channelsub_scriber_count"],
+        channelId=vid_dict["channel_id"],
+        channelTitle=vid_dict["channel_title"],
+        authorDisplayname=vid_dict["author_display_name"],
+        authorProfileImageUrl=vid_dict["author_profile_image_url"],
+        textDisplay=vid_dict["text_display"],
+        sent_score=vid_dict["sent_scores"],
+        ave_sent_score=ave_sent_scores
     )
 
 
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
+    """_summary_
+    Route to SQL Demo Page
+    """
     if flask.request.method == "POST":
         form_data = flask.request.form
-        target_row = db.session.execute(db.select(sql_models.Video_Info).filter_by(
+        target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
             id=form_data["video_id"])).scalar_one()
         # target_row.sentiment_score_average=form_data["new_score"]
         sql_requests.update_sentiment_average_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sql_models.Video_Info.query.all()
+    vids = sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
@@ -235,12 +395,12 @@ def sql_playground_temporary():
     )
 
 
-app.run(
-    use_reloader=True,
-    debug=True
-)
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    app.run(
+        use_reloader=True,
+        debug=True
+    )
     print('Runing Main.py')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

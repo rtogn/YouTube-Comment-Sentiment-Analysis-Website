@@ -1,93 +1,165 @@
-/* import lines for Google Font Library */
-@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Arimo&display=swap');
+		
 
-body { 
-    overflow: hidden;
-    font-family: 'Arimo', sans-serif; 
-    display: flex;
-    row-gap: 25px;
-    width: 100%;
-    min-height: 100vh;
-    background: rgb(231,227,227);
-    background: radial-gradient(circle, rgba(231,227,227,1) 0%, 
-        rgba(245,241,241,1) 30%, rgba(255,252,252,1) 47%, rgba(245,241,241,1) 65%, rgba(231,227,227,1) 100%);
+html {
+height: 100%;
 }
 
-.top_header {
-    background-color: #fff;
-    border-bottom: 1px solid #f2f2f2;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 100px;
-    flex-grow: 1;
-    flex-shrink: 0;
-    padding: 23px;
-    position: fixed;
-    top: 0;
-    width: 75%;
+body {
+margin: 0;
+height: 100%;
 }
 
-.wrap {
-    display: flex;
+#container {
+height: 100%;
+display: flex;
 }
 
-.left_all {
-    margin: auto;
-    padding: 45px;
+#sidebar {
+background-color: #fff;
+display: inline-block;
+vertical-align: top;
+height: 100%;
+width: 20%;
+overflow: auto;
+padding: 25px;
 }
 
-.container {
-    margin-top: 100px;
+/* Start of Sidebar related content */
+
+.headerLeft {
+    white-space: nowrap;
+}
+
+.symbol {
+    color: #000;
+    font-size: 15px;
+    word-spacing: 1em;
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+}
+
+.headerLeft_content {
+    text-shadow: 1px 1px 1px rgb(159, 159, 159);
+    color: #161616;
+    word-spacing: 0.01em;
+    font-size: 15px;
+    display: inline-block;
+    font-weight: 200;
+    text-align: center;
 }
 
 .user_bubble {
-    border-radius: 65%;
+    border-radius: 20px;
     border: 1px solid #f2f2f2;
-    background-color: #f2f2f2;
-    height: 175px;
-    width: 175px;
-    margin: auto;
+    background-color: #ebebeb;
+    height: 125px;
+    width: 125px;
     text-align: center;
     padding: 10px;
-    font-size: 100px;
-    color: rgb(68, 68, 68);
+    margin: auto;
+    margin-top: 20px;
+}
+
+#user_bubbleIn {
+    font-size: 80px;
+    color: #fff;
 }
 
 .welcome_text {
     height: 50px;
     width: 200px;
-    margin: auto;
     margin-top: 25px;
     text-align: center;
     color: rgb(69, 69, 69);
-    font-size: 25px;
+    font-size: 18px;
+    text-align: center;
     padding: 10px;
+}
+
+.divider {
+   margin-top: 15px;
+   margin-bottom: 15px;
+    border-top: 1px solid #a2a2a2;
+    width: 100%;
+    padding: 0px;
 }
 
 .buttons {
-    border: 1px solid #f2f2f2;
-    height: 50px;
-    width: 200px;
-    margin: auto;
-    margin-top: 25px;
-    text-align: center;
+   background-color: #fff;
+    border-radius: 15px;
+    height: 40px;
+    width: 100%;
+}
+
+#buttons_text {
     color: rgb(68, 68, 68);
-    font-size: 20px;
-    padding: 10px;
+    font-size: 15px;
+    padding: 12px;
+    text-align: left;
+    word-spacing: 5em;
 }
 
 .buttons:hover, .search_text:focus {
-    border: 1.5px solid #a2a2a2;
+    background-color: #ebebeb;
 }
+
+#footer_area {
+    color: rgb(68, 68, 68);
+    font-size: 13px;
+    padding: 12px;
+    text-align: center;
+    word-spacing: 0.1ßem;
+}
+
+/* End of Sidebar related content */
+
+#content {
+background: radial-gradient(circle, rgb(247, 247, 247) 0%, 
+rgb(255, 251, 251) 30%, rgba(255,252,252,1) 47%, rgba(245,241,241,1) 65%, rgba(231,227,227,1) 100%);;
+display: inline-block;
+vertical-align: top;
+height: 100%;
+width: 80%;
+overflow: auto;
+color: #fff;
+}
+
+/* Start of main_Content related content */
+
+.top_header {
+    background-color: #fff;
+display: flex;
+top: 0;
+right: 0;
+flex-direction: row;
+justify-content: center;
+height: 100px;
+flex-grow: 1;
+flex-shrink: 0;
+padding: 23px;
+position: absolute;
+width: 80%;
+}
+
+.all_body {
+    position: absolute;
+    overflow: auto;
+    top: 100px;
+    bottom: 0px;
+}
+                
+.wrap {
+    display: flex;
+}		
 
 .search_text {
     background-color: #fff;
     border-radius: 35px;
     border: 1px solid gray;
     border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+        border-bottom-right-radius: 0px;
     width: 600px;
     height: 50px;
     padding: 15px 25px 15px 25px;
@@ -96,7 +168,7 @@ body {
 
 .search_text:hover, .search_text:focus {
     border: 1.5px solid #a2a2a2;
-}
+}		
 
 .search {
     background-color: rgb(223, 223, 223);
@@ -107,140 +179,131 @@ body {
     border-bottom-left-radius: 0px;
     height: 50px;
     width: 75px;
+    -webkit-text-stroke: 0.5px solid white;
 }
 
 .search:hover, .search:focus {
     border: 1.5px solid #a2a2a2;
-    background-color: #D9D9D9;
+    background-color: #ebebeb;
 }
 
-.left_sidebar {
-    width: 25%;
-    background-color: #ffffff;
-    border-right: 1px solid #f2f2f2;
-}
-
-.main_bar {
-    overflow-x: auto;
-    display: flex;
-    flex: 1;
-    height: 705px;
-    justify-content: center;
-}
-
-.all-text {
-    font-family: arial;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-
-@media only screen and (max-width: 992px) {
-    .left_sidebar {
-        display: none;
-    }
-    
-    .top_header {
-        width: 100%;
-    }
-    
-    .search_text {
-        width: 500px;
-    }
-}
-
-/* login content */
+/* Start of LoginPopup Stuff */
 
 #loginPopup {
-    background-color: #fff;
-    border: 1px solid #f2f2f2;
-    border-radius: 8%;
-    position: fixed;
-    display: none;
-    width: 350px;
-    height: 400px;
-    overflow: none;
-    padding: 20px;
-    top: 20%;
-    left: 50%;
+background-color: #fff;
+border: 1px solid #f2f2f2;
+border-radius: 8%;
+position: fixed;
+display: none;
+width: 350px;
+height: 400px;
+overflow: none;
+padding: 20px;
+top: 20%;
+left: 50%;
 }
 
 #loginPopup form {
-    display: block;
-    font-size: 15px;
-    font-weight: 200;
+display: block;
+font-size: 15px;
+font-weight: 200;
 }
 
 #loginBtn {
-    background-color: #000;
-    color: #fff;
-    padding: 5px 10px;
-    border: 1px solid;
-    cursor: pointer;
+background-color: #000;
+color: #fff;
+padding: 5px 10px;
+border: 1px solid;
+cursor: pointer;
 }
 
 #loginTitle {
-    color: #505050;
-    font-size: 35px;
-    font-weight: 500;
-    text-align: center;
-    font-family: 'Arimo';
-    margin-top: 15px;
-    margin-bottom: 15px;
+color: #505050;
+font-size: 35px;
+font-weight: 500;
+text-align: center;
+font-family: 'Arimo';
+margin-top: 15px;
+margin-bottom: 15px;
 
 }
 
 #formtxt {
-    margin-bottom: 0px;
-    margin-left: 5px;
-    font-weight: 200;
-    font-size: 15px;
-    font-family: 'Arimo', sans-serif;
+margin-bottom: 0px;
+margin-left: 5px;
+font-weight: 200;
+font-size: 15px;
+font-family: 'Arimo', sans-serif;
 }
 
 #username {
-    width: 100%;
-    border: 2px solid #f2f2f2;
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 15px;
-    font-size: 13px;
+width: 100%;
+border: 2px solid #f2f2f2;
+border-radius: 5px;
+padding: 5px;
+margin-bottom: 15px;
+font-size: 13px;
 }
 #username:hover, #username:focus {
-    border: 1.5px solid #dfdfdf;
-    background-color: #e4e4e4;
+border: 1.5px solid #dfdfdf;
+background-color: #e4e4e4;
 }
 
 #password {
-    width: 100%;
-    border: 2px solid #f2f2f2;
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 15px;
-    font-size: 13px;
+width: 100%;
+border: 2px solid #f2f2f2;
+border-radius: 5px;
+padding: 5px;
+margin-bottom: 15px;
+font-size: 13px;
 }
 #password:hover, #password:focus {
-    border: 1.5px solid #dfdfdf;
-    background-color: #e4e4e4;
+border: 1.5px solid #dfdfdf;
+background-color: #e4e4e4;
 }
 
 #submitBar {
-    width: 100%;
-    background-color: #e2d9d9;
-    border: 1px solid #f2f2f2;
-    border-radius: 15px;
-    height: 35px;
-    padding: 5px;
-    margin-top: 15px;
-    color: #000;
-    font-family: 'Arimo';
-    font-size: 13px;
+width: 100%;
+background-color: #e2d9d9;
+border: 1px solid #f2f2f2;
+border-radius: 15px;
+height: 35px;
+padding: 5px;
+margin-top: 15px;
+color: #000;
+font-family: 'Arimo';
+font-size: 13px;
 }
 #submitBar:hover, #submitBar:focus {
-    border: 1.5px solid #dfdfdf;
-    background-color: #c3bbbb;
+border: 1.5px solid #dfdfdf;
+background-color: #c3bbbb;
 }
 
 .show {
-    display: block;
-  }
+display: block;
+}
+
+/* End of LoginPopup Stuff */
+
+@media only screen and (max-width: 1000px) {
+#sidebar {
+display: none;
+}
+
+#content {
+    width: 100%;
+}
+
+.top_header {
+width: 100%;
+}
+
+.search_text {
+width: 500px;
+}
+
+#loginPopup {
+margin: auto;
+
+}
+}

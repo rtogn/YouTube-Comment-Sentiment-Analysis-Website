@@ -3,12 +3,14 @@
 
 # Table Of Contents
 1. [Project Summary](#project-summary)   
-2. [Timeline](#timeline)  
-3. [Technologies Used](#technologies-used)  
-4. [Setup](#setup)   
-5. [Citations](#citations)  
-6. [Special Thanks](#special-thanks)    
-7. [Contributors](#contributors)  
+2. [How To Use](#how-to-use)  
+3. [Timeline](#timeline)  
+4. [Technologies Used](#technologies-used)  
+5. [Linting Exceptions](#linting-exceptions)
+6. [Setup](#setup)   
+7. [Citations](#citations)  
+8. [Special Thanks](#special-thanks)    
+9. [Contributors](#contributors)  
 
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
@@ -16,6 +18,26 @@ How can we judge comments beyond likes and pedantic numbers? Is there a way to r
 The YTSA is an experimental site that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel or content category. 
 
 
+# How To Use  
+1.Type any search term you want into the bar at the top.   
+
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222918148-ce5a5c89-b4e8-4d64-8118-eeabc76dbdf6.gif" width=75% height=75%>  
+</div>
+
+
+
+2. Click on a video thumbnail on the search results page that will load. (If you do not see video thumbnails you likely set up your API key incorrectly, please revist the instructions for setup later in this document).  
+
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222877932-6bed19fc-48b6-4db9-9755-081d145f7108.png" width=50% height=50%>  
+</div>
+
+3. You will see a page displaying an embedded video. The sentiment score will be under the video and next to each individual comment. This score is between -1 and 1 where 1 is 'maximally positive' and -1 is 'maximally negative'.  
+
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/222877851-84297020-bb5a-4e69-a1fb-2231e3dacf2c.png" width=50% height=50%>  
+</div>  
 
 # Timeline
 This project is being done over 5 two-week sprints. The due dates for each are as follows:
@@ -50,6 +72,17 @@ Website interactivity etc
 		and an active discussion forum." -NLTK.org
 
 The sentiment analysis performed on comments is done using [VADER](https://www.nltk.org/api/nltk.sentiment.vader.html) (Hutto, C.J. & Gilbert, E.E. 2014) that is built into the NLTK library.
+
+# Linting Exceptions  
+The following linting exceptions are applied:
+1. sql_models.py: too-few-public-methods.   
+	This section includes SQL classes, not standard data classes so they do not need to follow all normal conventions of class structure
+2. vader.py: protected-access  
+	This section includes ssl calls for setup that are unncessiarily flagging under pylint
+
+3. main.py->function video_view(): disable=too-many-statements
+	This is a very long routing function that involves a lot of API information. The current plan is to attempt a refactor but it has been placed on disable for now for linting. 
+
 
 # Setup 
 Index:  

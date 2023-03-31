@@ -4,64 +4,131 @@
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+
+	<link href="/static/home.css" rel="stylesheet" />
 	<link href="/static/allpages.css" rel="stylesheet" />
+	<link href="/static/login_bar.css" rel="stylesheet" />
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<script>
+		function displayLogin (id) {
+			var x = document.getElementById(id);
+				x.style.display = 
+				((x.style.display != 'none') ? 'none' : 'block');
+		}
+</script>
 </head>
 
 <body>
-	<aside class="left_sidebar">
-		<div class="left_all">
-			<div class="user_bubble">GG</div>
-			<div class="welcome_text">Welcome, guest!</div>
-			<div class="buttons">button#1</div>
-			<div class="buttons">button#2</div>
-			<div class="buttons">button#3</div>
-			<div class="buttons">button#3</div>
-		</div>
-	</aside>
+	<div id="container">
+		<div id="sidebar">
+			<div class="headerLeft">
+				<div class="symbol">
+				<span class="bi bi-chevron-double-left"></span> 
+				<p class="headerLeft_content">Youtube Sentiment Analyzer</p>
+				</div>
+			</div>
 
-	<main class="main_bar">
+			<div class="user_bubble">
+				hello i am space for our hypothetical logo
+			</div>
+
+			<!-- Put user name under welcome message from session var. -->
+			<div class="welcome_text">Welcome, {{session['user']}}!</div><br>
+
+			<hr class="divider">
+
+				<div class="buttons" id="buttons_text" style="margin-top: 0px;" 
+				onclick="window.location.href='/';"><span class="bi bi-house-door-fill"></span> Home</div>
+				<div class="buttons" id="buttons_text" ><span class="bi bi-camera-video-fill"></span> TopVideos</div>
+				<div class="buttons" id="buttons_text" ><span class="bi bi-globe"></span> About</div>
+
+			<hr class="divider">
+
+			<div class="buttons" id="buttons_text"  onclick="displayLogin('loginPopup')"><span class="bi bi-people-fill"></span> Login</div>
+			<div class="buttons" id="buttons_text" ><span class="bi bi-person-bounding-box"></span> Register</div>
+			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> SavedVideos</div>
+
+			<hr class="divider">
+
+			<div id="footer_area">
+				&copy; 2023 Sapce Cats from Jupiter
+			</div>
+		</div>
+
+		<script>
+			function route_to(page) {
+				window.location.href = page
+			}
+		</script>
+
+
+	<div id="content">
 		<div class="top_header">
 			<form action="/search_results" method="GET" class="wrap">
 				<!-- search bar-->
 				<input type="text" name="term" class="search_text" placeholder="Search Youtube for Videos..">
-				<button type="submit" class="search">Submit</button>
+				<button type="submit" class="search"><span class="fa fa-search"></span></button>
 			</form>
 		</div>
-    
-	<div class="container">
-		<div class="row">
-			{%for i in range(12)%}
-			<div class="col-4">
-				<div class="card" style="width: 18rem;">
-					<div class="card-video">
-						<form method="GET" action="/video_view">
-							<button type="submit" name="watch?v" value="{{videoId[i]}}">
-								<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
-									<img width="285" height="250" src="{{vid_thumbnail[i]}}">
-								</a>
-							</button>
-						
-							<div class="card-content">
-								<span class="card-title">{{vid_title[i]}}</span>
-							</div>
-							<div class="channel-Title">
-								<span class="card-channel-Title">{{channelTitle[i]}}</span>
-					
-							</div>
-						</form>
+
+		<div class="all_body">
+			<div class="row">
+				{%for i in range(6)%}
+				<div class="col-4">
+					<div class="card" style="width: 19rem;">
+						<div class="card-video">
+							<form method="GET" action="/video_view">
+								<button type="submit" name="watch?v" value="{{videoId[i]}}">
+									<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+										<img width="285" height="250" src="{{videoThumbnail[i]}}">
+									</a>
+								</button>
+
+								<div class="card-content">
+									<span class="card-title">{{videoTitle[i]}}</span>
+									<br />
+									{{channelTitle[i]}}
+								</div>
+
+								
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			{%endfor%}
+				{%endfor%}
 			</div>
 		</div>
-	</div>
 	</main>
 
 	<aside class="right_sidebar">
 
 	</aside>
-
+	
+	<!--
+	<footer class="bot_bar">
+		some copyright info goes here
+	</footer>
+	-->
 </body>
+
+<!-- login area -->
+<div id="loginPopup">
+	<form>
+		<div id="loginTitle">Login</div>
+			<label for="username" id="formtxt"><b>Username</b></label>
+			<input type="text" id="username" placeholder="Username" name="username" required>
+			
+			<label for="password" id="formtxt"><b>Password</b></label>
+			<input type="password" id="password" placeholder="Password" name="password" required>
+
+			<input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
+
+			<button type="submit" id="submitBar">Submit</button>
+	</form>
+</div>
 
 </html>
