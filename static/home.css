@@ -52,8 +52,8 @@ padding: 25px;
 
 .user_bubble {
     border-radius: 20px;
-    border: 1px solid #f2f2f2;
-    background-color: #ebebeb;
+    border: 0px solid #f2f2f2;
+    background-color: white;
     height: 125px;
     width: 125px;
     text-align: center;
@@ -306,4 +306,8 @@ width: 500px;
 margin: auto;
 
 }
+img.two {
+    height: 50%;
+    width: 50%;
+  }
 }
