@@ -6,6 +6,7 @@ Returns:
 from time import gmtime, strftime
 import YTSA_Core_Files.sql_models as sqm
 from YTSA_Core_Files.sql_models import db
+from sqlalchemy import desc
 
 def count_comment_entries(target_entry):
     """_summary_
@@ -53,7 +54,7 @@ def update_sentiment_average_channel(channel_name):
 
 def update_sentiment_average_video(target_entry, new_score):
     """_summary_
-    # Generic function to update any runnign sentiment score average
+    # Generic function to update any running sentiment score average of a video
     # Can work for channel or per video (in top vids) scores
     Args:
         target_entry (_type_): _description_
@@ -71,16 +72,19 @@ def update_sentiment_average_video(target_entry, new_score):
     # update average and count of contributing entries
     target_entry.sentiment_score_average = sum_score / entry_count
     target_entry.entry_count = entry_count
-    # Update overall score for that channel
+    # Update overall score for that channel with this videos score.
     # (if this bogs time down queue it when the DB starts or periodically.
     update_sentiment_average_channel(target_entry.channel)
 
 
 def update_top_five():
     """_summary_
-    # Not implemented
+    Returns top 5 videos from all video tables by sentiment score.
     Returns:
-        _type_: _description_
+        _type_: query object, iterable
     """
+    # Get list of videos with that channel, then calculate average score based of those scores
+    vids = db.session.execute(db.select(sqm.VideoInfo).\
+        order_by(desc(sqm.VideoInfo.sentiment_score_average))).scalars().all()[:5]
 
-    return 0
+    return vids

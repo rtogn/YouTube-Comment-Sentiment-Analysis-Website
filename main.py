@@ -377,6 +377,7 @@ def sql_playground_temporary():
     """_summary_
     Route to SQL Demo Page
     """
+    #sql_admin_functions.sql_add_demo_data_random(50)
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
@@ -386,7 +387,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sqm.VideoInfo.query.all()
+    vids = sql_requests.update_top_five() #sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
