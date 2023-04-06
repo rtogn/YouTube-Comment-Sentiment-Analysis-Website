@@ -436,6 +436,10 @@ display: block;
         padding: 25px;
     }
 
+    .all_body {
+        height: 68%;
+    }
+
     #loginPopup {
         width: 90%;
         height: 50%;
