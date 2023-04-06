@@ -5,7 +5,7 @@ Routes for each page are defined as well as boilerplate setup.
 import os
 import requests
 import flask
-from flask import redirect, session
+from flask import redirect, session, request
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 from YTSA_Core_Files import sql_admin_functions, sql_requests
@@ -21,7 +21,7 @@ app.config.update(SECRET_KEY='12345')  # Key required for flask.session
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_App.db"
 db.init_app(app)
 
-# Create tabels if empty
+# Create tables if empty
 with app.app_context():
     db.create_all()
 
@@ -41,7 +41,7 @@ def index():
     )
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -49,6 +49,7 @@ def login_page():
     """
     message = "Welcome to the YTSA!"
 
+    # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
         # Get pass string entered into form
@@ -76,6 +77,22 @@ def login_page():
             return redirect("/", code=302)
 
         message = "Invalid login credentials"
+    
+    # REGISTER STUFF
+    if request.method == "POST":
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+
+        # attempt to add data to database
+        new_login = db(email=email, user_name=username, password=password)
+        try:
+            db.session.add(new_login)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "There was an error adding your information into the database"
+    
 
     return flask.render_template(
         "login.html",
@@ -384,7 +401,6 @@ def sql_playground_temporary():
         num_vids=num_vids,
         vids=vids
     )
-
 
 app.run(
     use_reloader=True,
