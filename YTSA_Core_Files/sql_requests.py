@@ -4,9 +4,9 @@ Returns:
     _type_: _description_
 """
 from time import gmtime, strftime
+from sqlalchemy import desc
 import YTSA_Core_Files.sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from sqlalchemy import desc
 
 def count_comment_entries(target_entry):
     """_summary_
