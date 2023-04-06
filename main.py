@@ -5,7 +5,7 @@ Routes for each page are defined as well as boilerplate setup.
 import os
 import requests
 import flask
-from flask import redirect, session, request
+from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 from YTSA_Core_Files import sql_admin_functions, sql_requests
@@ -48,6 +48,7 @@ def login_page():
     (will remove later in favor of popup)
     """
     message = "Welcome to the YTSA!"
+
     # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
@@ -76,6 +77,11 @@ def login_page():
             return redirect("/", code=302)
 
         message = "Invalid login credentials"
+
+    return flask.render_template (
+        "login.html",
+        Login_message = message
+    )
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
