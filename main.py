@@ -48,7 +48,6 @@ def login_page():
     (will remove later in favor of popup)
     """
     message = "Welcome to the YTSA!"
-
     # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
@@ -77,28 +76,6 @@ def login_page():
             return redirect("/", code=302)
 
         message = "Invalid login credentials"
-    
-    # REGISTER STUFF
-    if request.method == "POST":
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
-
-        # attempt to add data to database
-        new_login = db(email=email, user_name=username, password=password)
-        try:
-            db.session.add(new_login)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "There was an error adding your information into the database"
-    
-
-    return flask.render_template(
-        "login.html",
-        login_message=message
-    )
-
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
