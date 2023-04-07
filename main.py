@@ -21,7 +21,7 @@ app.config.update(SECRET_KEY='12345')  # Key required for flask.session
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_App.db"
 db.init_app(app)
 
-# Create tabels if empty
+# Create tables if empty
 with app.app_context():
     db.create_all()
 
@@ -41,7 +41,7 @@ def index():
     )
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -49,6 +49,7 @@ def login_page():
     """
     message = "Welcome to the YTSA!"
 
+    # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
         # Get pass string entered into form
@@ -78,11 +79,10 @@ def login_page():
 
         message = "Invalid login credentials"
 
-    return flask.render_template(
+    return flask.render_template (
         "login.html",
-        login_message=message
+        Login_message = message
     )
-
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M

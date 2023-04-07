@@ -56,15 +56,8 @@ padding: 25px;
     background-color: #ebebeb;
     height: 125px;
     width: 125px;
-    text-align: center;
-    padding: 10px;
     margin: auto;
     margin-top: 20px;
-}
-
-#user_bubbleIn {
-    font-size: 80px;
-    color: #fff;
 }
 
 .welcome_text {
@@ -103,6 +96,11 @@ padding: 25px;
 
 .buttons:hover, .search_text:focus {
     background-color: #ebebeb;
+}
+
+.nav_text {
+    word-spacing: 0.5px;
+    color: black;
 }
 
 #footer_area {
@@ -147,7 +145,7 @@ width: 80%;
     position: absolute;
     overflow: auto;
     top: 100px;
-    bottom: 0px;
+    bottom: 15px;
 }
                 
 .wrap {
@@ -159,7 +157,7 @@ width: 80%;
     border-radius: 35px;
     border: 1px solid gray;
     border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
     width: 600px;
     height: 50px;
     padding: 15px 25px 15px 25px;
@@ -193,14 +191,11 @@ width: 80%;
 background-color: #fff;
 border: 1px solid #f2f2f2;
 border-radius: 8%;
-position: fixed;
 display: none;
 width: 350px;
 height: 400px;
 overflow: none;
 padding: 20px;
-top: 20%;
-left: 50%;
 }
 
 #loginPopup form {
@@ -285,25 +280,203 @@ display: block;
 
 /* End of LoginPopup Stuff */
 
-@media only screen and (max-width: 1000px) {
-#sidebar {
-display: none;
+
+/* ALL THE SHRUNKEN STUFF */
+
+
+/* when page is shrunk only a little, adjust boostrap elements */
+
+@media only screen and (max-width: 1400px) {
+    .nav_text {
+        display: block;
+        font-size: 10px;
+        overflow-wrap: break-word;
+    }
+
+    .user_bubble {
+        width: 90%;
+        height: 90px;
+    }
+
+    .headerLeft_content {
+        display: none;
+    }
+
+    .buttons {
+         height: 75px;
+         margin-top: 15px;
+         margin-bottom: 15px;
+         width: 90%;
+     }
+
+    .welcome_text {
+        display: none;
+    }
+
+    #sidebar {
+        width: 150px;
+        overflow: hidden;
+    }
+
+    #footer_area {
+        display: none;
+    }
+
+    #buttons_text {
+        text-align: center;
+        padding: 15px;
+        margin: 0px;
+        overflow-wrap: break-word;
+    }
+
+    .top_header {
+        width: 90%;
+    }
+
+    #content {
+        width: 90%;
+    }
+
+    .symbol {
+        visibility: hidden;
+    }
 }
 
-#content {
-    width: 100%;
+/* when page is even more, get rid of nav text boostrap elements */
+
+@media only screen and (max-width: 1200px) {
+    .nav_text {
+        display: none;
+    }
+
+    .all_body {
+        height: 100%;
+    }
+
+    .headerLeft_content {
+        /*display: none;*/
+        visibility: hidden;
+    }
+
+    .user_bubble {
+        width: 90%;
+        height: 90px;
+    }
+
+    .buttons {
+         height: 75px;
+         margin-top: 15px;
+         margin-bottom: 15px;
+         width: 90%;
+         text-align: center;
+     }
+
+    .welcome_text {
+        display: none;
+    }
+
+    #sidebar {
+        width: 150px;
+        overflow: hidden;
+    }
+
+    #footer_area {
+        display: none;
+    }
+
+    #buttons_text {
+        text-align: center;
+        padding: 15px;
+        margin: 0px;
+        overflow-wrap: break-word;
+    }
+
+    .top_header {
+        width: 88%;
+    }
+
+    .search_text {
+        width: 100%;
+    }
+
+    #content {
+        width: 90%;
+    }
+
+    .symbol {
+        visibility: hidden;
+    }
 }
 
-.top_header {
-width: 100%;
-}
+/* shrinkage adjustments for on mobile views */
 
-.search_text {
-width: 500px;
-}
+@media screen and (max-width: 780px) {
+    body {
+        margin: auto;
+    }
 
-#loginPopup {
-margin: auto;
+    .nav_text {
+        display: block;
+        font-size: 10px;
+        overflow-wrap: break-word;
+    }
 
-}
+    .user_bubble {
+        display: none;
+    }
+
+    #sidebar {
+        bottom: 0;
+        position: fixed;
+        width: 100%;
+        height: 18%;
+        overflow: hidden;
+        display: flex;
+        margin: auto;
+        padding: 25px;
+    }
+
+    .all_body {
+        height: 68%;
+    }
+
+    #loginPopup {
+        width: 90%;
+        height: 50%;
+        top: 0;
+        left: 0;
+        margin: auto;
+    }
+
+    .divider {
+        display: none;
+    }
+
+    .search_text {
+        width: 100%;
+    }
+
+    #content {
+        width: 100%;
+    }
+
+    .buttons {
+        height: 80px;
+        width: 100px;
+        padding: 15px;
+        display: inline-block;
+    }
+
+    .symbol {
+        display: none;
+    }
+
+    .headerLeft_content {
+        display: none;
+    }
+
+    .top_header {
+        width: 100%;
+    }
+
 }
