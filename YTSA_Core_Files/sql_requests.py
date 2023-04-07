@@ -87,5 +87,4 @@ def get_top_five():
     vi = sqm.VideoInfo
     vid_avg = sqm.VideoInfo.sentiment_score_average
     vids = db.session.execute(db.select(vi).order_by(desc(vid_avg))).scalars().all()[:5]
-    
     return vids
