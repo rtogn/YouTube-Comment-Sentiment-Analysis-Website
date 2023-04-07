@@ -8,6 +8,7 @@ import flask
 from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
+# pylint: disable=no-name-in-module
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
