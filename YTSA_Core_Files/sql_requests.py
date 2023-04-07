@@ -84,7 +84,7 @@ def get_top_five():
         _type_: query object, iterable
     """
     # Get list of videos with that channel, then calculate average score based of those scores
-    vids = db.session.execute(db.select(sqm.VideoInfo).\
-        order_by(desc(sqm.VideoInfo.sentiment_score_average))).().all()[:5]
+    vids = db.session.execute(db.select(sqm.VideoInfo)\
+        .order_by(desc(sqm.VideoInfo.sentiment_score_average))).().all()[:5]
     
     return vids

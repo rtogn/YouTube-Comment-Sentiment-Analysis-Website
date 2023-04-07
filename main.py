@@ -371,8 +371,6 @@ def video_view():
         ave_sent_score=ave_sent_scores
     )
 
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.exc import PendingRollbackError
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     """_summary_

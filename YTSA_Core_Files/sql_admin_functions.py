@@ -78,11 +78,16 @@ def add_live_test_vids():
     # Adds a few non-random entries for specific testing
     """
     # Random videos for testing purposes. Real vid ids and titles.
-    vid_info = [['HI8Zg4vC5II', 'Isaac Arthur', 'The Fermi Paradox: Galactic Habitable Zones'],
-                ['3Qb_0Vw4_t4', 'Motivation Mentors', 'Andrew Tate About Women | TikTok Compilation'],
-                ['xnHOjiZq-ks', 'TikTok - Funny', 'Best Funny Dogs And Cats Videos 😅 - Funniest Animals Videos 2023😇 #1'],
-                ['rqS2vFuU6SE', 'International Cat' , '1 HOUR FUNNY CATS COMPILATION 2022😂| Cute And Lovely Cat Videos 2022😹'],
-                ['rd5U06HxHwY', 'Abrish Funny TikTok', 'Best Funny Dogs And Cats Videos 😂 Funniest Animals Videos 2023 😇 | PART 29 |']]
+    vid_info = [['HI8Zg4vC5II', 'Isaac Arthur', 
+                    'The Fermi Paradox: Galactic Habitable Zones'],
+                ['3Qb_0Vw4_t4', 'Motivation Mentors', 
+                    'Andrew Tate About Women | TikTok Compilation'],
+                ['xnHOjiZq-ks', 'TikTok - Funny', 
+                     'Best Funny Dogs And Cats Videos 😅 - Funniest Animals Videos 2023😇 #1'],
+                ['rqS2vFuU6SE', 'International Cat' , 
+                    '1 HOUR FUNNY CATS COMPILATION 2022😂| Cute And Lovely Cat Videos 2022😹'],
+                ['rd5U06HxHwY', 'Abrish Funny TikTok', 
+                    'Best Funny Dogs And Cats Videos 😂 Funniest Animals Videos 2023 😇 | PART 29 |']]
 
     for vid in vid_info:
         #print(str(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
