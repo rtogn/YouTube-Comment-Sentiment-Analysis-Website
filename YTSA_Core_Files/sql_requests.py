@@ -77,14 +77,14 @@ def update_sentiment_average_video(target_entry, new_score):
     update_sentiment_average_channel(target_entry.channel)
 
 
-def update_top_five():
+def get_top_five():
     """_summary_
     Returns top 5 videos from all video tables by sentiment score.
-    Returns:
+    Returns:scalars
         _type_: query object, iterable
     """
     # Get list of videos with that channel, then calculate average score based of those scores
-    vids = db.session.execute(db.select(sqm.VideoInfo).\
-        order_by(desc(sqm.VideoInfo.sentiment_score_average))).scalars().all()[:5]
-
+    vi = sqm.VideoInfo
+    vid_avg = sqm.VideoInfo.sentiment_score_average
+    vids = db.session.execute(db.select(vi).order_by(desc(vid_avg))).scalars().all()[:5]
     return vids

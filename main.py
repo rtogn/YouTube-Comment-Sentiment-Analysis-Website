@@ -8,6 +8,7 @@ import flask
 from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
+# pylint: disable=no-name-in-module
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
@@ -371,13 +372,14 @@ def video_view():
         ave_sent_score=ave_sent_scores
     )
 
-
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     """_summary_
     Route to SQL Demo Page
     """
-    # sql_admin_functions.sql_add_demo_data_random(50)
+    #sql_admin_functions.add_live_test_vids()
+
+    sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
@@ -387,7 +389,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sql_requests.update_top_five()  # sqm.VideoInfo.query.all()
+    vids = sql_requests.get_top_five()  # sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
