@@ -1,8 +1,8 @@
 {
-  "name": "team-10-project-repo",
+  "name": "team10",
   "version": "1.0.0",
   "description": "<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>",
-  "main": "functions.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
