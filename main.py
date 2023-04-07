@@ -371,13 +371,16 @@ def video_view():
         ave_sent_score=ave_sent_scores
     )
 
-
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import PendingRollbackError
 @app.route('/sql', methods=["GET", "POST"])
 def sql_playground_temporary():
     """_summary_
     Route to SQL Demo Page
     """
-    # sql_admin_functions.sql_add_demo_data_random(50)
+    #sql_admin_functions.add_live_test_vids()
+
+    sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
