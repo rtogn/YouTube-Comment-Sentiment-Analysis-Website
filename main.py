@@ -389,7 +389,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sql_requests.update_top_five()  # sqm.VideoInfo.query.all()
+    vids = sql_requests.get_top_five()  # sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
