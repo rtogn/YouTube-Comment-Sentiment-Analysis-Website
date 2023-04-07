@@ -21,7 +21,7 @@ app.config.update(SECRET_KEY='12345')  # Key required for flask.session
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///YT_Sentiment_App.db"
 db.init_app(app)
 
-# Create tabels if empty
+# Create tables if empty
 with app.app_context():
     db.create_all()
 
@@ -41,7 +41,7 @@ def index():
     )
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -49,6 +49,7 @@ def login_page():
     """
     message = "Welcome to the YTSA!"
 
+    # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
         # Get pass string entered into form
@@ -80,12 +81,13 @@ def login_page():
 
     return flask.render_template(
         "login.html",
-        login_message=message
+        Login_message=message
     )
-
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
+
+
 def number_suffix(number):
     """_summary_
     # suffixes i.e million = m or thousand = K
@@ -167,40 +169,38 @@ def search_results():
         except IndexError:
             print("no video thumbnail")
 
-    # print(vid_dict["channel_id"])
+        print(vid_dict["channel_id"])
 
-    # channel_url = "https://www.googleapis.com/youtube/v3/channels?"
-    # channel_params = {
-    #     "id": ','.join(vid_dict["channel_id"]),
-    #     "part": "snippet, statistics",
-    #     "key": APIKEY,
+        channel_url = "https://www.googleapis.com/youtube/v3/channels?"
+        channel_params = {
+            "id": (vid_dict["channel_id"][i]),
+            "part": "snippet,statistics",
+            "key": APIKEY
+        }
 
-    # }
-    # response_channel = requests.get(channel_url, channel_params, timeout=30)
-    # # print(response_channel.text)
+        response_channel = requests.get(
+            channel_url, channel_params, timeout=30)
+        response_channel = response_channel.json()
 
-    # response_channel = response_channel.json()
+        try:
+            vid_dict["channel_title"].append(
+                response_channel["items"][0]['snippet']['title'])
+        except IndexError:
+            vid_dict["channel_title"].append("no title")
 
-    # for i in range(len(vid_dict["channel_id"])):
-    #     try:
-    #         vid_dict["channel_title"].append(
-    #             response_channel["items"][i]['snippet']['title'])
-    #     except IndexError:
-    #         vid_dict["channel_title"].append("no title")
+        try:
+            vid_dict["channel_thumbnail"].append(
+                response_channel["items"][0]['snippet']['thumbnails']['default']['url'])
+        except IndexError:
+            vid_dict["channel_thumbnail"].append("no thumbnail")
 
-    #     try:
-    #         vid_dict["channel_thumbnail"].append(
-    #             response_channel["items"][i]['snippet']['thumbnails']['default']['url'])
-    #     except IndexError:
-    #         vid_dict["channel_thumbnail"].append("no thumbnail")
-
-    #     try:
-    #         vid_dict["channel_subscriber_count"].append(
-    #             number_suffix(
-    #                 float(
-    #                     response_channel["items"][i]['statistics']['subscriberCount'])))
-    #     except IndexError:
-    #         vid_dict["channel_subscriber_count"].append("no subscriber")
+        try:
+            vid_dict["channel_subscriber_count"].append(
+                number_suffix(
+                    float(
+                        response_channel["items"][0]['statistics']['subscriberCount'])))
+        except IndexError:
+            vid_dict["channel_subscriber_count"].append("no subscriber")
 
     return flask.render_template(
         "search_results.html",
@@ -209,8 +209,8 @@ def search_results():
         channelId=vid_dict["channel_id"],
         videoThumbnail=vid_dict["video_thumbnail"],
         channelTitle=vid_dict["channel_title"],
-        # channelThumbnail=vid_dict["channel_thumbnail"],
-        # channelsubscriberCount=vid_dict["channel_subscriber_count"],
+        channelThumbnail=vid_dict["channel_thumbnail"],
+        channelsubscriberCount=vid_dict["channel_subscriber_count"],
 
     )
 
@@ -377,6 +377,7 @@ def sql_playground_temporary():
     """_summary_
     Route to SQL Demo Page
     """
+    # sql_admin_functions.sql_add_demo_data_random(50)
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
@@ -386,7 +387,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sqm.VideoInfo.query.all()
+    vids = sql_requests.update_top_five()  # sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",

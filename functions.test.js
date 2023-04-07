@@ -1,7 +1,7 @@
 const { spawnSync } = require('child_process');
 const { mock, it } = require('node:test');
 const { describe } = require('yargs');
-const LoginFunctions = require('./functions');
+const LoginFunctions = require('./static/functions');
 
 let spy;
 beforeEach (() => {
