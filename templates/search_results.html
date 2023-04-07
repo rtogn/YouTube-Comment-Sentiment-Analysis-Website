@@ -71,31 +71,31 @@
 		</div>
 
 		<div class="all_body">
-			<div class="row">
-				{%for i in range(6)%}
-				<div class="col-4">
-					<div class="card" style="width: 19rem;">
-						<div class="card-video">
-							<form method="GET" action="/video_view">
-								<button type="submit" name="watch?v" value="{{videoId[i]}}">
-									<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
-										<img width="285" height="250" src="{{videoThumbnail[i]}}">
-									</a>
-								</button>
-
-								<div class="card-content">
-									<span class="card-title">{{videoTitle[i]}}</span>
-									<br />
-									{{channelTitle[i]}}
-								</div>
-
-								
-							</form>
-						</div>
+			{%for i in range(6)%}
+			<div>
+				<form method="GET" action="/video_view">
+					<button type="submit" name="watch?v" value="{{videoId[i]}}">
+						<a href="https://www.youtube.com/watch?v={{videoId[i]}}">
+							<img width="285" height="250" src="{{videoThumbnail[i]}}">
+						</a>
+					</button>
+		
+					<div>
+						<span>{{videoTitle[i]}}</span>
+						<br />
+						<img class="rounded-circle" src="{{channelThumbnail[i]}}" height="50">
+						<small>
+							<span>{{channelTitle[i]}} </span>
+							<br />
+							<span>
+								{{channelsubscriberCount[i]}}
+								subscribers
+							</span>
+						</small>
 					</div>
-				</div>
-				{%endfor%}
+				</form>
 			</div>
+			{%endfor%}
 		</div>
 
 		<!-- login area -->
