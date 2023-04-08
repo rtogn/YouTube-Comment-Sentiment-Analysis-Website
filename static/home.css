@@ -52,8 +52,8 @@ padding: 25px;
 
 .user_bubble {
     border-radius: 20px;
-    border: 1px solid #f2f2f2;
-    background-color: #ebebeb;
+    border: 0px solid #f2f2f2;
+    background-color: white;
     height: 125px;
     width: 125px;
     margin: auto;
@@ -572,5 +572,11 @@ display: block;
     .top_header {
         width: 100%;
     }
+
+}
+img.two {
+    height: 50%;
+    width: 50%;
+  }
 
 }
