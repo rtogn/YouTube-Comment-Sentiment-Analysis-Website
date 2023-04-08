@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-	<script type="text/javascript" src="/functions.js"></script>
+	<script type="text/javascript" src="/static/functions.js"></script>
 </head>
 
 <body>
@@ -26,8 +26,12 @@
 				</div>
 			</div>
 
+			<hr class="divider">
+
 			<div class="user_bubble">
+
 				<img class="two" width="130" height="100" src='static/Youtube_logo.png'>
+
 			</div>
 
 			<!-- Put user name under welcome message from session var. -->
@@ -36,15 +40,15 @@
 			<hr class="divider">
 
 				<div class="buttons" id="buttons_text" style="margin-top: 0px;" 
-				onclick="window.location.href='/';"><span class="bi bi-house-door-fill"></span> Home</div>
-				<div class="buttons" id="buttons_text" ><span class="bi bi-camera-video-fill"></span> TopVideos</div>
-				<div class="buttons" id="buttons_text" ><span class="bi bi-globe"></span> About</div>
+				onclick="window.location.href='/';"><span class="bi bi-house-door-fill"></span> <span class="nav_text">Home</span></div>
+				<div class="buttons" id="buttons_text" ><span class="bi bi-camera-video-fill"></span> <span class="nav_text">Top Videos</span></div>
+				<div class="buttons" id="buttons_text" ><span class="bi bi-globe"></span> <span class="nav_text">About</span></div>
 
 			<hr class="divider">
 
-			<div class="buttons" id="buttons_text"  onclick="displayLogin('loginPopup')"><span class="bi bi-people-fill"></span> Login</div>
-			<div class="buttons" id="buttons_text" onclick="displayReg('regPopup')"><span class="bi bi-person-bounding-box"></span> Register</div>
-			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> SavedVideos</div>
+			<div class="buttons" id="buttons_text"  onclick="LoginFunctions.openLog('loginPopup')"><span class="bi bi-people-fill"></span> <span class="nav_text">Login</span></div>
+			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')"><span class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span></div>
+			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> <span class="nav_text">Saved Videos</span></div>
 
 			<hr class="divider">
 
@@ -68,18 +72,47 @@
 				</form>		
 			</div>
 			<div class="all_body"> 
-				<!-- ALL CONTENT GOES IN HERE -->
+					
+				<!-- landing page stuff -->
+					<div id="landingPage">
+						<div id="text_side">
+							<p id="top_line"> 
+								WELCOME TO YSA !
+							</p>
+							<p id="land_line">
+								Are you an <b>avid user and lover</b> of Youtube, but not so much a lover of the negativity that often circulates in the comment section?
+							</p>
+							<p id="land_line">
+								Or maybe you’re a <b>content creator</b> who wants to monitor the overall sentiment of your vides in order to roll out content that better appeals to your users?
+							</p>
+							<p id="land_line">
+								Created by a team of do-gooder college students, <b>the Sapce Cats from Jupiter</b>, YSA is a place where you can solve all of those problems in order to better enjoy your usage of Youtube. And do it all without the need for another tab thanks to our embedded video feature.
+							</p>
+						</div>
+						<div id="image_side">
+							<button style="position: absolute; padding: 15px; right: 75px;" type="button" class="btn-close" aria-label="Close"></button>
+							<div id="image">
+							</div>
+						</div>
+					</div>
+
+					<div id="topVideos">
+						<p style="font-weight: 550;" id="land_line">Top Videos</p>
+						<div id="videoBox"></div>
+						<div id="videoBox"></div>
+						<div id="videoBox"></div>
+					</div>
 			</div>
 		</div>
 	</div>
 
 		<!-- login area -->
 		<div id="loginPopup">
-			<form action="/login.php" method="POST" id="user">
-				<button type="button" class="btn-close" aria-label="Close" onclick="closeLogin('loginPopup')"></button>
+			<form method="POST" action="/">
+				<button type="button" class="btn-close" aria-label="Close" onclick="LoginFunctions.closeLog('loginPopup')"></button>
 				<div id="loginTitle">Login</div>
 					<label for="username" id="formtxt"><b>Username</b></label>
-					<input type="text" id="username" placeholder="Username" name="username" required>
+					<input type="text" id="username" placeholder="Username" name="user_name" required>
 					
 					<label for="password" id="formtxt"><b>Password</b></label>
 					<input type="password" id="password" placeholder="Password" name="password" required>
@@ -90,21 +123,21 @@
 			</form>
 		</div>
 
-		<!-- login area -->
+		<!-- register area -->
 		<div id="regPopup">
-			<form>
-				<button type="button" class="btn-close" aria-label="Close" onclick="closeReg('regPopup')"></button>
+			<form action="/" method="POST">
+				<button type="button" class="btn-close" aria-label="Close" onclick="LoginFunctions.closeReg('regPopup')"></button>
 				<div id="loginTitle">Register</div>
 				<div id="form-floating">
-					<input type="email" class="form-control" id="floatEmail" placeholder="email">
+					<input type="email" class="form-control" id="floatEmail" name="email" placeholder="email">
 					<label for="floatEmail"><b>Email Address</b></label>
 				</div>
 				<div id="form-floating">
-					<input type="username" class="form-control" id="floatEmail" placeholder="username">
+					<input type="username" class="form-control" id="floatEmail" name="username" placeholder="username">
 					<label for="floatEmail" id="formtxt"><b>Username</b></label>
 				</div>
 				<div id="form-floating">
-					<input type="password" class="form-control" id="floatPass" placeholder="password">
+					<input type="password" class="form-control" id="floatPass" name='password' placeholder="password">
 					<label for="floatPass"><b>Password</b></label>
 				</div>
 				<input type="checkbox"><label for="checkbox" id="formtxt">I agree to donate my kidney's to the Sapce Cat's Team.</label>

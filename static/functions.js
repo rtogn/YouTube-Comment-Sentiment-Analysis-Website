@@ -27,7 +27,7 @@ const LoginFunctions = {
     }
 }
 
-module.exports = LoginFunctions
+//module.exports = LoginFunctions;
 
 /* Function to close/shorten Left Side Bar on-click -- UNFINISHED
 function trimSideBar (id) {
