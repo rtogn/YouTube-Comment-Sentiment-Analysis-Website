@@ -1,6 +1,6 @@
-# fly.toml file generated for team10-try3 on 2023-04-08T16:00:33-04:00
+# fly.toml file generated for team10-try4 on 2023-04-08T16:38:57-04:00
 
-app = "team10-try3"
+app = "team10-try4"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "iad"
