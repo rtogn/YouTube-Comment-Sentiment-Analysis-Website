@@ -98,9 +98,22 @@
 
 					<div id="topVideos">
 						<p style="font-weight: 550;" id="land_line">Top Videos</p>
-						<div id="videoBox"></div>
-						<div id="videoBox"></div>
-						<div id="videoBox"></div>
+							{% for video_info in video_info_list %}
+							<form method="GET" action="/video_view">
+								<button type="submit" name="watch?v" value="{{video_info['video_id']}}">
+									<a href="https://www.youtube.com/watch?v={{video_info['video_id']}}">
+										<img width="250" height="200" src="{{ video_info['thumbnails']['default']['url'] }}">
+									</a>
+								</button>
+							</form>
+							<div>
+								<span>{{ video_info['title'] }}</span>
+								<br />
+								<span>{{ video_info['channelTitle'] }}</span>
+								<br />
+								<span>sentiment score: {{ video_info['sentiment_score'] }}</span>
+							</div>
+							{% endfor %}
 					</div>
 			</div>
 		</div>
