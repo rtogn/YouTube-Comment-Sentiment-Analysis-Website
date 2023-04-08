@@ -72,6 +72,44 @@ def sql_add_demo_data_testing():
     db.session.commit()
 
 
+def add_live_test_vids():
+    """_summary_
+    # Incomplete
+    # Adds a few non-random entries for specific testing
+    """
+    # Random videos for testing purposes. Real vid ids and titles.
+    vid_info = [['HI8Zg4vC5II', 'Isaac Arthur',
+                    'The Fermi Paradox: Galactic Habitable Zones'],
+                ['3Qb_0Vw4_t4', 'Motivation Mentors',
+                    'Andrew Tate About Women | TikTok Compilation'],
+                ['xnHOjiZq-ks', 'TikTok - Funny',
+                     'Best Funny Dogs And Cats Videos 😅 - Funniest Animals Videos 2023😇 #1'],
+                ['rqS2vFuU6SE', 'International Cat' ,
+                    '1 HOUR FUNNY CATS COMPILATION 2022😂| Cute And Lovely Cat Videos 2022😹'],
+                ['rd5U06HxHwY', 'Abrish Funny TikTok',
+                    'Best Funny Dogs And Cats Videos 😂 Funniest Animals Videos 2023 😇 | PART 29 |']]
+
+    for vid in vid_info:
+        #print(str(strftime("%Y-%m-%d %H:%M:%S", gmtime())))
+        video = sqm.VideoInfo(video_id=vid[0],
+                                    channel=vid[1],
+                                    video_title=vid[2],
+                                    sentiment_score_average = rand.random(),
+                                    negative_entries=rand.randint(1,1000),
+                                    positive_entries=rand.randint(1,1000),
+                                    neutral_entries=rand.randint(1,1000),
+                                    date_updated = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                                )
+        channel = sqm.Channels(
+                    channel=vid[1],
+                    sentiment_score_average= rand.random(),
+                    date_updated = str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                )
+        db.session.add(video)
+        db.session.add(channel)
+    db.session.commit()
+
+
 def hash_password(password):
     """_summary_
     # Not implemented

@@ -8,6 +8,7 @@ import flask
 from flask import redirect, session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
+# pylint: disable=no-name-in-module
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
@@ -36,8 +37,29 @@ def index():
         session['user'] = 'Guest'
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
+    # Call get_top_five() to get the top 5 videos.
+    vids = sql_requests.get_top_five()
+
+    # Extract the video IDs from the VideoInfo objects and store them in a list.
+    video_ids = [vid.video_id for vid in vids]
+
+    video_info_list = []
+    for video_id in video_ids:
+        url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + \
+            video_id + '&key=' + APIKEY
+        response = requests.get(url, timeout=30)
+        if response.status_code == 200:
+            video_info = response.json()['items'][0]['snippet']
+            video_info['video_id'] = video_id
+            video_info['sentiment_score'] = [
+                vid.sentiment_score_average for vid in vids if vid.video_id == video_id][0]
+            video_info_list.append(video_info)
+
+    num_vids = len(video_info_list)
     return flask.render_template(
         "index.html",
+        num_vids=num_vids,
+        video_info_list=video_info_list
     )
 
 
@@ -169,8 +191,6 @@ def search_results():
         except IndexError:
             print("no video thumbnail")
 
-        print(vid_dict["channel_id"])
-
         channel_url = "https://www.googleapis.com/youtube/v3/channels?"
         channel_params = {
             "id": (vid_dict["channel_id"][i]),
@@ -288,7 +308,7 @@ def video_view():
     }
     response_channel_vid = requests.get(
         channel_url, channel_params, timeout=30)
-    print(response_channel_vid.text)
+
     response_channel_vid = response_channel_vid.json()
 
     try:
@@ -350,6 +370,7 @@ def video_view():
             print("")
 
     ave_sent_scores = ave_sent_score(vid_dict["text_display"])
+    sql_requests.add_video(query, vid_dict, ave_sent_scores)
     # print(textDisplay)
     # print(authorDisplayname)
 
@@ -377,17 +398,19 @@ def sql_playground_temporary():
     """_summary_
     Route to SQL Demo Page
     """
-    # sql_admin_functions.sql_add_demo_data_random(50)
+    # sql_admin_functions.add_live_test_vids()
+
+    sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
             id=form_data["video_id"])).scalar_one()
         # target_row.sentiment_score_average=form_data["new_score"]
-        sql_requests.update_sentiment_average_video(
+        sql_requests.set_sent_arvrg_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sql_requests.update_top_five()  # sqm.VideoInfo.query.all()
+    vids =  sqm.VideoInfo.query.all() #sql_requests.get_top_five()  #
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",

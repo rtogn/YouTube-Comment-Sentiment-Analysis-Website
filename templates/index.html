@@ -72,7 +72,49 @@
 				</form>		
 			</div>
 			<div class="all_body"> 
-				<!-- ALL CONTENT GOES IN HERE -->
+					
+				<!-- landing page stuff -->
+					<div id="landingPage">
+						<div id="text_side">
+							<p id="top_line"> 
+								WELCOME TO YSA !
+							</p>
+							<p id="land_line">
+								Are you an <b>avid user and lover</b> of Youtube, but not so much a lover of the negativity that often circulates in the comment section?
+							</p>
+							<p id="land_line">
+								Or maybe you’re a <b>content creator</b> who wants to monitor the overall sentiment of your vides in order to roll out content that better appeals to your users?
+							</p>
+							<p id="land_line">
+								Created by a team of do-gooder college students, <b>the Sapce Cats from Jupiter</b>, YSA is a place where you can solve all of those problems in order to better enjoy your usage of Youtube. And do it all without the need for another tab thanks to our embedded video feature.
+							</p>
+						</div>
+						<div id="image_side">
+							<button style="position: absolute; padding: 15px; right: 75px;" type="button" class="btn-close" aria-label="Close"></button>
+							<div id="image">
+							</div>
+						</div>
+					</div>
+
+					<div id="topVideos">
+						<p style="font-weight: 550;" id="land_line">Top Videos</p>
+							{% for video_info in video_info_list %}
+							<form method="GET" action="/video_view">
+								<button type="submit" name="watch?v" value="{{video_info['video_id']}}">
+									<a href="https://www.youtube.com/watch?v={{video_info['video_id']}}">
+										<img width="250" height="200" src="{{ video_info['thumbnails']['default']['url'] }}">
+									</a>
+								</button>
+							</form>
+							<div>
+								<span>{{ video_info['title'] }}</span>
+								<br />
+								<span>{{ video_info['channelTitle'] }}</span>
+								<br />
+								<span>sentiment score: {{ video_info['sentiment_score'] }}</span>
+							</div>
+							{% endfor %}
+					</div>
 			</div>
 		</div>
 	</div>
