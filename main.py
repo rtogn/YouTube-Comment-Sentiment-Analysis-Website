@@ -351,6 +351,7 @@ def video_view():
             print("")
 
     ave_sent_scores = ave_sent_score(vid_dict["text_display"])
+    sql_requests.add_video(query, vid_dict, ave_sent_scores)
     # print(textDisplay)
     # print(authorDisplayname)
 
@@ -385,11 +386,11 @@ def sql_playground_temporary():
         target_row = db.session.execute(db.select(sqm.VideoInfo).filter_by(
             id=form_data["video_id"])).scalar_one()
         # target_row.sentiment_score_average=form_data["new_score"]
-        sql_requests.update_sentiment_average_video(
+        sql_requests.set_sent_arvrg_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sql_requests.get_top_five()  # sqm.VideoInfo.query.all()
+    vids =  sqm.VideoInfo.query.all() #sql_requests.get_top_five()  #
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
