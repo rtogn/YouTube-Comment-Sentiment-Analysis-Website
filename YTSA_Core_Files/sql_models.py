@@ -27,13 +27,16 @@ class VideoInfo(db.Model):
     # Video ID string, comes after "watch?v=".
     # So for https://www.youtube.com/watch?v=jfKfPfyJRdk the ID is 'jfKfPfyJRdk'
     video_id = db.Column(db.String, nullable=False, unique=True)
-    video_title = db.Column(db.String, nullable=False)
+    video_title = db.Column(db.String)
+    subscriber_count= db.Column(db.Integer)
+    comment_count= db.Column(db.Integer)
+    like_count= db.Column(db.Integer)
     channel = db.Column(db.String)
+    author_displayname= db.Column(db.String)
+    #authorProfileImageUrl=vid_dict["author_profile_image_url"],
+    text_display= db.Column(db.String)
     # Raw sentiment score as floating pt value
     sentiment_score_average = db.Column(db.Float)
-    negative_entries = db.Column(db.Integer, default=0)
-    positive_entries = db.Column(db.Integer, default=0)
-    neutral_entries = db.Column(db.Integer, default=0)
     date_updated = db.Column(db.String, nullable=False)
 
 class TopVideos(db.Model):
