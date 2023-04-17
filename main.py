@@ -170,12 +170,6 @@ def search_results():
             print("no channelid")
 
         try:
-            vid_dict["channel_title"].append(
-                response_search["items"][i]['snippet']['channelTitle'])
-        except IndexError:
-            print("no channelTitle")
-
-        try:
             vid_dict["video_id"].append(
                 response_search["items"][i]['id']['videoId'])
         except IndexError:
@@ -260,11 +254,8 @@ def video_view():
     }
 
     form_data = flask.request.args
-    # print("\n\n\n")
-    # print(form_data)
-    # print("\n\n\n")
+
     query = form_data.get("watch?v", "")
-    # print(query)
 
     video_url = "https://www.googleapis.com/youtube/v3/videos?"
     video_params = {
@@ -339,7 +330,6 @@ def video_view():
 
     }
     response_comments = requests.get(comments_url, comments_params, timeout=30)
-    # print(responseComments.text)
     response_comments = response_comments.json()
 
     for i in range(max_comments):
@@ -371,8 +361,6 @@ def video_view():
 
     ave_sent_scores = ave_sent_score(vid_dict["text_display"])
     sql_requests.add_video(query, vid_dict, ave_sent_scores)
-    # print(textDisplay)
-    # print(authorDisplayname)
 
     return flask.render_template(
         "video_view.html",
@@ -389,7 +377,9 @@ def video_view():
         authorProfileImageUrl=vid_dict["author_profile_image_url"],
         textDisplay=vid_dict["text_display"],
         sent_score=vid_dict["sent_scores"],
-        ave_sent_score=ave_sent_scores
+        ave_sent_score=ave_sent_scores,
+        max_comments=max_comments,
+        len=len,
     )
 
 
@@ -410,7 +400,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids =  sqm.VideoInfo.query.all() #sql_requests.get_top_five()  #
+    vids = sqm.VideoInfo.query.all()  # sql_requests.get_top_five()  #
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
