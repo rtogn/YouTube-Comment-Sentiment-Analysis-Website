@@ -59,7 +59,7 @@ def sent_score(comment):
     return score
 
 
-def ave_sent_score(comments):
+def ave_sent_score_old(comments):
     """_summary_
     Calculate average sent score for a list of comments
     Args:
@@ -71,4 +71,34 @@ def ave_sent_score(comments):
     total = 0
     for comment in comments:
         total = total + sent_score(comment)
-    return total / len(comments)
+    try:
+        final_val = (total / len(comments))
+    except ZeroDivisionError:
+        final_val = 0.0
+
+    return final_val
+
+def ave_sent_score(comments):
+    """_summary_
+    Calculate average sent score for a list of comments
+    Args:
+        comments (list): list of aggregated comments (from a video)
+
+    #example list of comments:
+    #comments = ["Hello my name is Sam.", "i hate pizza", "I love cookies"]
+    """
+    total = 0
+    length = len(comments)
+    for comment in comments:
+        cur_sent = sent_score(comment)
+        total = total + cur_sent
+        if cur_sent == 0.0:
+            length = length - 1
+
+    try:
+        final_val = (total / length)
+    except ZeroDivisionError:
+        final_val = 0.0
+
+    return final_val
+#"{:.2f}%".format(final_val)

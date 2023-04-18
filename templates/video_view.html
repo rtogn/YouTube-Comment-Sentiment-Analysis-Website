@@ -1,28 +1,21 @@
 <!DoCTYPE html>
 <html>
-
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
-    <link href="/static/video_view.css" rel="stylesheet" />
-    <link href="/static/allpages.css" rel="stylesheet" />
-    <script type="text/javascript" src="/static/widgets.js" ></script>
-    <!-- Bootstrap -->
-	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-
-</head>
-
-<body>
-
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+        <link href="/static/video_view.css" rel="stylesheet" />
+        <link href="/static/allpages.css" rel="stylesheet" />
+        <script type="text/javascript" src="/static/widgets.js" ></script>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    </head>
     <body>
         <aside class="left_sidebar">
             <div class="left_all">
                 <div class="user_bubble">GG</div>
-    
-                <!-- Reference to login button 
+
+                <!-- Reference to login button
                 <button id="loginBtn" onclick="displayLogin('loginPopup')">login</div>-->
-    
-    
                 <!-- Put user name under welcome message from session var. -->
                 <div class="welcome_text">Welcome, {{session['user']}}!</div><br>
                 <div class="left_sidebar_buttons">
@@ -34,112 +27,113 @@
             </div>
         </aside>
 
-    <main class="main_bar">
+        <main class="main_bar">
 
-        <div>
-            <form method="POST" action="/video_view" name="watch?v">
-                <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </form>
-            <span class="video-title">{{videoTitle}}</span>
-            <br />
-            <div class="channel-profile">
-                <img class="rounded-circle" src="{{channelThumbnail}}" height="50">
-                <span class="channel-Title">{{channelTitle}} </span>
+            <div>
+                <form method="POST" action="/video_view" name="watch?v">
+                    <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </form>
+                <span class="video-title">{{videoTitle}}</span>
+                <br />
+
+                <div class="channel_info">
+                    <div class="channel-profile">
+                        <img class="rounded-circle" src="{{channelThumbnail}}" height="50">
+                        <span class="channel-Title">{{channelTitle}} </span>
+                        <span class="subscriberCount">
+                            {{channelsubscriberCount}}
+                            subscribers
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="video_info">
+                    <span class="like bubbled_item">
+                        <img src="/static/like_icon.png" class="like_icon">
+                        {{likeCount}}
+                    </span>
+
+                    <span class="ave_sent_score bubbled_item">
+                        Sentiment Score: {{ave_sent_score}}
+                    </span>
+
+                    <span class="bubbled_item">
+                        {{commentCount}}
+                        Comments
+                    </span>
+                </div>
+                <hr>
+
             </div>
+            <br />
 
-            <span class="subscriberCount">
-                {{channelsubscriberCount}}
-                subscribers
-            </span>
+            {%for i in range(100)%}
+            <div class="comments">
 
-            <span class="like">
-                Likes
-                {{likeCount}}
-            </span>
+                <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                <span><strong>{{authorDisplayname[i]}}</strong></span>
+                <br />
+                <span>{{textDisplay[i]}}</span>
+                <br />
+                <span>Sentiment Score: {{sent_score[i]}}</span>
+            </div>
+            {%endfor%}
 
-            <span class="ave_sent_score">
-                Average Sentiment Score: {{ave_sent_score}}
+        </main>
 
-            </span>
+        <aside class="right_sidebar">
+            <span class="all-text">
 
-            <span>
-                {{commentCount}}
-                Comments
-            </span>
+        <form action="/video_view/" method="POST">
+            <label> Sentiment filter:</label>
+            <input type="range" min="-1" max="1" value = "0"  name="sent_value">
+            <input type="submit">
+        </form>
 
-            <hr>
+
+        <div class="slidecontainer">
 
         </div>
-        <br />
-        {%for i in range(100)%}
 
-        <div class="comments">
+        <form action="/action_page.php" id="search_filter">
+            <label for="keyword"></label>
+            <input type="keyword" id="keyword" name="keyword"><br><br>
+            <input type="button" onclick="filet_out()" value="Filter out">
+            <input type="button" onclick="search_for()" value="Search for">
+        </form>
 
-            <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-            <span><strong>{{authorDisplayname[i]}}</strong></span>
-            <br />
-            <span>{{textDisplay[i]}}</span>
-            <br />
-            <span>Sentiment Score: {{sent_score[i]}}</span>
-        </div>
-        {%endfor%}
+        </span>
 
-    </main>
 
-    <aside class="right_sidebar">
-        <span class="all-text">
-
-    <form action="/video_view/" method="POST">
-        <label> Sentiment filter:</label>
-        <input type="range" min="-1" max="1" value = "0"  name="sent_value">
-        <input type="submit">
-    </form>
-    
-    
-    <div class="slidecontainer">
-        
-    </div>
-
-    <form action="/action_page.php" id="search_filter">
-        <label for="keyword"></label>
-        <input type="keyword" id="keyword" name="keyword"><br><br>
-        <input type="button" onclick="filet_out()" value="Filter out">
-        <input type="button" onclick="search_for()" value="Search for">
-        
-    </span>
-  
-  
-    </aside>
-        <!-- will move this later -->
-       <script>
-        var slider = document.getElementById("myRange");
-        var output = document.getElementById("sent_value");
-        output.innerHTML = slider.value;
-
-        slider.oninput = function() {
-            output.innerHTML = this.value/100;
-        }
-
-        function filter_out() {
-            var x = document.getElementById("keyword").form.id;
-            document.getElementById("filter").innerHTML = x;
-        }
-        function search_for() {
-            var x = document.getElementById("keyword").form.id;
-            document.getElementById("filter").innerHTML = x;
-        }
-        function update(){
+        </aside>
+            <!-- will move this later -->
+           <script>
             var slider = document.getElementById("myRange");
-            var output = document.getElementById("sent_va");
-            output.innerHTML = slider.value/100;
-        }
+            var output = document.getElementById("sent_value");
+            output.innerHTML = slider.value;
 
-        
-       </script>
-       
+            slider.oninput = function() {
+                output.innerHTML = this.value/100;
+            }
 
-</body>
+            function filter_out() {
+                var x = document.getElementById("keyword").form.id;
+                document.getElementById("filter").innerHTML = x;
+            }
+            function search_for() {
+                var x = document.getElementById("keyword").form.id;
+                document.getElementById("filter").innerHTML = x;
+            }
+            function update(){
+                var slider = document.getElementById("myRange");
+                var output = document.getElementById("sent_va");
+                output.innerHTML = slider.value/100;
+            }
 
-</html>:
+
+           </script>
+    </body>
+</html>

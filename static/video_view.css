@@ -75,3 +75,25 @@ body {
     background: #04AA6D;
     cursor: pointer;
   }
+
+  .bubbled_item {
+    border-radius: 50px;
+    color:  #eaf6f6;
+    background: #c1c0b9;
+    padding: 6px;
+    font-weight: bold;
+  }
+
+  .like_icon {
+    display: inline-block;
+    vertical-align:middle;
+    object-fit: contain;
+    width: 4%;
+    height: 4%;
+    max-height: 50%;
+    max-width: 50%;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+
+  }

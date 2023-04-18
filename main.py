@@ -86,7 +86,7 @@ def login_page():
             # what is stored to validate (after decrypting)
             success = sql_admin_functions.validate_login(
                 db_user, password_entered)
-            # Add retreived username to sessoin
+            # Add retrieved username to session
             session['user'] = db_user.user_name
             # Manually set modified to true
             session.modified = True
@@ -369,8 +369,9 @@ def video_view():
         except IndexError:
             print("")
 
-    ave_sent_scores = ave_sent_score(vid_dict["text_display"])
-    sql_requests.add_video(query, vid_dict, ave_sent_scores)
+    raw_ave = ave_sent_score(vid_dict["text_display"])
+    ave_sent_scores = "{:.2f}%".format(raw_ave * 100)
+    sql_requests.add_video(query, vid_dict, raw_ave)
     # print(textDisplay)
     # print(authorDisplayname)
 
@@ -410,7 +411,7 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids =  sqm.VideoInfo.query.all() #sql_requests.get_top_five()  #
+    vids = sqm.VideoInfo.query.all()
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
