@@ -12,7 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sent_score, ave_sent_score, get_formatted_score
+from vader import sent_score, ave_sent_score, get_formatted_score, get_text_rating
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -243,6 +243,7 @@ def video_view():
         "channel_title": [],
         "subscriber_count": [],
         "comment_count": [],
+        "view_count": [],
         "like_count": "",
         "channel_thumbnail": [],
         "channelsub_scriber_count": [],
@@ -288,6 +289,12 @@ def video_view():
     try:
         vid_dict["like_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['likeCount']))
+    except KeyError:
+        print("")
+
+    try:
+        vid_dict["view_count"] = number_suffix(float(
+            response_video["items"][0]['statistics']['viewCount']))
     except KeyError:
         print("")
 
@@ -363,8 +370,8 @@ def video_view():
 
     raw_ave = ave_sent_score(vid_dict["text_display"])
     ave_sent_scores = get_formatted_score(raw_ave)
+    score_ratings = get_text_rating(raw_ave)
     sql_requests.add_video(query, vid_dict, raw_ave)
-
 
     return flask.render_template(
         "video_view.html",
@@ -373,6 +380,7 @@ def video_view():
         subscriberCount=vid_dict["subscriber_count"],
         commentCount=vid_dict["comment_count"],
         likeCount=vid_dict["like_count"],
+        viewCount=vid_dict["view_count"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channelsub_scriber_count"],
         channelId=vid_dict["channel_id"],
@@ -382,6 +390,7 @@ def video_view():
         textDisplay=vid_dict["text_display"],
         sent_score=vid_dict["sent_scores"],
         ave_sent_score=ave_sent_scores,
+        score_rating=score_ratings,
         max_comments=max_comments,
         len=len,
     )
@@ -403,7 +412,6 @@ def sql_playground_temporary():
         sql_requests.set_sent_arvrg_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
-
 
     vids = sqm.VideoInfo.query.all()
 

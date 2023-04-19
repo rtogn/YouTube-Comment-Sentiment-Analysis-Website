@@ -113,3 +113,37 @@ def get_formatted_score(sentiment_score):
         between -1.0 and 1.0
     """
     return f"{sentiment_score * 100:.2f}%"
+
+
+def get_text_rating(sent_score):
+    """Creates a description string from
+        sentiment score such as "Highly Positive"
+        based on range of score.
+    Args:
+        sent_score (float):
+        sentiment score as floating point val
+        between -1.0 and 1.0
+
+    Returns:
+        string describing score
+    """
+    rating = "Neutral"
+
+    if sent_score > 0.0:
+        rating = "Positive"
+    elif sent_score < 0.0:
+        rating = "Negative"
+
+    if rating != "Neutral":
+        abs_score = abs(sent_score)
+        modifier = ""
+        if abs_score >= 0.70:
+            modifier = "Overwhelmingly "
+        elif abs_score >= 0.5:
+            modifier = "Highly "
+        elif abs_score >= 0.25:
+            modifier = "Somewhat "
+        else:
+            modifier = ""
+
+    return modifier + rating
