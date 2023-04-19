@@ -12,7 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sent_score, ave_sent_score
+from vader import sent_score, ave_sent_score, get_formatted_score
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -86,7 +86,7 @@ def login_page():
             # what is stored to validate (after decrypting)
             success = sql_admin_functions.validate_login(
                 db_user, password_entered)
-            # Add retreived username to sessoin
+            # Add retrieved username to session
             session['user'] = db_user.user_name
             # Manually set modified to true
             session.modified = True
@@ -232,6 +232,7 @@ def search_results():
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
     # pylint: disable=too-many-statements
+    # pylint: disable=too-many-locals
     """_summary_
     Route to Video view page
     """
@@ -353,14 +354,17 @@ def video_view():
                 response_comments["items"][i]['snippet']['topLevelComment']
                 ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
-                sent_score(
+                get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
-                    ['snippet']['textDisplay']))
+                    ['snippet']['textDisplay'])))
         except IndexError:
             print("")
 
-    ave_sent_scores = ave_sent_score(vid_dict["text_display"])
-    sql_requests.add_video(query, vid_dict, ave_sent_scores)
+
+    raw_ave = ave_sent_score(vid_dict["text_display"])
+    ave_sent_scores = get_formatted_score(raw_ave)
+    sql_requests.add_video(query, vid_dict, raw_ave)
+
 
     return flask.render_template(
         "video_view.html",
@@ -400,7 +404,9 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids = sqm.VideoInfo.query.all()  # sql_requests.get_top_five()  #
+
+    vids = sqm.VideoInfo.query.all()
+
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",
