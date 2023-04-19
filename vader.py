@@ -25,7 +25,7 @@ setup_vader()
 
 # this function takes in a list of comments and outputs a corresponding
 # list of sentiment scores ranging from -1 to 1
-def sent_score(comment):
+def get_sent_score(comment):
     """_summary_
     Calculate sentiment score on a single comment using Vader
     Args:
@@ -70,7 +70,7 @@ def ave_sent_score_old(comments):
     """
     total = 0
     for comment in comments:
-        total = total + sent_score(comment)
+        total = total + get_sent_score(comment)
     try:
         final_val = total / len(comments)
     except ZeroDivisionError:
@@ -78,7 +78,7 @@ def ave_sent_score_old(comments):
 
     return final_val
 
-def ave_sent_score(comments):
+def get_ave_score(comments):
     """_summary_
     Calculate average sent score for a list of comments
     Args:
@@ -90,7 +90,7 @@ def ave_sent_score(comments):
     total = 0
     length = len(comments)
     for comment in comments:
-        cur_sent = sent_score(comment)
+        cur_sent = get_sent_score(comment)
         total = total + cur_sent
         if cur_sent == 0.0:
             length = length - 1
@@ -139,7 +139,7 @@ def get_text_rating(sent_score):
         modifier = ""
         if abs_score >= 0.70:
             modifier = "Overwhelmingly "
-        elif abs_score >= 0.5:
+        elif abs_score >= 0.50:
             modifier = "Highly "
         elif abs_score >= 0.25:
             modifier = "Somewhat "
