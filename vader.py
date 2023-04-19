@@ -96,7 +96,7 @@ def ave_sent_score(comments):
             length = length - 1
 
     try:
-        final_val = (total / length)
+        final_val = total / length
     except ZeroDivisionError:
         final_val = 0.0
 
