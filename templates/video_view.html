@@ -37,7 +37,7 @@
     <main class="main_bar">
 
         <div>
-            <form method="POST" action="/video_view" name="watch?v">
+            <form method="POST" action="/video_view/" name="watch?v">
                 <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
@@ -73,18 +73,34 @@
 
         </div>
         <br />
-        {%for i in range(100)%}
-
-        <div class="comments">
-
-            <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-            <span><strong>{{authorDisplayname[i]}}</strong></span>
-            <br />
-            <span>{{textDisplay[i]}}</span>
-            <br />
-            <span>Sentiment Score: {{sent_score[i]}}</span>
-        </div>
-        {%endfor%}
+        {% for i in range(max_comments) %}
+            {% if len(textDisplay[i]) >= 200 %}
+                <div class="comments" id="comments{{i}}">
+                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                    <span><strong>{{authorDisplayname[i]}}</strong></span>
+                    <br />
+                    <div class="comment-short">{{textDisplay[i][:200]}}...
+                        <br />
+                        <button class="comment-length" onclick="showFullComment('{{i}}')">Read More</button>
+                    </div>
+                    <div class="comment-full" style="display:none">{{textDisplay[i]}}
+                        <br />
+                        <button class="comment-length" onclick="hideFullComment('{{ i }}')">Read Less</button>
+                    </div>
+                    <br />
+                    <span>Sentiment Score: {{sent_score[i]}}</span>
+                </div>
+            {% else %}
+                <div class="comments" id="comments{{i}}">
+                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                    <span><strong>{{authorDisplayname[i]}}</strong></span>
+                    <br />
+                    <div class="comment-full">{{textDisplay[i]}}</div>
+                    <br />
+                    <span>Sentiment Score: {{sent_score[i]}}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
 
     </main>
 
@@ -138,6 +154,24 @@
 
         
        </script>
+
+    <!-- maximize and minimize the length of comments(read more/read less) -->
+
+       <script>
+        function showFullComment(index) {
+            var short = document.getElementById("comments" + index).getElementsByClassName("comment-short")[0];
+            var full = document.getElementById("comments" + index).getElementsByClassName("comment-full")[0];
+            short.style.display = "none";
+            full.style.display = "block";
+        }
+
+        function hideFullComment(index) {
+            var short = document.getElementById("comments" + index).getElementsByClassName("comment-short")[0];
+            var full = document.getElementById("comments" + index).getElementsByClassName("comment-full")[0];
+            short.style.display = "block";
+            full.style.display = "none";
+        }
+    </script>
        
 
 </body>
