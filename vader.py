@@ -1,7 +1,7 @@
 """_summary_
 File defining functions for use of Vader sentiment analysis model
 """
-import ssl
+import ssl, math
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # from nltk import tokenize
@@ -101,4 +101,16 @@ def ave_sent_score(comments):
         final_val = 0.0
 
     return final_val
-#"{:.2f}%".format(final_val)
+
+def get_formatted_score(sent_score):
+    """Returns float sent score
+    formatted as 1 decimal place
+    percentage string.
+
+    Args:
+        sent_score (float):
+        sentiment score as floating point val
+        between -1.0 and 1.0
+    """
+    return "{:.2f}%".format(sent_score * 100)
+

@@ -35,38 +35,47 @@
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen></iframe>
                 </form>
-                <span class="video-title">{{videoTitle}}</span>
-                <br />
 
-                <div class="channel_info">
-                    <div class="channel-profile">
-                        <img class="rounded-circle" src="{{channelThumbnail}}" height="50">
-                        <span class="channel-Title">{{channelTitle}} </span>
-                        <span class="subscriberCount">
-                            {{channelsubscriberCount}}
-                            subscribers
-                        </span>
+
+                <div clsas="video_info_box">
+                    <span class="video_title">{{videoTitle}}</span>
+                    <br />
+
+                    <div class="flex_container_vid">
+                        <div class="channel_info">
+                                <img class="rounded-circle channel_icon" src="{{channelThumbnail}}" height="50">
+
+                                <div class="channel_text">
+                                    <span class="channelTitle">
+                                        {{channelTitle}}
+                                    </span>
+
+                                    <span class="subscriberCount">
+                                        {{channelsubscriberCount}}
+                                        subscribers
+                                    </span>
+                                </div>
+
+                        </div>
+
+                        <div class="video_metrics">
+                            <span class="like bubbled_item">
+                                <img src="/static/like_icon.png" class="like_icon">
+                                {{likeCount}}
+                            </span>
+
+                            <span class="ave_sent_score bubbled_item">
+                                Sentiment Score: {{ave_sent_score}}
+                            </span>
+
+                            <span class="bubbled_item">
+                                {{commentCount}}
+                                Comments
+                            </span>
+                        </div>
                     </div>
 
                 </div>
-
-                <div class="video_info">
-                    <span class="like bubbled_item">
-                        <img src="/static/like_icon.png" class="like_icon">
-                        {{likeCount}}
-                    </span>
-
-                    <span class="ave_sent_score bubbled_item">
-                        Sentiment Score: {{ave_sent_score}}
-                    </span>
-
-                    <span class="bubbled_item">
-                        {{commentCount}}
-                        Comments
-                    </span>
-                </div>
-                <hr>
-
             </div>
             <br />
 
@@ -76,9 +85,9 @@
                 <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
                 <span><strong>{{authorDisplayname[i]}}</strong></span>
                 <br />
-                <span>{{textDisplay[i]}}</span>
+                <span class="comment_text">{{textDisplay[i]}}</span>
                 <br />
-                <span>Sentiment Score: {{sent_score[i]}}</span>
+                <span class="bubbled_item">Sentiment Score: {{sent_score[i]}}</span>
             </div>
             {%endfor%}
 

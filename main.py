@@ -12,7 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sent_score, ave_sent_score
+from vader import sent_score, ave_sent_score, get_formatted_score
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -363,14 +363,14 @@ def video_view():
                 response_comments["items"][i]['snippet']['topLevelComment']
                 ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
-                sent_score(
+                get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
-                    ['snippet']['textDisplay']))
+                    ['snippet']['textDisplay'])))
         except IndexError:
             print("")
 
     raw_ave = ave_sent_score(vid_dict["text_display"])
-    ave_sent_scores = "{:.2f}%".format(raw_ave * 100)
+    ave_sent_scores = get_formatted_score(raw_ave)
     sql_requests.add_video(query, vid_dict, raw_ave)
     # print(textDisplay)
     # print(authorDisplayname)
