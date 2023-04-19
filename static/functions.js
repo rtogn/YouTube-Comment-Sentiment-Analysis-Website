@@ -24,6 +24,19 @@ const LoginFunctions = {
     closeReg: function closeReg (id) {
 	    var x = document.getElementById (id);
 	    x.style.display = 'none';
+    },
+
+    // Function to open Landing Area of click of button
+    openLand: function openLand (id) {
+        var x = document.getElementById (id);
+        x.style.display =
+        ((x.style.display != 'none') ? 'none' : 'flex'); 
+    },
+
+    // Function to close Landing Area on click of 'X'
+    closeLand: function closeLand (id) {
+        var x = document.getElementById(id);
+        x.style.display = 'none';
     }
 }
 
