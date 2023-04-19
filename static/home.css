@@ -94,7 +94,7 @@ padding: 25px;
     word-spacing: 5em;
 }
 
-.buttons:hover, .search_text:focus {
+.buttons:hover, .search_text:focus, .buttons:active {
     background-color: #ebebeb;
 }
 
@@ -130,14 +130,14 @@ color: #fff;
     background-color: #ffff;
     border: 0.2px solid #a2a2a2;
     border-radius: 17px;
-    width: 90%;
-    height: 1500px;
-    margin-top: 15px;
-    margin-left: 55px;
-    display: flex;
-    padding: 25px;
-    align-items: center;
-    justify-content: center;
+    height: 60px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 14px;
+    padding: 15px;
+    color: #000;
+    font-weight: 600px;
+    font-size: 16px;
 }
 
 #videoBox {
@@ -149,6 +149,15 @@ color: #fff;
 }
 
 /* all video stuff */
+
+.link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
 
 #videoView {
     background-color: #ffff;
@@ -220,7 +229,13 @@ color: #fff;
 #channelTitle {
     font-weight: 200;
     font-size: 10px;
-    word-spacing: 1em;
+    word-spacing: 1px;
+    line-height: 15px;
+}
+
+#sentScore {
+    margin-top: 10px;
+    font-size: 9px;
 }
 
 #channelSub {
@@ -234,12 +249,11 @@ color: #fff;
     background-color: #ffff;
     border: 0.2px solid #a2a2a2;
     border-radius: 17px;
-    width: 90%;
+    width: 100%;
     height: 320px;
-    margin-top: 15px;
-    margin-left: 55px;
     display: flex;
     flex-direction: row;
+    margin-bottom: 14px;
     overflow: hidden;
 }
 
@@ -574,14 +588,14 @@ display: block;
         background-color: #ffff;
         border: 0.2px solid #a2a2a2;
         border-radius: 17px;
-        width: 90%;
-        height: 200%;
-        margin-top: 15px;
-        margin-left: 55px;
-        flex-direction: column;
-        vertical-align: top;
-        padding: 20px;
+        height: 75px;
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 14px;
+        padding: 15px;
         color: #000;
+        font-weight: 600px;
+        font-size: 16px;
     }
     
     #videoBox {
