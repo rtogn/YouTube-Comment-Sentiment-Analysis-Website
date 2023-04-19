@@ -238,6 +238,7 @@ def search_results():
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
     # pylint: disable=too-many-statements
+    # pylint: disable=too-many-locals
     """_summary_
     Route to Video view page
     """
