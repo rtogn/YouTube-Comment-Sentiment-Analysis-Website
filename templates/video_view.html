@@ -79,40 +79,107 @@
             </div>
             <br />
 
-            {%for i in range(100)%}
-            <div class="comments">
-
-                <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-                <span><strong>{{authorDisplayname[i]}}</strong></span>
-                <br />
-                <span class="comment_text">{{textDisplay[i]}}</span>
-                <br />
-                <span class="bubbled_item">Sentiment Score: {{sent_score[i]}}</span>
-            </div>
-            {%endfor%}
-
-        </main>
-
-        <aside class="right_sidebar">
-            <span class="all-text">
-
-        <form action="/video_view/" method="POST">
-            <label> Sentiment filter:</label>
-            <input type="range" min="-1" max="1" value = "0"  name="sent_value">
-            <input type="submit">
-        </form>
-
-
-        <div class="slidecontainer">
-
         </div>
+        <br />
+        {% for i in range(max_comments) %}
+            {% if len(textDisplay[i]) >= 200 %}
+                <div class="comments" id="comments{{i}}">
+                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                    <span><strong>{{authorDisplayname[i]}}</strong></span>
+                    <br />
+                    <div class="comment-short">{{textDisplay[i][:200]}}...
+                        <br />
+                        <button class="comment-length" onclick="showFullComment('{{i}}')">Read More</button>
+                    </div>
+                    <div class="comment-full" style="display:none">{{textDisplay[i]}}
+                        <br />
+                        <button class="comment-length" onclick="hideFullComment('{{ i }}')">Read Less</button>
+                    </div>
+                    <br />
+                    <span>Sentiment Score: {{sent_score[i]}}</span>
+                </div>
+            {% else %}
+                <div class="comments" id="comments{{i}}">
+                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+                    <span><strong>{{authorDisplayname[i]}}</strong></span>
+                    <br />
+                    <div class="comment-full">{{textDisplay[i]}}</div>
+                    <br />
+                    <span>Sentiment Score: {{sent_score[i]}}</span>
+                </div>
+            {% endif %}
+        {% endfor %}
 
-        <form action="/action_page.php" id="search_filter">
-            <label for="keyword"></label>
-            <input type="keyword" id="keyword" name="keyword"><br><br>
-            <input type="button" onclick="filet_out()" value="Filter out">
-            <input type="button" onclick="search_for()" value="Search for">
-        </form>
+    </main>
+
+    <aside class="right_sidebar">
+        <span class="all-text">
+
+    <form action="/video_view/" method="POST">
+        <label> Sentiment filter:</label>
+        <input type="range" min="-1" max="1" value = "0"  name="sent_value">
+        <input type="submit">
+    </form>
+    
+    
+    <div class="slidecontainer">
+        
+    </div>
+
+    <form action="/action_page.php" id="search_filter">
+        <label for="keyword"></label>
+        <input type="keyword" id="keyword" name="keyword"><br><br>
+        <input type="button" onclick="filet_out()" value="Filter out">
+        <input type="button" onclick="search_for()" value="Search for">
+        
+    </span>
+  
+  
+    </aside>
+        <!-- will move this later -->
+       <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("sent_value");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+            output.innerHTML = this.value/100;
+        }
+
+        function filter_out() {
+            var x = document.getElementById("keyword").form.id;
+            document.getElementById("filter").innerHTML = x;
+        }
+        function search_for() {
+            var x = document.getElementById("keyword").form.id;
+            document.getElementById("filter").innerHTML = x;
+        }
+        function update(){
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("sent_va");
+            output.innerHTML = slider.value/100;
+        }
+
+        
+       </script>
+
+    <!-- maximize and minimize the length of comments(read more/read less) -->
+
+       <script>
+        function showFullComment(index) {
+            var short = document.getElementById("comments" + index).getElementsByClassName("comment-short")[0];
+            var full = document.getElementById("comments" + index).getElementsByClassName("comment-full")[0];
+            short.style.display = "none";
+            full.style.display = "block";
+        }
+
+        function hideFullComment(index) {
+            var short = document.getElementById("comments" + index).getElementsByClassName("comment-short")[0];
+            var full = document.getElementById("comments" + index).getElementsByClassName("comment-full")[0];
+            short.style.display = "block";
+            full.style.display = "none";
+        }
+    </script>
 
         </span>
 
