@@ -150,14 +150,14 @@ color: #fff;
 
 /* all video stuff */
 
-.link {
+.vidLink {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-  }
+    width: inherit;
+    height: inherit;
+    text-decoration: none;
+    opacity: 0;
+    filter: alpha(opacity=0);
+ }
 
 #videoView {
     background-color: #ffff;
