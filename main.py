@@ -38,28 +38,6 @@ def index():
     # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
-        '''
-        if "login_submit" in flask.request.form:
-            # Get pass string entered into form
-            db_user = None
-            password_entered = form_data["password"]
-            try:
-                # Attempt to get user name from table,
-                # if not result in failure and display message
-                db_user = db.session.execute(db.select(sqm.Users).filter_by(
-                    user_name=form_data["user_name"])).scalar_one()
-                # If user is found in DB compare entered password to
-                # what is stored to validate (after decrypting)
-                success = sql_admin_functions.validate_login(
-                    db_user, password_entered)
-                # Add retrieved username to session
-                session['user'] = db_user.user_name
-                # Manually set modified to true
-                session.modified = True
-            except AttributeError:
-                print("User not found in table")
-                success = False
-            '''
 
         if "register_submit" in flask.request.form:
             username = form_data["user_name"]
