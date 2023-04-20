@@ -1,114 +1,119 @@
 <!DoCTYPE html>
 <html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
-        <link href="/static/video_view.css" rel="stylesheet" />
-        <link href="/static/allpages.css" rel="stylesheet" />
-        <script type="text/javascript" src="/static/widgets.js" ></script>
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    </head>
-    <body>
-        <aside class="left_sidebar">
-            <div class="left_all">
-                <div class="user_bubble">GG</div>
 
-                <!-- Reference to login button
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link href="/static/video_view.css" rel="stylesheet" />
+    <link href="/static/allpages.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/widgets.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <aside class="left_sidebar">
+        <div class="left_all">
+            <div class="user_bubble">GG</div>
+
+            <!-- Reference to login button
                 <button id="loginBtn" onclick="displayLogin('loginPopup')">login</div>-->
-                <!-- Put user name under welcome message from session var. -->
-                <div class="welcome_text">Welcome, {{session['user']}}!</div><br>
-                <div class="left_sidebar_buttons">
-                    <div class="buttons" onclick="displayLogin('loginPopup')">Login</div>
-                    <div class="buttons">Top Videos</div>
-                    <div class="buttons" onclick="window.location.href='/';">Home</div>
-                    <div class="buttons">About</div>
-                </div>
+            <!-- Put user name under welcome message from session var. -->
+            <div class="welcome_text">Welcome, {{session['user']}}!</div><br>
+            <div class="left_sidebar_buttons">
+                <div class="buttons" onclick="displayLogin('loginPopup')">Login</div>
+                <div class="buttons">Top Videos</div>
+                <div class="buttons" onclick="window.location.href='/';">Home</div>
+                <div class="buttons">About</div>
             </div>
-        </aside>
+        </div>
+    </aside>
 
-        <main class="main_bar">
+    <main class="main_bar">
 
-            <div>
-                <form method="POST" action="/video_view" name="watch?v">
-                    <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-                </form>
+        <div>
+            <form method="POST" action="/video_view" name="watch?v">
+                <iframe src="https://www.youtube.com/embed/{{videoId}}" width="1085" height="500" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </form>
 
+            <div clsas="video_info_box">
+                <span class="video_title">{{videoTitle}}</span>
+                <br />
 
-                <div clsas="video_info_box">
-                    <span class="video_title">{{videoTitle}}</span>
-                    <br />
+                <div class="flex_container_vid">
+                    <div class="channel_info">
+                        <img class="rounded-circle channel_icon" src="{{channelThumbnail}}" height="50">
 
-                    <div class="flex_container_vid">
-                        <div class="channel_info">
-                                <img class="rounded-circle channel_icon" src="{{channelThumbnail}}" height="50">
-
-                                <div class="channel_text">
-                                    <span class="channelTitle">
+                        <div class="channel_text">
+                            <span class="channelTitle">
                                         {{channelTitle}}
                                     </span>
 
-                                    <span class="subscriberCount">
+                            <span class="subscriberCount">
                                         {{channelsubscriberCount}}
                                         subscribers
                                     </span>
-                                </div>
-
                         </div>
 
-                        <div class="video_metrics">
-                            <span class="like bubbled_item">
+                    </div>
+
+                    <div class="video_metrics">
+                        <span class="bubbled_item">
+                            {{viewCount}}
+                            Views
+                        </span>
+
+                        <span class="like bubbled_item">
                                 <img src="/static/like_icon.png" class="like_icon">
                                 {{likeCount}}
                             </span>
 
-                            <span class="ave_sent_score bubbled_item">
-                                Sentiment Score: {{ave_sent_score}}
-                            </span>
-
-                            <span class="bubbled_item">
+                        <span class="bubbled_item">
                                 {{commentCount}}
                                 Comments
                             </span>
-                        </div>
+
+                        <span class="ave_sent_score bubbled_item">
+                            Sentiment Score: {{ave_sent_score}}
+                        </span>
+
+                        <span class="bubbled_item">
+                            Rating:
+                            {{score_rating}}
+                        </span>
                     </div>
-
                 </div>
-            </div>
-            <br />
 
+            </div>
         </div>
         <br />
-        {% for i in range(max_comments) %}
-            {% if len(textDisplay[i]) >= 200 %}
-                <div class="comments" id="comments{{i}}">
-                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-                    <span><strong>{{authorDisplayname[i]}}</strong></span>
-                    <br />
-                    <div class="comment-short">{{textDisplay[i][:200]}}...
-                        <br />
-                        <button class="comment-length" onclick="showFullComment('{{i}}')">Read More</button>
-                    </div>
-                    <div class="comment-full" style="display:none">{{textDisplay[i]}}
-                        <br />
-                        <button class="comment-length" onclick="hideFullComment('{{ i }}')">Read Less</button>
-                    </div>
-                    <br />
-                    <span>Sentiment Score: {{sent_score[i]}}</span>
-                </div>
-            {% else %}
-                <div class="comments" id="comments{{i}}">
-                    <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
-                    <span><strong>{{authorDisplayname[i]}}</strong></span>
-                    <br />
-                    <div class="comment-full">{{textDisplay[i]}}</div>
-                    <br />
-                    <span>Sentiment Score: {{sent_score[i]}}</span>
-                </div>
-            {% endif %}
-        {% endfor %}
+
+        </div>
+        <br /> {% for i in range(max_comments) %} {% if len(textDisplay[i]) >= 200 %}
+        <div class="comments" id="comments{{i}}">
+            <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+            <span><strong>{{authorDisplayname[i]}}</strong></span>
+            <br />
+            <div class="comment-short">{{textDisplay[i][:200]}}...
+                <br />
+                <button class="comment-length" onclick="showFullComment('{{i}}')">Read More</button>
+            </div>
+            <div class="comment-full" style="display:none">{{textDisplay[i]}}
+                <br />
+                <button class="comment-length" onclick="hideFullComment('{{ i }}')">Read Less</button>
+            </div>
+            <br />
+            <span class="bubbled_item">Sentiment Score: {{sent_score[i]}}</span>
+        </div>
+        {% else %}
+        <div class="comments" id="comments{{i}}">
+            <img class="rounded-circle" src="{{authorProfileImageUrl[i]}}">
+            <span><strong>{{authorDisplayname[i]}}</strong></span>
+            <br />
+            <div class="comment-full">{{textDisplay[i]}}</div>
+            <br />
+            <span class="bubbled_item">Sentiment Score: {{sent_score[i]}}</span>
+        </div>
+        {% endif %} {% endfor %}
 
     </main>
 
@@ -120,10 +125,10 @@
         <input type="range" min="-1" max="1" value = "0"  name="sent_value">
         <input type="submit">
     </form>
-    
-    
+
+
     <div class="slidecontainer">
-        
+
     </div>
 
     <form action="/action_page.php" id="search_filter">
@@ -131,13 +136,12 @@
         <input type="keyword" id="keyword" name="keyword"><br><br>
         <input type="button" onclick="filet_out()" value="Filter out">
         <input type="button" onclick="search_for()" value="Search for">
-        
+
     </span>
-  
-  
+
     </aside>
-        <!-- will move this later -->
-       <script>
+    <!-- will move this later -->
+    <script>
         var slider = document.getElementById("myRange");
         var output = document.getElementById("sent_value");
         output.innerHTML = slider.value;
@@ -159,13 +163,11 @@
             var output = document.getElementById("sent_va");
             output.innerHTML = slider.value/100;
         }
-
-        
-       </script>
+    </script>
 
     <!-- maximize and minimize the length of comments(read more/read less) -->
 
-       <script>
+    <script>
         function showFullComment(index) {
             var short = document.getElementById("comments" + index).getElementsByClassName("comment-short")[0];
             var full = document.getElementById("comments" + index).getElementsByClassName("comment-full")[0];
@@ -181,13 +183,12 @@
         }
     </script>
 
-        </span>
+    </span>
 
-
-        </aside>
-            <!-- will move this later -->
-           <script>
-            var slider = document.getElementById("myRange");
+    </aside>
+    <!-- will move this later -->
+    <script>
+        var slider = document.getElementById("myRange");
             var output = document.getElementById("sent_value");
             output.innerHTML = slider.value;
 
@@ -208,8 +209,7 @@
                 var output = document.getElementById("sent_va");
                 output.innerHTML = slider.value/100;
             }
+    </script>
+</body>
 
-
-           </script>
-    </body>
 </html>
