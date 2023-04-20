@@ -34,7 +34,12 @@
             </div>
 
             <!-- Put user name under welcome message from session var. -->
-            <div class="welcome_text">Welcome, {{session['user']}}!</div><br>
+            <div class="welcome_text">
+                {% if user %}
+                <p>Welcome {{ user }}!</p>
+                {% endif %}
+            </div>
+            <br>
 
             <hr class="divider">
 
@@ -45,8 +50,16 @@
 
             <hr class="divider">
 
-            <div class="buttons" id="buttons_text"  onclick="LoginFunctions.openLog('loginPopup')"><span class="bi bi-people-fill"></span> <span class="nav_text">Login</span></div>
-            <div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')"><span class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span></div>
+            {% if 'user_id' in session %}
+            <a href="/logout">Logout</a>
+            {% else %}
+            <div class="buttons" id="buttons_text" onclick="LoginFunctions.openLog('loginPopup')">
+                <span class="bi bi-people-fill"></span> <span class="nav_text">Login</span>
+            </div>
+            <div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')">
+                <span class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span>
+            </div>
+            {% endif %}
             <div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> <span class="nav_text">Saved Videos</span></div>
 
             <hr class="divider">
@@ -243,6 +256,58 @@
                 output.innerHTML = slider.value/100;
             }
            </script>
+
+        <!-- login area -->
+        <div id="loginPopup" {% if error %}style="display: block" {% endif %}>
+            <form method="POST" action="/login">
+                <button type="button" class="btn-close" aria-label="Close"
+                    onclick="LoginFunctions.closeLog('loginPopup')"></button>
+                <div id="loginTitle">Login</div>
+                {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                <label for="user_name" id="formtxt"><b>Username</b></label>
+                <input type="text" class="form-control" id="user_name" placeholder="Username" name="user_name" required>
+        
+                <label for="password" id="formtxt"><b>Password</b></label>
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+        
+                <input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
+        
+                <button type="submit" id="submitBar">Submit</button>
+            </form>
+        </div>
+        
+        <!-- Register area -->
+        <div id="regPopup" {% if register_error %}style="display: block" {% endif %}>
+            <form action="/" method="POST">
+                <button type="button" class="btn-close" aria-label="Close"
+                    onclick="LoginFunctions.closeReg('regPopup')"></button>
+                <div id="loginTitle">Register</div>
+                {% if register_error %}
+                <div class="alert alert-danger">{{ register_error }}</div>
+                {% endif %}
+        
+                <div id="form-floating">
+                    <label for="user_name" id="formtxt"><b>Username</b></label>
+                    <input type="username" class="form-control" id="user_name" name="user_name" placeholder="username"
+                        value="{{ user_name }}" required>
+                </div>
+                <div id="form-floating">
+                    <label for="email"><b>Email</b></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email" value="{{ email }}"
+                        required>
+                </div>
+        
+                <div id="form-floating">
+                    <label for="password"><b>Password</b></label>
+                    <input type="password" class="form-control" id="password" name='password' placeholder="password" required>
+                </div>
+        
+        
+                <button type="submit" class="submitBar" id="register_submit" name="register_submit">Submit</button>
+            </form>
+        </div>
 
     </body>
 </html>
