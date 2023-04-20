@@ -53,12 +53,12 @@ def index():
                 session['user_name'] = username
                 # Registration successful, close popup
                 return flask.redirect('/?username=' + username)
-            else:
-                # Registration failed, display error message in popup
-                return flask.render_template(
-                    "index.html",
-                    register_error=message
-                )
+
+            # Registration failed, display error message in popup
+            return flask.render_template(
+                "index.html",
+                register_error=message
+            )
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -108,13 +108,13 @@ def login_page():
             flask.session['user_id'] = user.id
             flask.session['user_name'] = user.user_name
             return flask.redirect('/?username=' + username)
-        else:
-            # Handle invalid login credentials
-            error = 'Invalid username or password'
-            return flask.render_template('index.html', error=error)
-    else:
-        # GET request, render the login page
-        return flask.render_template('index.html')
+
+        # Handle invalid login credentials
+        error = 'Invalid username or password'
+        return flask.render_template('index.html', error=error)
+
+    # GET request, render the login page
+    return flask.render_template('index.html')
 
 
 # Logout route
@@ -249,6 +249,7 @@ def search_results():
         channelTitle=vid_dict["channel_title"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channel_subscriber_count"],
+        user=session.get('user_name'),
 
     )
 
@@ -416,6 +417,7 @@ def video_view():
         score_rating=score_ratings,
         max_comments=max_comments,
         len=len,
+        user=session.get('user_name'),
     )
 
 

@@ -207,16 +207,16 @@ def register_user(user_name, password_entered, email):
 
     if not is_new_user(user_name):
         return "Username already exists"
-    elif not is_new_email(email):
+    if not is_new_email(email):
         return "Email already exists"
-    else:
-        usr = sqm.Users(user_name=user_name,
-                        password=password_entered,
-                        email=email
-                        )
-        db.session.add(usr)
-        db.session.commit()
-        return "Registration successful"
+
+    usr = sqm.Users(user_name=user_name,
+                    password=password_entered,
+                    email=email
+                    )
+    db.session.add(usr)
+    db.session.commit()
+    return "Registration successful"
 
 
 if __name__ == '__main__':

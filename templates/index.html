@@ -51,13 +51,15 @@
 
 			<hr class="divider">
 
-			{% if session.get('user_id') %}
+			{% if 'user_id' in session %}
 			<a href="/logout">Logout</a>
 			{% else %}
-			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openLog('loginPopup')"><span
-					class="bi bi-people-fill"></span> <span class="nav_text">Login</span></div>
-			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')"><span
-					class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span></div>
+			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openLog('loginPopup')">
+				<span class="bi bi-people-fill"></span> <span class="nav_text">Login</span>
+			</div>
+			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openReg('regPopup')">
+				<span class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span>
+			</div>
 			{% endif %}
 
 			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> <span class="nav_text">Saved Videos</span></div>
