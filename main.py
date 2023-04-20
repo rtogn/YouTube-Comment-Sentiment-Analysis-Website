@@ -5,7 +5,7 @@ Routes for each page are defined as well as boilerplate setup.
 import os
 import requests
 import flask
-from flask import redirect, session
+from flask import session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 # pylint: disable=no-name-in-module
