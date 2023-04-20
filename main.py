@@ -38,7 +38,7 @@ def index():
     # LOGIN STUFF
     if flask.request.method == "POST":
         form_data = flask.request.form
-
+        '''
         if "login_submit" in flask.request.form:
             # Get pass string entered into form
             db_user = None
@@ -59,12 +59,13 @@ def index():
             except AttributeError:
                 print("User not found in table")
                 success = False
+            '''
 
         if "register_submit" in flask.request.form:
-            un = form_data["user_name"]
-            pw = form_data["password"]
-            em = form_data["email"]
-            sql_admin_functions.register_user(un, pw, em)
+            username = form_data["user_name"]
+            password = form_data["password"]
+            email = form_data["email"]
+            sql_admin_functions.register_user(username, password, email)
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
