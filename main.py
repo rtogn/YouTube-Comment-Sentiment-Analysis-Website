@@ -12,7 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sent_score, ave_sent_score, get_formatted_score
+from vader import sent_score, ave_sent_score, get_formatted_score, get_text_rating
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -27,7 +27,7 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/')
+@app.route('/',  methods=["GET", "POST"])
 def index():
     """_summary_
     Route to base page of website
@@ -35,6 +35,15 @@ def index():
     # Set default username if has not logged in yet to guest for display.
     if not session:
         session['user'] = 'Guest'
+    # LOGIN STUFF
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+
+        if "register_submit" in flask.request.form:
+            username = form_data["user_name"]
+            password = form_data["password"]
+            email = form_data["email"]
+            sql_admin_functions.register_user(username, password, email)
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -63,7 +72,7 @@ def index():
     )
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -243,6 +252,7 @@ def video_view():
         "channel_title": [],
         "subscriber_count": [],
         "comment_count": [],
+        "view_count": [],
         "like_count": "",
         "channel_thumbnail": [],
         "channelsub_scriber_count": [],
@@ -288,6 +298,12 @@ def video_view():
     try:
         vid_dict["like_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['likeCount']))
+    except KeyError:
+        print("")
+
+    try:
+        vid_dict["view_count"] = number_suffix(float(
+            response_video["items"][0]['statistics']['viewCount']))
     except KeyError:
         print("")
 
@@ -363,8 +379,8 @@ def video_view():
 
     raw_ave = ave_sent_score(vid_dict["text_display"])
     ave_sent_scores = get_formatted_score(raw_ave)
+    score_ratings = get_text_rating(raw_ave)
     sql_requests.add_video(query, vid_dict, raw_ave)
-
 
     return flask.render_template(
         "video_view.html",
@@ -373,6 +389,7 @@ def video_view():
         subscriberCount=vid_dict["subscriber_count"],
         commentCount=vid_dict["comment_count"],
         likeCount=vid_dict["like_count"],
+        viewCount=vid_dict["view_count"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channelsub_scriber_count"],
         channelId=vid_dict["channel_id"],
@@ -382,6 +399,7 @@ def video_view():
         textDisplay=vid_dict["text_display"],
         sent_score=vid_dict["sent_scores"],
         ave_sent_score=ave_sent_scores,
+        score_rating=score_ratings,
         max_comments=max_comments,
         len=len,
     )
@@ -393,7 +411,7 @@ def sql_playground_temporary():
     Route to SQL Demo Page
     """
     # sql_admin_functions.add_live_test_vids()
-
+    sql_admin_functions.register_user("admin", "1234", "admin@ytsa.com")
     sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form
@@ -403,7 +421,6 @@ def sql_playground_temporary():
         sql_requests.set_sent_arvrg_video(
             target_row, float(form_data["new_score"]))
         db.session.commit()
-
 
     vids = sqm.VideoInfo.query.all()
 

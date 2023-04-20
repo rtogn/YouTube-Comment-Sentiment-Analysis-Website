@@ -73,7 +73,7 @@
     background-color: #e4e4e4;
 }
 
-#submitBar {
+.submitBar {
     width: 100%;
     background-color: #e2d9d9;
     border: 1px solid #f2f2f2;
@@ -85,7 +85,7 @@
     font-family: 'Arimo';
     font-size: 13px;
 }
-#submitBar:hover, #submitBar:focus {
+.submitBar:hover, #submitBar:focus {
     border: 1.5px solid #dfdfdf;
     background-color: #c3bbbb;
 }
