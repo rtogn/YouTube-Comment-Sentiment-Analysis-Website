@@ -27,7 +27,7 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/')
+@app.route('/',  methods=["GET", "POST"])
 def index():
     """_summary_
     Route to base page of website
@@ -35,6 +35,15 @@ def index():
     # Set default username if has not logged in yet to guest for display.
     if not session:
         session['user'] = 'Guest'
+    # LOGIN STUFF
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+
+        if "register_submit" in flask.request.form:
+            username = form_data["user_name"]
+            password = form_data["password"]
+            email = form_data["email"]
+            sql_admin_functions.register_user(username, password, email)
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -63,7 +72,7 @@ def index():
     )
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -402,7 +411,7 @@ def sql_playground_temporary():
     Route to SQL Demo Page
     """
     # sql_admin_functions.add_live_test_vids()
-
+    sql_admin_functions.register_user("admin", "1234", "admin@ytsa.com")
     sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form

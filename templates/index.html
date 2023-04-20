@@ -135,7 +135,7 @@
 	
 					<input type="checkbox"><label for="checkbox" id="formtxt">Remember my Login?</label>
 	
-					<button type="submit" id="submitBar">Submit</button>
+					<button type="submit" class="submitBar" id="login_submit">Submit</button>
 			</form>
 		</div>
 
@@ -145,20 +145,20 @@
 				<button type="button" class="btn-close" aria-label="Close" onclick="LoginFunctions.closeReg('regPopup')"></button>
 				<div id="loginTitle">Register</div>
 				<div id="form-floating">
-					<input type="email" class="form-control" id="floatEmail" name="email" placeholder="email">
-					<label for="floatEmail"><b>Email Address</b></label>
+					<label for="email"><b>Email Address</b></label>
+					<input type="email" class="form-control" id="email" name="email" placeholder="email">
 				</div>
 				<div id="form-floating">
-					<input type="username" class="form-control" id="floatEmail" name="username" placeholder="username">
-					<label for="floatEmail" id="formtxt"><b>Username</b></label>
+					<label for="user_name" id="formtxt"><b>Username</b></label>
+					<input type="username" class="form-control" id="user_name" name="user_name" placeholder="username">
 				</div>
 				<div id="form-floating">
-					<input type="password" class="form-control" id="floatPass" name='password' placeholder="password">
-					<label for="floatPass"><b>Password</b></label>
+					<label for="password"><b>Password</b></label>
+					<input type="password" class="form-control" id="password" name='password' placeholder="password">
 				</div>
 				<input type="checkbox"><label for="checkbox" id="formtxt">I agree to donate my kidney's to the Sapce Cat's Team.</label>
 			
-				<button type="submit" id="submitBar">Submit</button>
+				<button type="submit"  class="submitBar" id="register_submit" name="register_submit">Submit</button>
 			</form>
 		</div>
 
