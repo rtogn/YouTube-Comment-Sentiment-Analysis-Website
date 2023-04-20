@@ -27,7 +27,7 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/')
+@app.route('/',  methods=["GET", "POST"])
 def index():
     """_summary_
     Route to base page of website
@@ -35,6 +35,36 @@ def index():
     # Set default username if has not logged in yet to guest for display.
     if not session:
         session['user'] = 'Guest'
+    # LOGIN STUFF
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+
+        if "login_submit" in flask.request.form:
+            # Get pass string entered into form
+            db_user = None
+            password_entered = form_data["password"]
+            try:
+                # Attempt to get user name from table,
+                # if not result in failure and display message
+                db_user = db.session.execute(db.select(sqm.Users).filter_by(
+                    user_name=form_data["user_name"])).scalar_one()
+                # If user is found in DB compare entered password to
+                # what is stored to validate (after decrypting)
+                success = sql_admin_functions.validate_login(
+                    db_user, password_entered)
+                # Add retrieved username to session
+                session['user'] = db_user.user_name
+                # Manually set modified to true
+                session.modified = True
+            except AttributeError:
+                print("User not found in table")
+                success = False
+
+        if "register_submit" in flask.request.form:
+            un = form_data["user_name"]
+            pw = form_data["password"]
+            em = form_data["email"]
+            sql_admin_functions.register_user(un, pw, em)
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -63,7 +93,7 @@ def index():
     )
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
@@ -402,7 +432,7 @@ def sql_playground_temporary():
     Route to SQL Demo Page
     """
     # sql_admin_functions.add_live_test_vids()
-
+    sql_admin_functions.register_user("admin", "1234", "admin@ytsa.com")
     sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form

@@ -9,7 +9,7 @@ import nltk
 
 
 def setup_vader():
-    #pylint: disable=protected-access
+    # pylint: disable=protected-access
     """_summary_
     Trying to get linter to behave with protected member issue with ssl calls.
     """
@@ -21,11 +21,13 @@ def setup_vader():
         ssl._create_default_https_context = _create_unverified_https_context
     nltk.download("vader_lexicon")
 
+
 setup_vader()
+
 
 # this function takes in a list of comments and outputs a corresponding
 # list of sentiment scores ranging from -1 to 1
-def get_sent_score(comment):
+def sent_score(comment):
     """_summary_
     Calculate sentiment score on a single comment using Vader
     Args:
@@ -70,7 +72,7 @@ def ave_sent_score_old(comments):
     """
     total = 0
     for comment in comments:
-        total = total + get_sent_score(comment)
+        total = total + sent_score(comment)
     try:
         final_val = total / len(comments)
     except ZeroDivisionError:
@@ -78,7 +80,8 @@ def ave_sent_score_old(comments):
 
     return final_val
 
-def get_ave_score(comments):
+
+def ave_sent_score(comments):
     """_summary_
     Calculate average sent score for a list of comments
     Args:
@@ -90,7 +93,7 @@ def get_ave_score(comments):
     total = 0
     length = len(comments)
     for comment in comments:
-        cur_sent = get_sent_score(comment)
+        cur_sent = sent_score(comment)
         total = total + cur_sent
         if cur_sent == 0.0:
             length = length - 1
@@ -102,25 +105,26 @@ def get_ave_score(comments):
 
     return final_val
 
+
 def get_formatted_score(sentiment_score):
     """Returns float sent score
     formatted as 1 decimal place
     percentage string.
 
     Args:
-        sent_score (float):
+        sentiment_score (float):
         sentiment score as floating point val
         between -1.0 and 1.0
     """
     return f"{sentiment_score * 100:.2f}%"
 
 
-def get_text_rating(sent_score):
+def get_text_rating(sentiment_score):
     """Creates a description string from
         sentiment score such as "Highly Positive"
         based on range of score.
     Args:
-        sent_score (float):
+        sentiment_score (float):
         sentiment score as floating point val
         between -1.0 and 1.0
 
@@ -129,21 +133,20 @@ def get_text_rating(sent_score):
     """
     rating = "Neutral"
 
-    if sent_score > 0.0:
+    if sentiment_score > 0.0:
         rating = "Positive"
-    elif sent_score < 0.0:
+    elif sentiment_score < 0.0:
         rating = "Negative"
 
+    modifier = ""
     if rating != "Neutral":
-        abs_score = abs(sent_score)
-        modifier = ""
+        abs_score = abs(sentiment_score)
+
         if abs_score >= 0.70:
             modifier = "Overwhelmingly "
         elif abs_score >= 0.50:
             modifier = "Highly "
         elif abs_score >= 0.25:
             modifier = "Somewhat "
-        else:
-            modifier = ""
 
     return modifier + rating
