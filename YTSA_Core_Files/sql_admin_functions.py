@@ -30,7 +30,8 @@ def sql_add_demo_data_random(num_entries):
         num_entries (_type_): _description_
     """
 
-    test_channels = ["channel_00", "channel_01", "channel_02", "channel_04", "channel_05"]
+    test_channels = ["channel_00", "channel_01",
+                     "channel_02", "channel_04", "channel_05"]
     for entry in range(0, num_entries):
         vid_id = generate_random_vid_id()
         score = rand.random()
@@ -64,7 +65,8 @@ def sql_add_demo_data_testing():
                           negative_entries=5,
                           positive_entries=93,
                           neutral_entries=2,
-                          date_updated=str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                          date_updated=str(
+                              strftime("%Y-%m-%d %H:%M:%S", gmtime()))
                           )
 
     video = sqm.Users(user_name="Admin",
@@ -101,7 +103,8 @@ def add_live_test_vids():
                               negative_entries=rand.randint(1, 1000),
                               positive_entries=rand.randint(1, 1000),
                               neutral_entries=rand.randint(1, 1000),
-                              date_updated=str(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+                              date_updated=str(
+                                  strftime("%Y-%m-%d %H:%M:%S", gmtime()))
                               )
         channel = sqm.Channels(
             channel=vid[1],
@@ -197,20 +200,23 @@ def register_user(user_name, password_entered, email):
         password_entered: string
         email: string
 
-    Returns: True for success, False for failure (user is already in DB
+    Returns: True for success, False for failure (user is already in DB)
     """
     password_entered = hash_password(password_entered)
     email = email.lower()
 
-    if is_new_user(user_name) and is_new_email(email):
+    if not is_new_user(user_name):
+        return "Username already exists"
+    elif not is_new_email(email):
+        return "Email already exists"
+    else:
         usr = sqm.Users(user_name=user_name,
                         password=password_entered,
                         email=email
                         )
         db.session.add(usr)
         db.session.commit()
-        return True
-    return False
+        return "Registration successful"
 
 
 if __name__ == '__main__':
