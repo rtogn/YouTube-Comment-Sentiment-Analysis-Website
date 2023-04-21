@@ -123,6 +123,7 @@
                     {{ max_comments }} Comments
                 </div>
                 <div class="divider" style="margin-top: 0px;"></div>
+         <div id="comment_content">   
         {% for i in range(max_comments) %}
             {% if len(textDisplay[i]) >= 200 %}
                 <div class="comments" id="comments{{i}}">
@@ -149,8 +150,9 @@
                 </div>
                 {% endif %}
                 {% endfor %}
+            </div> 
             </div>
-
+         
             </div>
 
             <div class="leftBar">
@@ -158,8 +160,8 @@
 
                     <form action="/video_view/" method="POST">
                         <label> Sentiment filter:</label>
-                        <input type="range" min="-1" max="1" value = "0"  name="sent_value">
-                        <input type="submit">
+                        <input type="range" min="-100" max="100" value = "1"  name="sent_value" id="sam_MyRange">
+                        <input type="button" onclick="SentSearch()" value="Search for">
                     </form>
                 
                     
@@ -172,51 +174,74 @@
         <!-- will move this later -->
        
 
-    <form action="/video_view/" method="POST">
-        <label> Sentiment filter:</label>
-        <input type="range" min="-1" max="1" value = "0"  name="sent_value">
-        <input type="submit">
-    </form>
+    
 
 
     <div class="slidecontainer">
 
     </div>
 
-    <form action="/action_page.php" id="search_filter">
-        <label for="keyword"></label>
-        <input type="keyword" id="keyword" name="keyword"><br><br>
-        <input type="button" onclick="filet_out()" value="Filter out">
-        <input type="button" onclick="search_for()" value="Search for">
-
     </span>
 
     </aside>
     <!-- will move this later -->
     <script>
+         var js_sent = JSON.parse('{{sent_score | tojson}}')
+        var js_authorProfileImageUrl = JSON.parse('{{authorProfileImageUrl | tojson}}')
+        var js_authorDisplayname = JSON.parse('{{authorDisplayname | tojson}}')
+        //var js_textDisplay = JSON.parse('{{textDisplay | tojson}}')
+        function SentSearch(){
+            var sent = document.getElementById("sam_MyRange").value
 
-        var slider = document.getElementById("myRange");
-        var output = document.getElementById("sent_value");
-        output.innerHTML = slider.value;
+            console.log(sent)
+             var myContent = ''
 
-        slider.oninput = function() {
-            output.innerHTML = this.value/100;
+             for (let i = 0; i < 100; i++) {
+                console.log(Number(js_sent[i].replace('%', '')))
+                
+                if (Number(js_sent[i].replace('%', '')) > sent) {
+                    myContent += "<div class='comments' id='comments"+i+"'>" +
+                    "<img class='commentImg' src='"+js_authorProfileImageUrl[i]+"'>" +
+                    "<div class='commentText'>"+
+                       " <strong>"+ js_authorDisplayname[i] + "</strong>"+
+                        //"<div class='comment-full'>" + js_textDisplay[i] + "</div>" +
+                        "<div class='sentimentScore'>Sentiment Score: " + js_sent[i] + "</div>"+
+                    "</div>" +
+                "</div>"
+
+
+                }
+             }
+            console.log(myContent)
+             document.getElementById('comment_content').innerHTML= myContent
+
         }
 
-        function filter_out() {
-            var x = document.getElementById("keyword").form.id;
-            document.getElementById("filter").innerHTML = x;
-        }
-        function search_for() {
-            var x = document.getElementById("keyword").form.id;
-            document.getElementById("filter").innerHTML = x;
-        }
-        function update(){
-            var slider = document.getElementById("myRange");
-            var output = document.getElementById("sent_va");
-            output.innerHTML = slider.value/100;
-        }
+
+
+        // var slider = document.getElementById("myRange");
+        // var output = document.getElementById("sent_value");
+        // output.innerHTML = slider.value;
+
+        // slider.oninput = function() {
+        //     output.innerHTML = this.value/100;
+        // }
+
+        // function filter_out() {
+        //     var x = document.getElementById("keyword").form.id;
+        //     document.getElementById("filter").innerHTML = x;
+        // }
+        // function search_for() {
+        //     var x = document.getElementById("keyword").form.id;
+        //     document.getElementById("filter").innerHTML = x;
+        // }
+        // function update(){
+        //     var slider = document.getElementById("myRange");
+        //     var output = document.getElementById("sent_va");
+        //     output.innerHTML = slider.value/100;
+        // }
     </script>
+   
 
     <!-- maximize and minimize the length of comments(read more/read less) -->
 
@@ -240,28 +265,6 @@
 
     </aside>
     <!-- will move this later -->
-    <script>
-        var slider = document.getElementById("myRange");
-            var output = document.getElementById("sent_value");
-            output.innerHTML = slider.value;
-
-            slider.oninput = function() {
-                output.innerHTML = this.value/100;
-            }
-
-            function filter_out() {
-                var x = document.getElementById("keyword").form.id;
-                document.getElementById("filter").innerHTML = x;
-            }
-            function search_for() {
-                var x = document.getElementById("keyword").form.id;
-                document.getElementById("filter").innerHTML = x;
-            }
-            function update(){
-                var slider = document.getElementById("myRange");
-                var output = document.getElementById("sent_va");
-                output.innerHTML = slider.value/100;
-            }
-        </script>
+    
     </body>
 </html>

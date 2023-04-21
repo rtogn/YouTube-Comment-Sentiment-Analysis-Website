@@ -1,5 +1,10 @@
+flask==2.2.2
+flask-sqlalchemy==3.0.3
+requests
+python-dotenv
+numpy
+nltk 
 click==8.1.3
-Flask==2.2.2
 gunicorn==20.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
