@@ -5,14 +5,14 @@ Routes for each page are defined as well as boilerplate setup.
 import os
 import requests
 import flask
-from flask import redirect, session
+from flask import session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 # pylint: disable=no-name-in-module
 from YTSA_Core_Files import sql_admin_functions, sql_requests
 from YTSA_Core_Files import sql_models as sqm
 from YTSA_Core_Files.sql_models import db
-from vader import sent_score, ave_sent_score
+from vader import sent_score, ave_sent_score, get_formatted_score, get_text_rating
 
 load_dotenv(find_dotenv())
 APIKEY = os.getenv("APIKEY")
@@ -27,14 +27,38 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/')
+@app.route('/',  methods=["GET", "POST"])
 def index():
     """_summary_
     Route to base page of website
     """
     # Set default username if has not logged in yet to guest for display.
-    if not session:
-        session['user'] = 'Guest'
+
+    username = 'guest'
+    if 'user_name' in session:
+        username = session['user_name']
+
+    # registration form
+    if flask.request.method == "POST":
+        form_data = flask.request.form
+
+        if "register_submit" in flask.request.form:
+            username = form_data["user_name"]
+            password = form_data["password"]
+            email = form_data["email"]
+            message = sql_admin_functions.register_user(
+                username, password, email)
+
+            if message == "Registration successful":
+                session['user_name'] = username
+                # Registration successful, close popup
+                return flask.redirect('/?username=' + username)
+
+            # Registration failed, display error message in popup
+            return flask.render_template(
+                "index.html",
+                register_error=message
+            )
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -59,52 +83,52 @@ def index():
     return flask.render_template(
         "index.html",
         num_vids=num_vids,
-        video_info_list=video_info_list
+        video_info_list=video_info_list,
+        user=username
     )
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login_page():
     """_summary_
     Route to bare login page for testing
-    (will remove later in favor of popup)
+
     """
-    message = "Welcome to the YTSA!"
+    if flask.request.method == 'POST':
+        # Get the form data from the request object
+        username = flask.request.form['user_name']
+        password = flask.request.form['password']
 
-    # LOGIN STUFF
-    if flask.request.method == "POST":
-        form_data = flask.request.form
-        # Get pass string entered into form
-        db_user = None
-        password_entered = form_data["password"]
-        try:
-            # Attempt to get user name from table,
-            # if not result in failure and display message
-            db_user = db.session.execute(db.select(sqm.Users).filter_by(
-                user_name=form_data["user_name"])).scalar_one()
-            # If user is found in DB compare entered password to
-            # what is stored to validate (after decrypting)
-            success = sql_admin_functions.validate_login(
-                db_user, password_entered)
-            # Add retreived username to sessoin
-            session['user'] = db_user.user_name
-            # Manually set modified to true
-            session.modified = True
-        except AttributeError:
-            print("User not found in table")
-            success = False
+        # Query the database for the user
+        user = sqm.Users.query.filter_by(user_name=username).first()
 
-        # Send update with username for message or redirect back to main page
-        # Else update message to reflect bad lgin.
-        if success:
-            return redirect("/", code=302)
+        # Check if user and password are valid
+        if sql_admin_functions.validate_login(user, password):
+            # Store the user's ID in the session
+            flask.session['user_id'] = user.id
+            flask.session['user_name'] = user.user_name
+            return flask.redirect('/?username=' + username)
 
-        message = "Invalid login credentials"
+        # Handle invalid login credentials
+        error = 'Invalid username or password'
+        return flask.render_template('index.html', error=error)
 
-    return flask.render_template(
-        "login.html",
-        Login_message=message
-    )
+    # GET request, render the login page
+    return flask.render_template('index.html')
+
+
+# Logout route
+
+
+@app.route('/logout')
+def logout():
+    """_summary_
+    Route to bare logout page for testing
+
+    """
+    # Clear the user session and redirect to login page
+    flask.session.clear()
+    return flask.redirect('/')
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
@@ -170,12 +194,6 @@ def search_results():
             print("no channelid")
 
         try:
-            vid_dict["channel_title"].append(
-                response_search["items"][i]['snippet']['channelTitle'])
-        except IndexError:
-            print("no channelTitle")
-
-        try:
             vid_dict["video_id"].append(
                 response_search["items"][i]['id']['videoId'])
         except IndexError:
@@ -231,6 +249,7 @@ def search_results():
         channelTitle=vid_dict["channel_title"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channel_subscriber_count"],
+        user=session.get('user_name'),
 
     )
 
@@ -238,6 +257,8 @@ def search_results():
 @app.route('/video_view/', methods=["GET", "POST"])
 def video_view():
     # pylint: disable=too-many-statements
+    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-branches
     """_summary_
     Route to Video view page
     """
@@ -248,6 +269,7 @@ def video_view():
         "channel_title": [],
         "subscriber_count": [],
         "comment_count": [],
+        "view_count": [],
         "like_count": "",
         "channel_thumbnail": [],
         "channelsub_scriber_count": [],
@@ -260,11 +282,8 @@ def video_view():
     }
 
     form_data = flask.request.args
-    # print("\n\n\n")
-    # print(form_data)
-    # print("\n\n\n")
+
     query = form_data.get("watch?v", "")
-    # print(query)
 
     video_url = "https://www.googleapis.com/youtube/v3/videos?"
     video_params = {
@@ -281,23 +300,34 @@ def video_view():
         vid_dict["video_title"] = response_video["items"][0]['snippet']['title']
     except KeyError:
         print("no title")
+        vid_dict["video_title"] = "API ERROR"
 
     try:
         vid_dict["channel_id"] = response_video["items"][0]['snippet']['channelId']
     except KeyError:
         print("no channelid")
+        vid_dict["channel_id"] = "API ERROR"
 
     try:
         vid_dict["comment_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['commentCount']))
     except KeyError:
         print("")
+        vid_dict["comment_count"] = "0"
 
     try:
         vid_dict["like_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['likeCount']))
     except KeyError:
         print("")
+        vid_dict["like_count"] = 0
+
+    try:
+        vid_dict["view_count"] = number_suffix(float(
+            response_video["items"][0]['statistics']['viewCount']))
+    except KeyError:
+        print("")
+        vid_dict["view_count"] = 0
 
     channel_url = "https://www.googleapis.com/youtube/v3/channels?"
     channel_params = {
@@ -315,12 +345,14 @@ def video_view():
         vid_dict["channel_title"] = response_channel_vid["items"][0]['snippet']['title']
     except KeyError:
         print("no title")
+        vid_dict["channel_title"] = "Title blocked by API"
 
     try:
         vid_dict["channel_thumbnail"] = (response_channel_vid["items"][0]
                                          ['snippet']['thumbnails']['default']['url'])
     except KeyError:
         print("no thumbnail")
+        vid_dict["channel_thumbnail"] = ""
 
     try:
         vid_dict["channelsub_scriber_count"] = number_suffix(float(
@@ -339,40 +371,47 @@ def video_view():
 
     }
     response_comments = requests.get(comments_url, comments_params, timeout=30)
-    # print(responseComments.text)
     response_comments = response_comments.json()
 
     for i in range(max_comments):
+        # Cut loop short if no comments.
+        if vid_dict["comment_count"] == "0":
+            max_comments = 0
+            break
 
         try:
             vid_dict["author_profile_image_url"].append(
                 response_comments["items"][i]['snippet']['topLevelComment']
                     ['snippet']['authorProfileImageUrl'])
-        except IndexError:
+        except (IndexError, KeyError):
             print("no profile")
+            vid_dict["author_profile_image_url"].append("no image")
 
         try:
             vid_dict["author_display_name"].append(
                 response_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['authorDisplayName'])
-        except IndexError:
+        except (IndexError, KeyError):
             print("no author")
+            vid_dict["author_display_name"].append("API Error")
 
         try:
             vid_dict["text_display"].append(
                 response_comments["items"][i]['snippet']['topLevelComment']
                 ['snippet']['textDisplay'])
             vid_dict["sent_scores"].append(
-                sent_score(
+                get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
-                    ['snippet']['textDisplay']))
-        except IndexError:
+                    ['snippet']['textDisplay'])))
+        except (IndexError, KeyError):
             print("")
+            #vid_dict["text_display"].append("API Error: No Text")
+            vid_dict["sent_scores"].append("cat")
 
-    ave_sent_scores = ave_sent_score(vid_dict["text_display"])
-    sql_requests.add_video(query, vid_dict, ave_sent_scores)
-    # print(textDisplay)
-    # print(authorDisplayname)
+    raw_ave = ave_sent_score(vid_dict["text_display"])
+    ave_sent_scores = get_formatted_score(raw_ave)
+    score_ratings = get_text_rating(raw_ave)
+    sql_requests.add_video(query, vid_dict, raw_ave)
 
     return flask.render_template(
         "video_view.html",
@@ -381,6 +420,7 @@ def video_view():
         subscriberCount=vid_dict["subscriber_count"],
         commentCount=vid_dict["comment_count"],
         likeCount=vid_dict["like_count"],
+        viewCount=vid_dict["view_count"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channelsub_scriber_count"],
         channelId=vid_dict["channel_id"],
@@ -389,7 +429,11 @@ def video_view():
         authorProfileImageUrl=vid_dict["author_profile_image_url"],
         textDisplay=vid_dict["text_display"],
         sent_score=vid_dict["sent_scores"],
-        ave_sent_score=ave_sent_scores
+        ave_sent_score=ave_sent_scores,
+        score_rating=score_ratings,
+        max_comments=max_comments,
+        len=len,
+        user=session.get('user_name'),
     )
 
 
@@ -399,7 +443,7 @@ def sql_playground_temporary():
     Route to SQL Demo Page
     """
     # sql_admin_functions.add_live_test_vids()
-
+    sql_admin_functions.register_user("admin", "1234", "admin@ytsa.com")
     sql_requests.get_top_five()
     if flask.request.method == "POST":
         form_data = flask.request.form
@@ -410,7 +454,8 @@ def sql_playground_temporary():
             target_row, float(form_data["new_score"]))
         db.session.commit()
 
-    vids =  sqm.VideoInfo.query.all() #sql_requests.get_top_five()  #
+    vids = sqm.VideoInfo.query.all()
+
     num_vids = len(vids)
     return flask.render_template(
         "sql_playground_temporary.html",

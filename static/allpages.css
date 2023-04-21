@@ -282,6 +282,26 @@ background-color: #c3bbbb;
 .show {
 display: block;
 }
+/* maximize and minimize the comments(read more/read less) */
+
+.comment-length {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    color: #3a3939;
+}
+
+.comment-length:hover {
+    border-bottom: 1px solid #3a3939;
+}
+
+.comment-length:focus {
+    outline: none;
+}
 
 /* End of LoginPopup Stuff */
 
@@ -302,4 +322,5 @@ width: 500px;
 margin: auto;
 
 }
+
 }

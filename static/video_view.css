@@ -31,47 +31,135 @@ body {
 }
 
 @media only screen and (max-width: 992px) {
-    .left_sidebar {
-        display: none;
+  .left_sidebar {
+      display: none;
 
-    }
+  }
 
-    .right_sidebar {
-        display: none;
-    }
+  .right_sidebar {
+      display: none;
+  }
 
 }
 .slidecontainer {
-    width: 100%;
-  }
-  
-  .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  
-  .slider:hover {
-    opacity: 1;
-  }
-  
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-  }
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.video_title {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: bold;
+
+  margin-top: 5rem;
+  margin-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.flex_container_vid {
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.video_metrics {
+  margin: 0 auto;
+  flex-grow: 0;
+  justify-content: flex-end;
+  flex-basis: 55rem;
+}
+
+.channel_info {
+  display:flex;
+  flex-direction: row;
+  flex-grow: 9.5;
+}
+
+.channel_text {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.channelTitle {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 1.0rem;
+  line-height: 1.5rem;
+  font-weight: bold;
+}
+
+.subscriberCount {
+  font-family: "Roboto", "Arial", sans-serif;
+  color: rgb(145, 145, 145);
+  font-size: 0.8rem;
+  line-height: 1.8rem;
+  font-weight: 400;
+  overflow: hidden;
+  max-height: 1.8rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+
+.bubbled_item {
+  font-family: "Roboto", "Arial", sans-serif;
+  border-radius: 50px;
+  color:  #eaf6f6;
+  background: #c1c0b9;
+  padding: 6px;
+  margin: 1px;
+  font-weight: bold;
+}
+
+.like_icon {
+  display: inline-block;
+  vertical-align:middle;
+  object-fit: contain;
+  width: 25px;
+  height: 25px;
+  max-height: 50%;
+  max-width: 50%;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  margin-right: 0px;
+
+}
+
+.comments {
+  margin: 0.8rem;
+}
