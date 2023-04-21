@@ -30,7 +30,7 @@
 
 			<div class="user_bubble">
 
-				<img class="two" width="130" height="100" src='static/Youtube_logo.png'>
+				<img class="two" width="130" height="100" src='/static/Youtube_logo.png'>
 
 			</div>
 
@@ -40,20 +40,23 @@
 				<p>Welcome {{ user }}!</p>
 				{% endif %}
 			</div>
-			<br>
 
 			<hr class="divider">
-
-				<div class="buttons" id="buttons_text" style="margin-top: 0px;"
-				onclick="window.location.href='/';"><span class="bi bi-house-door-fill"></span> <span class="nav_text">Home</span></div>
-				<div class="buttons" id="buttons_text" ><span class="bi bi-camera-video-fill"></span> <span class="nav_text">Top Videos</span></div>
-				<div class="buttons" id="buttons_text" onclick="LoginFunctions.openLand('landingPage')"><span class="bi bi-globe"></span> <span class="nav_text">About</span></div>
-
+			
+			<div class="buttons" id="buttons_text" style="margin-top: 0px;" onclick="window.location.href='/';"><span
+					class="bi bi-house-door-fill"></span> <span class="nav_text">Home</span></div>
+			<div class="buttons" id="buttons_text" onclick="window.location.href='/';"><span class="bi bi-camera-video-fill"></span>
+				<span class="nav_text">Top Videos</span></div>
+			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openLand('landingPage')"><span
+					class="bi bi-globe"></span> <span class="nav_text">About</span></div>
+			
 			<hr class="divider">
-
-			{% if 'user_id' in session %}
-			<a href="/logout">Logout</a>
+			
+			{% if 'user_name' in session %}
+			<div class="buttons" id="buttons_text" style="color: blue;" onclick="window.location.href='/logout';"><span
+					class="bi bi-box-arrow-left"></span> <span style="color: blue;" class="nav_text">Logout</span></div>
 			{% else %}
+			
 			<div class="buttons" id="buttons_text" onclick="LoginFunctions.openLog('loginPopup')">
 				<span class="bi bi-people-fill"></span> <span class="nav_text">Login</span>
 			</div>
@@ -61,9 +64,6 @@
 				<span class="bi bi-person-bounding-box"></span> <span class="nav_text">Register</span>
 			</div>
 			{% endif %}
-
-			<div class="buttons" id="buttons_text" ><span class="bi bi-arrow-down-square-fill"></span> <span class="nav_text">Saved Videos</span></div>
-
 			<hr class="divider">
 
 			<div id="footer_area">

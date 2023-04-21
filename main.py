@@ -266,7 +266,6 @@ def video_view():
     """
     max_comments = 100
 
-
     vid_dict = {
         "video_title": [],
         "channel_title": [],
@@ -378,7 +377,7 @@ def video_view():
     response_comments = response_comments.json()
 
     def get_base64(txt_display_encode):
-        string_bytes=txt_display_encode.encode('utf-8').strip()
+        string_bytes = txt_display_encode.encode('utf-8').strip()
         b64_bytes = base64.b64encode(string_bytes)
         return b64_bytes.decode("ascii")
 
@@ -410,15 +409,15 @@ def video_view():
                 ['snippet']['textDisplay'])
             vid_dict["text_display_b64"].append(
                 get_base64(
-                response_comments["items"][i]['snippet']['topLevelComment']
-                ['snippet']['textDisplay']))
+                    response_comments["items"][i]['snippet']['topLevelComment']
+                    ['snippet']['textDisplay']))
             vid_dict["sent_scores"].append(
                 get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
                     ['snippet']['textDisplay'])))
         except (IndexError, KeyError):
             print("")
-            #vid_dict["text_display"].append("API Error: No Text")
+            # vid_dict["text_display"].append("API Error: No Text")
             vid_dict["sent_scores"].append("cat")
 
     raw_ave = ave_sent_score(vid_dict["text_display"])
