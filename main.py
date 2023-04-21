@@ -5,7 +5,7 @@ Routes for each page are defined as well as boilerplate setup.
 import os
 import requests
 import flask
-from flask import redirect, session
+from flask import session
 from dotenv import find_dotenv, load_dotenv
 # Local Imports
 # pylint: disable=no-name-in-module
@@ -33,9 +33,12 @@ def index():
     Route to base page of website
     """
     # Set default username if has not logged in yet to guest for display.
-    if not session:
-        session['user'] = 'Guest'
-    # LOGIN STUFF
+
+    username = 'guest'
+    if 'user_name' in session:
+        username = session['user_name']
+
+    # registration form
     if flask.request.method == "POST":
         form_data = flask.request.form
 
@@ -43,7 +46,19 @@ def index():
             username = form_data["user_name"]
             password = form_data["password"]
             email = form_data["email"]
-            sql_admin_functions.register_user(username, password, email)
+            message = sql_admin_functions.register_user(
+                username, password, email)
+
+            if message == "Registration successful":
+                session['user_name'] = username
+                # Registration successful, close popup
+                return flask.redirect('/?username=' + username)
+
+            # Registration failed, display error message in popup
+            return flask.render_template(
+                "index.html",
+                register_error=message
+            )
 
     # sql_admin_functions.sql_add_demo_data_random(db, 20)
     # Call get_top_five() to get the top 5 videos.
@@ -61,15 +76,15 @@ def index():
             video_info = response.json()['items'][0]['snippet']
             video_info['video_id'] = video_id
             video_info['sentiment_score'] = [
-                get_formatted_score(vid.sentiment_score_average)\
-                    for vid in vids if vid.video_id == video_id][0]
+                vid.sentiment_score_average for vid in vids if vid.video_id == video_id][0]
             video_info_list.append(video_info)
 
     num_vids = len(video_info_list)
     return flask.render_template(
         "index.html",
         num_vids=num_vids,
-        video_info_list=video_info_list
+        video_info_list=video_info_list,
+        user=username
     )
 
 
@@ -77,44 +92,43 @@ def index():
 def login_page():
     """_summary_
     Route to bare login page for testing
-    (will remove later in favor of popup)
+
     """
-    message = "Welcome to the YTSA!"
+    if flask.request.method == 'POST':
+        # Get the form data from the request object
+        username = flask.request.form['user_name']
+        password = flask.request.form['password']
 
-    # LOGIN STUFF
-    if flask.request.method == "POST":
-        form_data = flask.request.form
-        # Get pass string entered into form
-        db_user = None
-        password_entered = form_data["password"]
-        try:
-            # Attempt to get user name from table,
-            # if not result in failure and display message
-            db_user = db.session.execute(db.select(sqm.Users).filter_by(
-                user_name=form_data["user_name"])).scalar_one()
-            # If user is found in DB compare entered password to
-            # what is stored to validate (after decrypting)
-            success = sql_admin_functions.validate_login(
-                db_user, password_entered)
-            # Add retrieved username to session
-            session['user'] = db_user.user_name
-            # Manually set modified to true
-            session.modified = True
-        except AttributeError:
-            print("User not found in table")
-            success = False
+        # Query the database for the user
+        user = sqm.Users.query.filter_by(user_name=username).first()
 
-        # Send update with username for message or redirect back to main page
-        # Else update message to reflect bad lgin.
-        if success:
-            return redirect("/", code=302)
+        # Check if user and password are valid
+        if sql_admin_functions.validate_login(user, password):
+            # Store the user's ID in the session
+            flask.session['user_id'] = user.id
+            flask.session['user_name'] = user.user_name
+            return flask.redirect('/?username=' + username)
 
-        message = "Invalid login credentials"
+        # Handle invalid login credentials
+        error = 'Invalid username or password'
+        return flask.render_template('index.html', error=error)
 
-    return flask.render_template(
-        "login.html",
-        Login_message=message
-    )
+    # GET request, render the login page
+    return flask.render_template('index.html')
+
+
+# Logout route
+
+
+@app.route('/logout')
+def logout():
+    """_summary_
+    Route to bare logout page for testing
+
+    """
+    # Clear the user session and redirect to login page
+    flask.session.clear()
+    return flask.redirect('/')
 
 # this function is for converting large number of likes,
 # comments and subscribers to 1.4K or 2.5M
@@ -235,6 +249,7 @@ def search_results():
         channelTitle=vid_dict["channel_title"],
         channelThumbnail=vid_dict["channel_thumbnail"],
         channelsubscriberCount=vid_dict["channel_subscriber_count"],
+        user=session.get('user_name'),
 
     )
 
@@ -393,7 +408,6 @@ def video_view():
             #vid_dict["text_display"].append("API Error: No Text")
             vid_dict["sent_scores"].append("cat")
 
-
     raw_ave = ave_sent_score(vid_dict["text_display"])
     ave_sent_scores = get_formatted_score(raw_ave)
     score_ratings = get_text_rating(raw_ave)
@@ -419,6 +433,7 @@ def video_view():
         score_rating=score_ratings,
         max_comments=max_comments,
         len=len,
+        user=session.get('user_name'),
     )
 
 
