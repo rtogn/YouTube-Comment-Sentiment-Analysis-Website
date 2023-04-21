@@ -284,29 +284,34 @@ def video_view():
         vid_dict["video_title"] = response_video["items"][0]['snippet']['title']
     except KeyError:
         print("no title")
+        vid_dict["video_title"] = "API ERROR"
 
     try:
         vid_dict["channel_id"] = response_video["items"][0]['snippet']['channelId']
     except KeyError:
         print("no channelid")
+        vid_dict["channel_id"] = "API ERROR"
 
     try:
         vid_dict["comment_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['commentCount']))
     except KeyError:
         print("")
+        vid_dict["comment_count"] = "0"
 
     try:
         vid_dict["like_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['likeCount']))
     except KeyError:
         print("")
+        vid_dict["like_count"] = 0
 
     try:
         vid_dict["view_count"] = number_suffix(float(
             response_video["items"][0]['statistics']['viewCount']))
     except KeyError:
         print("")
+        vid_dict["view_count"] = 0
 
     channel_url = "https://www.googleapis.com/youtube/v3/channels?"
     channel_params = {
@@ -324,12 +329,14 @@ def video_view():
         vid_dict["channel_title"] = response_channel_vid["items"][0]['snippet']['title']
     except KeyError:
         print("no title")
+        vid_dict["channel_title"] = "Title blocked by API"
 
     try:
         vid_dict["channel_thumbnail"] = (response_channel_vid["items"][0]
                                          ['snippet']['thumbnails']['default']['url'])
     except KeyError:
         print("no thumbnail")
+        vid_dict["channel_thumbnail"] = ""
 
     try:
         vid_dict["channelsub_scriber_count"] = number_suffix(float(
@@ -352,19 +359,25 @@ def video_view():
 
     for i in range(max_comments):
 
+        if vid_dict["comment_count"] == "0":
+            max_comments = 0
+            break
+
         try:
             vid_dict["author_profile_image_url"].append(
                 response_comments["items"][i]['snippet']['topLevelComment']
                     ['snippet']['authorProfileImageUrl'])
-        except IndexError:
+        except (IndexError, KeyError):
             print("no profile")
+            vid_dict["author_profile_image_url"].append("no image")
 
         try:
             vid_dict["author_display_name"].append(
                 response_comments["items"][i]['snippet']['topLevelComment'][
                     'snippet']['authorDisplayName'])
-        except IndexError:
+        except (IndexError, KeyError):
             print("no author")
+            vid_dict["author_display_name"].append("API Error")
 
         try:
             vid_dict["text_display"].append(
@@ -374,8 +387,10 @@ def video_view():
                 get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
                     ['snippet']['textDisplay'])))
-        except IndexError:
+        except (IndexError, KeyError):
             print("")
+            #vid_dict["text_display"].append("API Error: No Text")
+            vid_dict["sent_scores"].append("cat")
 
 
     raw_ave = ave_sent_score(vid_dict["text_display"])
