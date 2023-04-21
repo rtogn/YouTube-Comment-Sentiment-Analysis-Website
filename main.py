@@ -359,7 +359,7 @@ def video_view():
     response_comments = response_comments.json()
 
     for i in range(max_comments):
-        # Cut loop short if no comments. 
+        # Cut loop short if no comments.
         if vid_dict["comment_count"] == "0":
             max_comments = 0
             break
