@@ -243,6 +243,7 @@ def search_results():
 def video_view():
     # pylint: disable=too-many-statements
     # pylint: disable=too-many-locals
+    # pylint: disable=too-many-branches
     """_summary_
     Route to Video view page
     """
@@ -358,7 +359,7 @@ def video_view():
     response_comments = response_comments.json()
 
     for i in range(max_comments):
-
+        # Cut loop short if no comments. 
         if vid_dict["comment_count"] == "0":
             max_comments = 0
             break
