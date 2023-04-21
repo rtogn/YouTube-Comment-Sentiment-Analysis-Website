@@ -9,7 +9,7 @@ import nltk
 
 
 def setup_vader():
-    #pylint: disable=protected-access
+    # pylint: disable=protected-access
     """_summary_
     Trying to get linter to behave with protected member issue with ssl calls.
     """
@@ -21,7 +21,9 @@ def setup_vader():
         ssl._create_default_https_context = _create_unverified_https_context
     nltk.download("vader_lexicon")
 
+
 setup_vader()
+
 
 # this function takes in a list of comments and outputs a corresponding
 # list of sentiment scores ranging from -1 to 1
@@ -78,6 +80,7 @@ def ave_sent_score_old(comments):
 
     return final_val
 
+
 def ave_sent_score(comments):
     """_summary_
     Calculate average sent score for a list of comments
@@ -102,14 +105,48 @@ def ave_sent_score(comments):
 
     return final_val
 
+
 def get_formatted_score(sentiment_score):
     """Returns float sent score
     formatted as 1 decimal place
     percentage string.
 
     Args:
-        sent_score (float):
+        sentiment_score (float):
         sentiment score as floating point val
         between -1.0 and 1.0
     """
     return f"{sentiment_score * 100:.2f}%"
+
+
+def get_text_rating(sentiment_score):
+    """Creates a description string from
+        sentiment score such as "Highly Positive"
+        based on range of score.
+    Args:
+        sentiment_score (float):
+        sentiment score as floating point val
+        between -1.0 and 1.0
+
+    Returns:
+        string describing score
+    """
+    rating = "Neutral"
+
+    if sentiment_score > 0.0:
+        rating = "Positive"
+    elif sentiment_score < 0.0:
+        rating = "Negative"
+
+    modifier = ""
+    if rating != "Neutral":
+        abs_score = abs(sentiment_score)
+
+        if abs_score >= 0.70:
+            modifier = "Overwhelmingly "
+        elif abs_score >= 0.50:
+            modifier = "Highly "
+        elif abs_score >= 0.25:
+            modifier = "Somewhat "
+
+    return modifier + rating
