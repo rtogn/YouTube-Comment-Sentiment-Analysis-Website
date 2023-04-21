@@ -1,0 +1,6 @@
+runtime: python39
+
+env_variables:
+  APIKEY: AIzaSyBTMJeFlrro-z9qe6x2mgoU8FgVU1P3Dec
+
+entrypoint: gunicorn -b:$PORT main:app
