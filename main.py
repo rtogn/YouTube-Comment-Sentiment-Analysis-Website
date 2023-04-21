@@ -76,7 +76,8 @@ def index():
             video_info = response.json()['items'][0]['snippet']
             video_info['video_id'] = video_id
             video_info['sentiment_score'] = [
-                vid.sentiment_score_average for vid in vids if vid.video_id == video_id][0]
+                get_formatted_score(vid.sentiment_score_average)
+                for vid in vids if vid.video_id == video_id][0]
             video_info_list.append(video_info)
 
     num_vids = len(video_info_list)
