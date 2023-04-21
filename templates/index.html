@@ -104,7 +104,7 @@
 					{% for video_info in video_info_list %}
 					<form id="videoView" method="GET" action="/video_view">
 						<div class="leftView">
-							<button type="submit" name="watch?v" value="{{video_info['video_id']}}">
+							<button class="videoButton" type="submit" name="watch?v" value="{{video_info['video_id']}}">
 								<a href="https://www.youtube.com/watch?v={{video_info['video_id']}}">
 								<img class="imgBox" src="{{ video_info['thumbnails']['default']['url'] }}">
 								</a>

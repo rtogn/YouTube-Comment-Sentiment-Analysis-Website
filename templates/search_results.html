@@ -80,6 +80,7 @@
 						</button>
 					</div>
 					<div class="rightView">
+						<button class="videoButton" type="submit" name="watch?v" value="{{videoId[i]}}">
 						<div id="vidTitle">{{videoTitle[i]}}</div>
 						<div class="secondLine">
 							<img class="channelImg" src="{{channelThumbnail[i]}}">
@@ -90,6 +91,7 @@
 						<div id="channelSub">
 							{{channelsubscriberCount[i]}} subscribers
 						</div>
+						</button>
 					</div>
 			</form>
 			{%endfor%}
