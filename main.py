@@ -376,8 +376,8 @@ def video_view():
     response_comments = requests.get(comments_url, comments_params, timeout=30)
     response_comments = response_comments.json()
 
-    def get_base64(x):
-        string_bytes=x.encode('utf-8').strip()
+    def get_base64(txt_display_encode):
+        string_bytes=txt_display_encode.encode('utf-8').strip()
         b64_bytes = base64.b64encode(string_bytes)
         return b64_bytes.decode("ascii")
 
@@ -424,9 +424,6 @@ def video_view():
     ave_sent_scores = get_formatted_score(raw_ave)
     score_ratings = get_text_rating(raw_ave)
     sql_requests.add_video(query, vid_dict, raw_ave)
-
-    
-    
 
     return flask.render_template(
         "video_view.html",
