@@ -189,7 +189,7 @@
          var js_sent = JSON.parse('{{sent_score | tojson}}')
         var js_authorProfileImageUrl = JSON.parse('{{authorProfileImageUrl | tojson}}')
         var js_authorDisplayname = JSON.parse('{{authorDisplayname | tojson}}')
-        //var js_textDisplay = JSON.parse('{{textDisplay | tojson}}')
+        var js_textDisplay = JSON.parse('{{text_display_b64 | tojson}}')
         function SentSearch(){
             var sent = document.getElementById("sam_MyRange").value
 
@@ -204,7 +204,7 @@
                     "<img class='commentImg' src='"+js_authorProfileImageUrl[i]+"'>" +
                     "<div class='commentText'>"+
                        " <strong>"+ js_authorDisplayname[i] + "</strong>"+
-                        //"<div class='comment-full'>" + js_textDisplay[i] + "</div>" +
+                        "<div class='comment-full'>" + atob(js_textDisplay[i]) + "</div>" +
                         "<div class='sentimentScore'>Sentiment Score: " + js_sent[i] + "</div>"+
                     "</div>" +
                 "</div>"
