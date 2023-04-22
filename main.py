@@ -3,6 +3,7 @@ Main file of YTSA flask app
 Routes for each page are defined as well as boilerplate setup.
 """
 import os
+import base64
 import requests
 import flask
 from flask import session
@@ -265,6 +266,7 @@ def video_view():
     """
     max_comments = 100
 
+
     vid_dict = {
         "video_title": [],
         "channel_title": [],
@@ -279,7 +281,8 @@ def video_view():
         "author_profile_image_url": [],
         "text_display": [],
         "sent_scores": [],
-        "ave_sent_scores": []
+        "ave_sent_scores": [],
+        "text_display_b64": []
     }
 
     form_data = flask.request.args
@@ -374,6 +377,11 @@ def video_view():
     response_comments = requests.get(comments_url, comments_params, timeout=30)
     response_comments = response_comments.json()
 
+    def get_base64(txt_display_encode):
+        string_bytes=txt_display_encode.encode('utf-8').strip()
+        b64_bytes = base64.b64encode(string_bytes)
+        return b64_bytes.decode("ascii")
+
     for i in range(max_comments):
         # Cut loop short if no comments.
         if vid_dict["comment_count"] == "0":
@@ -400,6 +408,10 @@ def video_view():
             vid_dict["text_display"].append(
                 response_comments["items"][i]['snippet']['topLevelComment']
                 ['snippet']['textDisplay'])
+            vid_dict["text_display_b64"].append(
+                get_base64(
+                response_comments["items"][i]['snippet']['topLevelComment']
+                ['snippet']['textDisplay']))
             vid_dict["sent_scores"].append(
                 get_formatted_score(sent_score(
                     response_comments["items"][i]['snippet']['topLevelComment']
@@ -435,6 +447,7 @@ def video_view():
         max_comments=max_comments,
         len=len,
         user=session.get('user_name'),
+        text_display_b64=vid_dict["text_display_b64"],
     )
 
 
