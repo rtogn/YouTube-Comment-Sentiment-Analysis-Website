@@ -1,5 +1,11 @@
 # YTSA - YouTube Comment Sentiment Analysis Site
+
 <i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>
+
+<div align="center">
+	<img src="https://user-images.githubusercontent.com/60898339/233756899-d1fe7df6-ebe9-4d40-9c7d-0aebfc592297.gif" width=75% height=75%>  
+</div>
+
 
 # Table Of Contents
 1. [Project Summary](#project-summary)   
@@ -21,22 +27,25 @@ The YTSA is an experimental site that attempts to add a new metric to comment se
 # How To Use  
 1.Type any search term you want into the bar at the top.   
 
+
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/60898339/222918148-ce5a5c89-b4e8-4d64-8118-eeabc76dbdf6.gif" width=75% height=75%>  
+	<img src="https://user-images.githubusercontent.com/60898339/233756998-40da9834-d68a-4523-a46f-8d72be7d4a39.gif" width=75% height=75%>  
 </div>
 
 
 
 2. Click on a video thumbnail on the search results page that will load. (If you do not see video thumbnails you likely set up your API key incorrectly, please revist the instructions for setup later in this document).  
 
+
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/60898339/222877932-6bed19fc-48b6-4db9-9755-081d145f7108.png" width=50% height=50%>  
+	<img src="https://user-images.githubusercontent.com/60898339/233757075-588492ff-c27f-48a7-8a8f-2954da97b8b2.png" width=50% height=50%>  
 </div>
 
 3. You will see a page displaying an embedded video. The sentiment score will be under the video and next to each individual comment. This score is between -1 and 1 where 1 is 'maximally positive' and -1 is 'maximally negative'.  
 
+
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/60898339/222877851-84297020-bb5a-4e69-a1fb-2231e3dacf2c.png" width=50% height=50%>  
+	<img src="https://user-images.githubusercontent.com/60898339/233757168-e63b2eff-cf12-4f43-b017-29e8c3935016.png" width=50% height=50%>  
 </div>  
 
 # Timeline
