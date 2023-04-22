@@ -188,7 +188,7 @@ Team 10 would like to thank our Capstone guides: John Martin & Batya Zamansky fr
 		</td>  
 		<td>
 		Hafsa Hassan <a href="https://github.com/hafsa-hassan"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
-		<a href="https://www.linkedin.com/"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
+		<a href="https://www.linkedin.com/in/hafsa-hassan-609751227"><img src="https://user-images.githubusercontent.com/60898339/222576175-1d3213f8-a001-4e7e-bb75-046fe5951fe3.png" width=40 height=40></a>
 		</td>  
 		<td>
 		Sam Repasky <a href="https://github.com/samrepasky"><img src="https://user-images.githubusercontent.com/60898339/222575865-617bc990-796a-4e29-834e-b30762f11526.png" width=40 height=40></a>
