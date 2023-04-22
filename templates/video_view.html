@@ -168,7 +168,7 @@
                 </div>
                 {% endif %}
                 {% endfor %}
-<<<<<<< HEAD
+
             </div> 
             </div>
          
@@ -180,6 +180,7 @@
                     <form action="/video_view/" method="POST">
                         <label> Sentiment filter:</label>
                         <input type="range" min="-100" max="100" value = "1"  name="sent_value" id="sam_MyRange">
+                        <p>Filter out -100% to <span id="demo"></span>%</p>
                         <input type="button" onclick="SentSearch()" value="Filter Out">
                     </form>
                 
@@ -235,6 +236,13 @@
              document.getElementById('comment_content').innerHTML= myContent
 
 
+        }
+        var slider = document.getElementById("sam_MyRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+        output.innerHTML = this.value;
         }
 
 
