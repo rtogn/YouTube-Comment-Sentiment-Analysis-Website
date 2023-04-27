@@ -1,6 +1,6 @@
 # YTSA - YouTube Comment Sentiment Analysis Site
 
-<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University</i>
+<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University. This project was part of GSU's two-semester pilot Software Engineering course organized and taught by Meta engineers</i>
 
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/233756899-d1fe7df6-ebe9-4d40-9c7d-0aebfc592297.gif" width=75% height=75%>  
@@ -21,7 +21,7 @@
 # Project Summary  
 How can we judge comments beyond likes and pedantic numbers? Is there a way to really see what users think without relying on forced inputs?
 
-The YTSA is an experimental site that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The sites core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel or content category. 
+The YTSA is an experimental site that attempts to add a new metric to comment sections: sentiment score. The website YouTube has been chosen for its popularity, ease of API access and organizational structure. The site’s core concept is using a machine learning algorithm to automatically rank comments for their emotional content also known as 'sentiment'. This means the direct input from a user can be incorporated in an overall opinion score for a video, channel, or content category. 
 
 
 # How To Use  
@@ -34,7 +34,7 @@ The YTSA is an experimental site that attempts to add a new metric to comment se
 
 
 
-2. Click on a video thumbnail on the search results page that will load. (If you do not see video thumbnails you likely set up your API key incorrectly, please revist the instructions for setup later in this document).  
+2. Click on a video thumbnail on the search results page that will load. (If you do not see video thumbnails you likely set up your API key incorrectly, please revisit the instructions for setup later in this document).  
 
 
 <div align="center">
@@ -60,7 +60,7 @@ This project is being done over 5 two-week sprints. The due dates for each are a
 # Technologies Used  
 ### [Python](https://www.python.org/) <img src="https://user-images.githubusercontent.com/60898339/222571123-81f8e8e4-b183-4f92-a4bc-95d9d3e9f007.png" width=25 height=25>
 
-Primary programming language used besides web technologies  
+Primary programming language used besides web technologies.  
 ### [Flask](https://flask.palletsprojects.com/en/2.2.x/) <img src="https://user-images.githubusercontent.com/60898339/222574843-b9c32f58-7b44-4d1f-a44a-d1a53a1a4496.png" width=45 height=45>  
 For running the application and server functions 
 
@@ -87,7 +87,7 @@ The following linting exceptions are applied:
 1. sql_models.py: too-few-public-methods.   
 	This section includes SQL classes, not standard data classes so they do not need to follow all normal conventions of class structure
 2. vader.py: protected-access  
-	This section includes ssl calls for setup that are unncessiarily flagging under pylint
+	This section includes SSL calls for setup that are unnecessarily flagging under pylint
 
 3. main.py->function video_view(): disable=too-many-statements
 	This is a very long routing function that involves a lot of API information. The current plan is to attempt a refactor but it has been placed on disable for now for linting. 
@@ -123,7 +123,7 @@ d. [Local Hosting](#local-hosting)
 	<img src="https://user-images.githubusercontent.com/60898339/222607858-0d541aac-352e-429a-9751-e48df3144a3c.png" width=50% height=50%>
 </div>
 
-4. Select API Key from the dropdown menu and wait for it to create. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.  
+4. Select API Key from the dropdown menu and wait for it to be created. The text listed in "Your API Key" made up of random letters is your new key. You will return to this page to copy the key later for your .env (environment) file.  
 5. On the same page select 'Enabled APIs & services' on the side bara, then select '+ ENABLE APIS AND SERVICES' at the top of the page  
 6. After being redirected, type 'YouTube' in the search bar and hit enter  
 7. A few options will come up, select 'YouTube Data API v3'  
