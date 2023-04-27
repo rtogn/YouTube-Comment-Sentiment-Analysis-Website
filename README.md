@@ -1,6 +1,6 @@
 # YTSA - YouTube Comment Sentiment Analysis Site
 
-<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University. This project was part of GSU's two-semester pilot Software Engineering course organized and taught by Meta engineers</i>
+<i>Team 10's repository for our 2023 Software Engineering Capstone Project, Georgia State University. This project was part of GSU's two-semester pilot Software Engineering course organized and taught by Meta engineers.</i>
 
 <div align="center">
 	<img src="https://user-images.githubusercontent.com/60898339/233756899-d1fe7df6-ebe9-4d40-9c7d-0aebfc592297.gif" width=75% height=75%>  
